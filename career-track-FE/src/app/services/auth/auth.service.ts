@@ -23,6 +23,7 @@ export class AuthService {
   }
 
   createUser(newUser: User) {
+    console.log(" Here: ",newUser)
     return this.httpClient.post(this.baseURL + '/register', newUser);
   }
 

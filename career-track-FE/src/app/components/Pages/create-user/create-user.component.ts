@@ -8,18 +8,8 @@ import {
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../services/auth/auth.service';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
+import { Department, Title, User } from '../../../interfaces/backend-requests';
 
-interface Department {
-  id: string;
-  name: string;
-}
-
-interface Title {
-  id: string;
-  departmentId: string;
-  titleName: string;
-  manager: boolean;
-}
 
 @Component({
   selector: 'app-create-user',
@@ -35,8 +25,11 @@ export class CreateUserComponent {
   chosenManager = 'Choose Manager';
   departments: Department[] = [];
   titles: Title[] = [];
-  managers = [];
+  managers: User[]= [];
   createUserForm: FormGroup;
+  titleId="";
+  departmentId="";
+  managerId="";
 
   constructor(
     formBuilder: FormBuilder,
@@ -44,8 +37,8 @@ export class CreateUserComponent {
     private sharedDataService: SharedDataService
   ) {
     this.createUserForm = formBuilder.group({
-      fname: ['', [Validators.required]],
-      lname: ['', [Validators.required]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       title: ['', [Validators.required]],
@@ -74,13 +67,16 @@ export class CreateUserComponent {
     });
   }
 
-  setTitle(title: string) {
+  setTitle(title: string, titleId: string, departmentId: string) {
     this.chosenTitle = title;
+    this.titleId = titleId;
+    this.departmentId = departmentId;
     this.createUserForm.get('title')?.setValue(title);
   }
 
-  setManager(manager: string) {
+  setManager(manager: string, managerId: string) {
     this.chosenManager = manager;
+    this.managerId = managerId;
   }
 
   setDepartment(department: string) {
@@ -94,18 +90,24 @@ export class CreateUserComponent {
           console.log(response);
         },
       });
-    // this.sharedDataService
-    //   .getAllManagersByDepartmnet(this.chosenDepartment)
-    //   .subscribe({
-    //     next: (response) => {
-    //       //TODO this.managers = response;
-    //       console.log(response);
-    //     },
-    //   });
+    this.sharedDataService
+      .getAllManagersByDepartmnet(this.chosenDepartment)
+      .subscribe({
+        next: (response) => {
+          this.managers = response as User[];
+          console.log(response);
+        },
+      });
   }
 
   onSubmit() {
     if (this.createUserForm.valid) {
+      this.createUserForm.value.title = this.titleId;
+      this.createUserForm.value.department = this.departmentId;
+      console.log(this.createUserForm.value);
+      console.log(this.departmentId)
+      console.log(this.titleId)
+      console.log(this.managerId)
       this.authService.createUser(this.createUserForm.value).subscribe({
         next: (response) => {
           console.log(response);

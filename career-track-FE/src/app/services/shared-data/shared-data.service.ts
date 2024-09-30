@@ -12,7 +12,7 @@ export class SharedDataService {
     return this.httpClient.get(this.baseUrl + '/departments', {
       headers: {
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0QDJ0LmNvbSIsImlhdCI6MTcyNzY4NzMwNiwiZXhwIjoxNzI3NzIzMzA2fQ.kAZxEu6LOOEuu-yWpfCJ0Gsqnvz2ARqFo1F2-KEOuAc',
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dEB0LmNvbSIsImlhdCI6MTcyNzcxMzM0MCwiZXhwIjoxNzI3NzQ5MzQwfQ.h2Qrmycnx36kQCMMEmiCw7y8IwTgPCcoj2CeFqU7ub0',
       },
     });
   }
@@ -21,7 +21,7 @@ export class SharedDataService {
     return this.httpClient.get(this.baseUrl + '/', {
       headers: {
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0QDJ0LmNvbSIsImlhdCI6MTcyNzY4NzMwNiwiZXhwIjoxNzI3NzIzMzA2fQ.kAZxEu6LOOEuu-yWpfCJ0Gsqnvz2ARqFo1F2-KEOuAc',
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dEB0LmNvbSIsImlhdCI6MTcyNzcxMzM0MCwiZXhwIjoxNzI3NzQ5MzQwfQ.h2Qrmycnx36kQCMMEmiCw7y8IwTgPCcoj2CeFqU7ub0',
       },
     });
   }
@@ -30,7 +30,7 @@ export class SharedDataService {
     return this.httpClient.get(this.baseUrl + '/' + department, {
       headers: {
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0QDJ0LmNvbSIsImlhdCI6MTcyNzY4NzMwNiwiZXhwIjoxNzI3NzIzMzA2fQ.kAZxEu6LOOEuu-yWpfCJ0Gsqnvz2ARqFo1F2-KEOuAc',
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dEB0LmNvbSIsImlhdCI6MTcyNzcxMzM0MCwiZXhwIjoxNzI3NzQ5MzQwfQ.h2Qrmycnx36kQCMMEmiCw7y8IwTgPCcoj2CeFqU7ub0',
       },
     });
   }
@@ -39,7 +39,7 @@ export class SharedDataService {
     return this.httpClient.get('http://localhost:8080/users/' + 'managers', {
       headers: {
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0QDJ0LmNvbSIsImlhdCI6MTcyNzY4NzMwNiwiZXhwIjoxNzI3NzIzMzA2fQ.kAZxEu6LOOEuu-yWpfCJ0Gsqnvz2ARqFo1F2-KEOuAc',
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dEB0LmNvbSIsImlhdCI6MTcyNzcxMzM0MCwiZXhwIjoxNzI3NzQ5MzQwfQ.h2Qrmycnx36kQCMMEmiCw7y8IwTgPCcoj2CeFqU7ub0',
       },
       params: { departmentName: department },
     });
