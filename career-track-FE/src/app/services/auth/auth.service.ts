@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../interfaces/user.model';
+import { User } from '../../interfaces/user.model';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -13,15 +13,17 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
   logIn(email: string, password: string) {
-    return this.httpClient.post(this.baseURL+"/login", { email, password }).pipe();
+    return this.httpClient
+      .post(this.baseURL + '/login', { email, password })
+      .pipe();
   }
 
   logOut() {
     return this.httpClient.post(this.baseURL, {});
   }
 
-  createUser(newUser:User){
-    return this.httpClient.post(this.baseURL+"/register", newUser);
+  createUser(newUser: User) {
+    return this.httpClient.post(this.baseURL + '/register', newUser);
   }
 
   getUser() {

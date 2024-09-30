@@ -1,3 +1,18 @@
 .nav-bg-color {
   background-color: #302b7e;
 }
+
+.navbar-toggler-custom {
+  border: white 1px solid !important;
+}
+
+.navbar-toggler-icon {
+  background-image: none;
+  color: white;
+}
+
+.navbar-toggler-icon::before {
+  content: "\2630";
+  font-size: 24px;
+  color: white;
+}

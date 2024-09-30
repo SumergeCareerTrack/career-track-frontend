@@ -1,6 +1,6 @@
 <div class="container d-flex flex-column align-items-center">
   <span class="main-color-text">Hello Sumergee, Please Login</span>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-75">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="container w-75">
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label"
         >Email address<span class="text-danger">*</span></label
@@ -24,9 +24,11 @@
         id="exampleInputPassword1"
         formControlName="password"
       />
-      @if(!true){
+      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched ||
+      loginForm.get('password')?.invalid && loginForm.get('password')?.touched)
+      {
       <div class="d-flex justify-content-center">
-        <span class="text-danger text-center">wrong email or password!</span>
+        <span class="text-danger">wrong email or password!</span>
       </div>
       }
     </div>

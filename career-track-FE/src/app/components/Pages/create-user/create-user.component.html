@@ -72,35 +72,8 @@
     </div>
 
     <div class="row mt-3">
-      <div class="col-md-6 col-12">
-        <div ngbDropdown class="d-inline-block w-100">
-          <button
-            type="button"
-            class="btn btn-outline-primary w-100"
-            id="dropdownBasic1"
-            ngbDropdownToggle
-          >
-            {{ chosenTitle }}
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            @for (item of titles; track $index) {
-            <button
-              class="dropdown-item"
-              (click)="setTitle(item)"
-              type="button"
-            >
-              {{ item }}
-            </button>
-            }
-          </div>
-          @if (createUserForm.get('title')?.invalid &&
-          createUserForm.get('title')?.touched) {
-          <div class="text-danger">Title is required.</div>
-          }
-        </div>
-      </div>
-
-      <div class="col-md-6 col-12">
+      <div class="col-md-6 col-12 mt-2">
+        <label for="">Department<span class="text-danger">*</span></label>
         <div ngbDropdown class="d-inline-block w-100">
           <button
             type="button"
@@ -127,11 +100,82 @@
           }
         </div>
       </div>
+      <div class="col-md-6 col-12 mt-2">
+        <div ngbDropdown class="d-inline-block w-100">
+          <label for="">Title<span class="text-danger">*</span></label>
+          <button
+            type="button"
+            class="btn btn-outline-primary w-100"
+            id="dropdownBasic1"
+            [disabled]="chosenDepartment === 'Choose Department'"
+            ngbDropdownToggle
+          >
+            {{ chosenTitle }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            @for (item of titles; track $index) {
+            <button
+              class="dropdown-item"
+              (click)="setTitle(item)"
+              type="button"
+            >
+              {{ item }}
+            </button>
+            }
+          </div>
+          @if (createUserForm.get('title')?.invalid &&
+          createUserForm.get('title')?.touched) {
+          <div class="text-danger">Title is required.</div>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-12 mt-2">
+        <div ngbDropdown class="d-inline-block w-100">
+          <label for="">Manager</label>
+          <button
+            type="button"
+            class="btn btn-outline-primary w-100"
+            id="dropdownBasic3"
+            [disabled]="this.createUserForm.value.isNotManaged"
+            ngbDropdownToggle
+          >
+            {{ chosenManager }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            @for (item of managers; track $index) {
+            <button
+              class="dropdown-item"
+              (click)="setManager(item)"
+              type="button"
+            >
+              {{ item }}
+            </button>
+            }
+          </div>
+          @if (createUserForm.get('manager')?.invalid &&
+          createUserForm.get('manager')?.touched) {
+          <div class="text-danger">Manager is required.</div>
+          }
+        </div>
+      </div>
+      <div class="form-check col-md-5 mt-md-5 mx-3">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+          formControlName="isNotManaged"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          Does not have a manager
+        </label>
+      </div>
     </div>
 
-    <!-- Submit Button -->
     <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary mt-5 w-50">Add User</button>
+      <button type="submit" class="btn mt-5 w-50">Add User</button>
     </div>
   </form>
 </div>
