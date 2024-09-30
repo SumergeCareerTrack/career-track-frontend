@@ -8,6 +8,19 @@ import {
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../services/auth/auth.service';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
+
+interface Department {
+  id: string;
+  name: string;
+}
+
+interface Title {
+  id: string;
+  departmentId: string;
+  titleName: string;
+  manager: boolean;
+}
+
 @Component({
   selector: 'app-create-user',
   standalone: true,
@@ -20,8 +33,8 @@ export class CreateUserComponent {
   chosenTitle = 'Choose Title';
   chosenDepartment = 'Choose Department';
   chosenManager = 'Choose Manager';
-  departments = [];
-  titles = [];
+  departments: Department[] = [];
+  titles: Title[] = [];
   managers = [];
   createUserForm: FormGroup;
 
@@ -44,7 +57,7 @@ export class CreateUserComponent {
     //fetching data upon initialization
     this.sharedDataService.getAllDepartments().subscribe({
       next: (response) => {
-        //TODO this.departments = response;
+        this.departments = response as Department[];
         console.log(response);
       },
     });
@@ -77,23 +90,27 @@ export class CreateUserComponent {
       .getAllTitlesByDepartment(this.chosenDepartment)
       .subscribe({
         next: (response) => {
-          //TODO this.titles = response;
+          this.titles = response as Title[];
           console.log(response);
         },
       });
-    this.sharedDataService
-      .getAllManagersByDepartmnet(this.chosenDepartment)
-      .subscribe({
-        next: (response) => {
-          //TODO this.managers = response;
-          console.log(response);
-        },
-      });
+    // this.sharedDataService
+    //   .getAllManagersByDepartmnet(this.chosenDepartment)
+    //   .subscribe({
+    //     next: (response) => {
+    //       //TODO this.managers = response;
+    //       console.log(response);
+    //     },
+    //   });
   }
 
   onSubmit() {
     if (this.createUserForm.valid) {
-      console.log(this.createUserForm.value);
+      this.authService.createUser(this.createUserForm.value).subscribe({
+        next: (response) => {
+          console.log(response);
+        },
+      });
     } else {
       console.log('Form is invalid');
     }

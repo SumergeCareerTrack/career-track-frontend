@@ -87,10 +87,10 @@
             @for (item of departments; track $index) {
             <button
               class="dropdown-item"
-              (click)="setDepartment(item)"
+              (click)="setDepartment(item.name)"
               type="button"
             >
-              {{ item }}
+              {{ item.name }}
             </button>
             }
           </div>
@@ -116,10 +116,10 @@
             @for (item of titles; track $index) {
             <button
               class="dropdown-item"
-              (click)="setTitle(item)"
+              (click)="setTitle(item.titleName)"
               type="button"
             >
-              {{ item }}
+              {{ item.titleName }}
             </button>
             }
           </div>
