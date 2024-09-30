@@ -1,0 +1,137 @@
+<div class="container">
+  <h3 class="text-center mt-5">Create New User</h3>
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="form-group col-md-6 col-12">
+        <label for="fname">First Name<span class="text-danger">*</span></label>
+        <input
+          type="text"
+          class="form-control w-md-75"
+          formControlName="fname"
+          id="fname"
+          placeholder="Enter first name"
+        />
+        @if (createUserForm.get('fname')?.invalid &&
+        createUserForm.get('fname')?.touched) {
+        <div class="text-danger">First name is required.</div>
+        }
+      </div>
+
+      <div class="form-group col-md-6 col-12">
+        <label for="lname">Last Name<span class="text-danger">*</span></label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="lname"
+          id="lname"
+          placeholder="Enter last name"
+        />
+        @if (createUserForm.get('lname')?.invalid &&
+        createUserForm.get('lname')?.touched) {
+        <div class="text-danger">Last name is required.</div>
+        }
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6 col-12">
+        <label for="email"
+          >Email address<span class="text-danger">*</span></label
+        >
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          id="email"
+          placeholder="Enter email"
+        />
+        @if (createUserForm.get('email')?.invalid &&
+        createUserForm.get('email')?.touched) {
+        <div class="text-danger">Please enter a valid email.</div>
+        }
+      </div>
+
+      <div class="form-group col-md-6 col-12">
+        <label for="password"
+          >Temporary Password<span class="text-danger">*</span></label
+        >
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          id="password"
+          placeholder="Password"
+        />
+        @if ( createUserForm.get('password')?.invalid &&
+        createUserForm.get('password')?.touched) {
+        <div class="text-danger">
+          Password must be at least 6 characters long.
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-6 col-12">
+        <div ngbDropdown class="d-inline-block w-100">
+          <button
+            type="button"
+            class="btn btn-outline-primary w-100"
+            id="dropdownBasic1"
+            ngbDropdownToggle
+          >
+            {{ chosenTitle }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            @for (item of titles; track $index) {
+            <button
+              class="dropdown-item"
+              (click)="setTitle(item)"
+              type="button"
+            >
+              {{ item }}
+            </button>
+            }
+          </div>
+          @if (createUserForm.get('title')?.invalid &&
+          createUserForm.get('title')?.touched) {
+          <div class="text-danger">Title is required.</div>
+          }
+        </div>
+      </div>
+
+      <div class="col-md-6 col-12">
+        <div ngbDropdown class="d-inline-block w-100">
+          <button
+            type="button"
+            class="btn btn-outline-primary w-100"
+            id="dropdownBasic2"
+            ngbDropdownToggle
+          >
+            {{ chosenDepartment }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+            @for (item of departments; track $index) {
+            <button
+              class="dropdown-item"
+              (click)="setDepartment(item)"
+              type="button"
+            >
+              {{ item }}
+            </button>
+            }
+          </div>
+          @if (createUserForm.get('department')?.invalid &&
+          createUserForm.get('department')?.touched) {
+          <div class="text-danger">Department is required.</div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary mt-5 w-50">Add User</button>
+    </div>
+  </form>
+</div>
