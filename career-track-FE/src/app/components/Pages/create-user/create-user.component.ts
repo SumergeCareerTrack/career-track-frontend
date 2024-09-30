@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-create-user',
   standalone: true,
@@ -22,7 +22,7 @@ export class CreateUserComponent {
   titles = ['Associate Software Engineer', 'Associate Quality Engineer'];
   createUserForm: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: FormBuilder , private authService:AuthService) {
     this.createUserForm = formBuilder.group({
       fname: ['', [Validators.required]],
       lname: ['', [Validators.required]],
@@ -35,17 +35,21 @@ export class CreateUserComponent {
 
   setTitle(title: string) {
     this.chosenTitle = title;
-    this.createUserForm.get('title')?.setValue(title); // Update form control value
+    this.createUserForm.get('title')?.setValue(title);
   }
 
   setDepartment(department: string) {
     this.chosenDepartment = department;
-    this.createUserForm.get('department')?.setValue(department); // Update form control value
+    this.createUserForm.get('department')?.setValue(department);
   }
 
   onSubmit() {
     if (this.createUserForm.valid) {
-      console.log('Form submitted', this.createUserForm.value);
+      this.authService.createUser(this.createUserForm.value).subscribe({
+        next:(response) => {
+          console.log(response)
+        }
+      })
     } else {
       console.log('Form is invalid');
     }

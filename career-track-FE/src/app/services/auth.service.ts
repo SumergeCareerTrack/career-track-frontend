@@ -8,20 +8,20 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   user = new BehaviorSubject<User | null>(null);
-  baseURL = 'http://localhost:3000/auth';
+  baseURL = 'http://localhost:8080/auth';
 
   constructor(private httpClient: HttpClient) {}
 
   logIn(email: string, password: string) {
-    return this.httpClient.post(this.baseURL, { email, password }).pipe();
+    return this.httpClient.post(this.baseURL+"/login", { email, password }).pipe();
   }
 
   logOut() {
     return this.httpClient.post(this.baseURL, {});
   }
 
-  signUp(email: string, password: string) {
-    return this.httpClient.post(this.baseURL, { email, password });
+  createUser(newUser:User){
+    return this.httpClient.post(this.baseURL+"/register", newUser);
   }
 
   getUser() {
