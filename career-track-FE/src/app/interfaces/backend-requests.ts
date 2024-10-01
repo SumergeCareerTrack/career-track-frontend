@@ -1,4 +1,3 @@
-
 export interface Department {
   id: string;
   name: string;
@@ -7,11 +6,11 @@ export interface Department {
 export interface Title {
   id: string;
   departmentId: string;
-  titleName: string;
+  name: string;
   manager: boolean;
 }
 
-export interface User {
+export interface UserRequest {
   email: string;
   firstName: string;
   lastName: string;
@@ -19,5 +18,14 @@ export interface User {
   managerId: string;
   department: string;
   title: string;
-
+}
+export interface UserResponse {
+  email: string;
+  firstName: string;
+  lastName: string;
+  id: string;
+  managerId: string;
+  department: Department;
+  title: Title;
+  token: string;
 }

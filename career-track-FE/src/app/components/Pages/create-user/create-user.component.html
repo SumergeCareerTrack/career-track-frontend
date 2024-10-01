@@ -3,7 +3,9 @@
   <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="form-group col-md-6 col-12">
-        <label for="firstName">First Name<span class="text-danger">*</span></label>
+        <label for="firstName"
+          >First Name<span class="text-danger">*</span></label
+        >
         <input
           type="text"
           class="form-control w-md-75"
@@ -18,7 +20,9 @@
       </div>
 
       <div class="form-group col-md-6 col-12">
-        <label for="lastName">Last Name<span class="text-danger">*</span></label>
+        <label for="lastName"
+          >Last Name<span class="text-danger">*</span></label
+        >
         <input
           type="text"
           class="form-control"
@@ -83,7 +87,11 @@
           >
             {{ chosenDepartment }}
           </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic2"
+            class="bg-main-color"
+          >
             @for (item of departments; track $index) {
             <button
               class="dropdown-item"
@@ -112,11 +120,15 @@
           >
             {{ chosenTitle }}
           </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="bg-main-color"
+          >
             @for (item of titles; track $index) {
             <button
               class="dropdown-item"
-              (click)="setTitle(item.titleName,item.id,item.departmentId)"
+              (click)="setTitle(item.titleName, item.id, item.departmentId)"
               type="button"
             >
               {{ item.titleName }}
@@ -143,14 +155,20 @@
           >
             {{ chosenManager }}
           </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="bg-main-color"
+          >
             @for (item of managers; track $index) {
             <button
               class="dropdown-item"
-              (click)="setManager(item.firstName+' '+item.lastName,item.id)"
+              (click)="
+                setManager(item.firstName + ' ' + item.lastName, item.id)
+              "
               type="button"
             >
-              {{ item.firstName+' '+item.lastName }}
+              {{ item.firstName + " " + item.lastName }}
             </button>
             }
           </div>

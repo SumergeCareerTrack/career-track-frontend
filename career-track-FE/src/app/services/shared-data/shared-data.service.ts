@@ -5,42 +5,23 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SharedDataService {
-  baseUrl = 'http://localhost:8080/titles';
+  baseUrl = 'http://localhost:8080';
   constructor(private httpClient: HttpClient) {}
 
   getAllDepartments() {
-    return this.httpClient.get(this.baseUrl + '/departments', {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dEB0LmNvbSIsImlhdCI6MTcyNzcxMzM0MCwiZXhwIjoxNzI3NzQ5MzQwfQ.h2Qrmycnx36kQCMMEmiCw7y8IwTgPCcoj2CeFqU7ub0',
-      },
-    });
+    return this.httpClient.get(this.baseUrl + '/titles/departments');
   }
 
   getAllTitles() {
-    return this.httpClient.get(this.baseUrl + '/', {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dEB0LmNvbSIsImlhdCI6MTcyNzcxMzM0MCwiZXhwIjoxNzI3NzQ5MzQwfQ.h2Qrmycnx36kQCMMEmiCw7y8IwTgPCcoj2CeFqU7ub0',
-      },
-    });
+    return this.httpClient.get(this.baseUrl + '/titles');
   }
 
   getAllTitlesByDepartment(department: string) {
-    return this.httpClient.get(this.baseUrl + '/' + department, {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dEB0LmNvbSIsImlhdCI6MTcyNzcxMzM0MCwiZXhwIjoxNzI3NzQ5MzQwfQ.h2Qrmycnx36kQCMMEmiCw7y8IwTgPCcoj2CeFqU7ub0',
-      },
-    });
+    return this.httpClient.get(this.baseUrl + '/titles/' + department);
   }
 
   getAllManagersByDepartmnet(department: string) {
-    return this.httpClient.get('http://localhost:8080/users/' + 'managers', {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0dEB0LmNvbSIsImlhdCI6MTcyNzcxMzM0MCwiZXhwIjoxNzI3NzQ5MzQwfQ.h2Qrmycnx36kQCMMEmiCw7y8IwTgPCcoj2CeFqU7ub0',
-      },
+    return this.httpClient.get(this.baseUrl + '/users/managers', {
       params: { departmentName: department },
     });
   }

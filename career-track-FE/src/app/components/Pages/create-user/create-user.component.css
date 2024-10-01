@@ -3,3 +3,7 @@ button {
   color: white !important;
   border: 0px !important;
 }
+
+.bg-main-color {
+  background-color: #302b7e !important;
+}

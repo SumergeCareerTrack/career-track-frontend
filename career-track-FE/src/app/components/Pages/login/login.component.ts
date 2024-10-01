@@ -17,7 +17,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-
+  isFailed = false;
   constructor(
     formBuilder: FormBuilder,
     private router: Router,
@@ -30,12 +30,20 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    this.isFailed = false;
     if (this.loginForm.valid) {
       this.authService
-        .logIn(this.loginForm.value.email, this.loginForm.value.password)
+        .logIn(
+          this.loginForm.value.email,
+          this.loginForm.value.password
+          // this.authService.hashPasswordSync(this.loginForm.value.password)
+        )
         .subscribe({
           next: (response) => {
-            console.log(response);
+            this.router.navigate(['/dashboard']);
+          },
+          error: (error) => {
+            this.isFailed = true;
           },
         });
     }

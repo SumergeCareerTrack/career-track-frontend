@@ -8,8 +8,11 @@ import {
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../services/auth/auth.service';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
-import { Department, Title, User } from '../../../interfaces/backend-requests';
-
+import {
+  Department,
+  Title,
+  UserRequest,
+} from '../../../interfaces/backend-requests';
 
 @Component({
   selector: 'app-create-user',
@@ -25,11 +28,11 @@ export class CreateUserComponent {
   chosenManager = 'Choose Manager';
   departments: Department[] = [];
   titles: Title[] = [];
-  managers: User[]= [];
+  managers: UserRequest[] = [];
   createUserForm: FormGroup;
-  titleId="";
-  departmentId="";
-  managerId="";
+  titleId = '';
+  departmentId = '';
+  managerId = '';
 
   constructor(
     formBuilder: FormBuilder,
@@ -81,6 +84,8 @@ export class CreateUserComponent {
 
   setDepartment(department: string) {
     this.chosenDepartment = department;
+    this.chosenManager = 'Choose Manager';
+    this.chosenTitle = 'Choose Title';
     this.createUserForm.get('department')?.setValue(department);
     this.sharedDataService
       .getAllTitlesByDepartment(this.chosenDepartment)
@@ -94,7 +99,7 @@ export class CreateUserComponent {
       .getAllManagersByDepartmnet(this.chosenDepartment)
       .subscribe({
         next: (response) => {
-          this.managers = response as User[];
+          this.managers = response as UserRequest[];
           console.log(response);
         },
       });
@@ -105,9 +110,9 @@ export class CreateUserComponent {
       this.createUserForm.value.title = this.titleId;
       this.createUserForm.value.department = this.departmentId;
       console.log(this.createUserForm.value);
-      console.log(this.departmentId)
-      console.log(this.titleId)
-      console.log(this.managerId)
+      console.log(this.departmentId);
+      console.log(this.titleId);
+      console.log(this.managerId);
       this.authService.createUser(this.createUserForm.value).subscribe({
         next: (response) => {
           console.log(response);

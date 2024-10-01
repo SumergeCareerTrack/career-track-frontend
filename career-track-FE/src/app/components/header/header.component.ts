@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,13 @@ import { RouterLink } from '@angular/router';
 export class HeaderComponent {
   navbarCollapsed = true;
 
+  constructor(private authService: AuthService) {}
+
   toggleNavbarCollapsing() {
     this.navbarCollapsed = !this.navbarCollapsed;
+  }
+
+  LogOut() {
+    this.authService.logOut();
   }
 }

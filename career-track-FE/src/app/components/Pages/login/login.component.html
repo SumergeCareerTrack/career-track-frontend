@@ -30,6 +30,12 @@
       <div class="d-flex justify-content-center">
         <span class="text-danger">wrong email or password!</span>
       </div>
+      } @if(isFailed){
+      <div class="d-flex justify-content-center">
+        <span class="text-danger"
+          >Something went wrong please try again later..</span
+        >
+      </div>
       }
     </div>
     <div class="d-flex justify-content-center">

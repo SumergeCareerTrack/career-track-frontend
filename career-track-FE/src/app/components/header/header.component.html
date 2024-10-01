@@ -14,7 +14,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div
-      class="collapse navbar-collapse"
+      class="collapse navbar-collapse d-flex justify-content-between"
       [class.collapse]="navbarCollapsed"
       id="navbarNav"
     >
@@ -32,7 +32,7 @@
           <a
             class="nav-link text-light"
             (click)="toggleNavbarCollapsing()"
-            href="#"
+            routerLink="dashboard"
             >Dashboard</a
           >
         </li>
@@ -53,6 +53,9 @@
           >
         </li>
       </ul>
+      <button class="btn btn-danger bg-danger" (click)="LogOut()">
+        Log Out
+      </button>
     </div>
   </div>
 </nav>
