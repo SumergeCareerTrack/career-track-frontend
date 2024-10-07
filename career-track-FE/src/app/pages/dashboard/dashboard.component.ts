@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../services/auth/auth.service';
-import { UserResponse } from '../../../interfaces/backend-requests';
+import { AuthService } from '../../services/auth/auth.service';
+import { UserResponse } from '../../interfaces/backend-requests';
+import { LeaderboardsComponent } from '../../components/leaderboards/leaderboards.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [],
+  imports: [LeaderboardsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })

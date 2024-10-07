@@ -6,20 +6,20 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../../../services/auth/auth.service';
-import { SharedDataService } from '../../../services/shared-data/shared-data.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { SharedDataService } from '../../services/shared-data/shared-data.service';
 import {
   Department,
   Title,
   UserRequest,
-} from '../../../interfaces/backend-requests';
+} from '../../interfaces/backend-requests';
 
 @Component({
   selector: 'app-create-user',
   standalone: true,
   imports: [ReactiveFormsModule, NgbDropdownModule],
   templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.css', '../../../../styles.css'],
+  styleUrls: ['./create-user.component.css', '../../../styles.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class CreateUserComponent {

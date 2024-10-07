@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg nav-bg-color text-light">
   <div class="container-fluid">
-    <a class="navbar-brand text-light fw-bold" href="#">Career Track</a>
+    <a class="navbar-brand text-light fw-bold" href="#"> Sumerge </a>
     <button
       class="navbar-toggler navbar-toggler-custom"
       type="button"
@@ -24,6 +24,10 @@
             class="nav-link text-light"
             aria-current="page"
             routerLink="auth"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/auth'
+            }"
             (click)="toggleNavbarCollapsing()"
             >LogIn</a
           >
@@ -33,6 +37,10 @@
             class="nav-link text-light"
             (click)="toggleNavbarCollapsing()"
             routerLink="dashboard"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/dashboard'
+            }"
             >Dashboard</a
           >
         </li>
@@ -49,13 +57,19 @@
             class="nav-link text-light"
             (click)="toggleNavbarCollapsing()"
             routerLink="user-creation"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/user-creation'
+            }"
             >Create User</a
           >
         </li>
       </ul>
+      @if (isAuthenticated) {
       <button class="btn btn-danger bg-danger" (click)="LogOut()">
         Log Out
       </button>
+      }
     </div>
   </div>
 </nav>

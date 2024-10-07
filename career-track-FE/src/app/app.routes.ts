@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './components/Pages/login/login.component';
-import { CreateUserComponent } from './components/Pages/create-user/create-user.component';
+import { LoginComponent } from './components/login/login.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { authGuard } from './auth.guard';
-import { DashboardComponent } from './components/Pages/dashboard/dashboard.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'user-creation', pathMatch: 'full' },
   {
@@ -12,11 +12,11 @@ export const routes: Routes = [
   {
     path: 'user-creation',
     component: CreateUserComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
   },
 ];

@@ -6,7 +6,7 @@ export interface Department {
 export interface Title {
   id: string;
   departmentId: string;
-  name: string;
+  titleName: string;
   manager: boolean;
 }
 
