@@ -1,0 +1,70 @@
+<div class="backdrop"></div>
+<dialog open class="dialogueDiv">
+  <h2>Add Learning</h2>
+  <form [formGroup]="createLearning" (ngSubmit)="onSubmit()" class="d-flex flex-column">
+      <label for="">Type<span class="text-danger">*</span></label>
+      <div ngbDropdown class="d-inline-block w-50">
+        <button
+          type="button"
+          class="btn btn-outline-primary w-50"
+          id="dropdownBasic2"
+          ngbDropdownToggle
+        >
+          {{ chosenType }}
+        </button>
+        <div
+          ngbDropdownMenu
+          aria-labelledby="dropdownBasic2"
+          class="bg-main-color"
+        >
+          @for (item of types; track $index) {
+          <button
+            class="dropdown-item"
+            (click)="setType(item.name,item.id)"
+            type="button"
+          >
+            {{ item.name }}
+          </button>
+          }
+        </div>
+        @if (createLearning.get('type')?.invalid &&
+        createLearning.get('type')?.touched) {
+        <div class="text-danger">Type is required.</div>
+        }
+<div>
+        @if(createLearning.get('type')?.value === 'Custom Type'){
+          <input
+          type="text"
+          class="form-control w-50"
+          formControlName="customTypeName"
+          id="typeName"
+          placeholder="Enter Type Name"
+        />
+        @if (createLearning.get('customTypeName')?.invalid &&
+        createLearning.get('customTypeName')?.touched) {
+        <div class="text-danger">Type name is required.</div>
+        }
+        <input
+        type="text"
+        class="form-control w-50"
+        formControlName="customTypeBaseScore"
+        id="typeBaseScore"
+        placeholder="Enter Type Base Score"
+      />
+      @if (createLearning.get('customTypeBaseScore')?.invalid &&
+      createLearning.get('customTypeBaseScore')?.touched) {
+      <div class="text-danger">Type Base Score is required.</div>
+      }
+        }
+        </div>
+
+      </div>
+
+
+
+    <p class="actions">
+      <button type="button" (ngOnSubmit)="onSubmit()">Cancel</button>
+      <button type="submit">Create</button>
+    </p>
+  </form>
+</dialog>

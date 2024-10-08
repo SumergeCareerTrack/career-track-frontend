@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class SharedDataService {
   baseUrl = 'http://localhost:8080';
+  learningBaseUrl = 'http://localhost:8081';
   constructor(private httpClient: HttpClient) {}
 
   getAllDepartments() {
@@ -24,5 +25,18 @@ export class SharedDataService {
     return this.httpClient.get(this.baseUrl + '/users/managers', {
       params: { departmentName: department },
     });
+  }
+  getAllLearnings(){
+    return this.httpClient.get(this.learningBaseUrl + '/learnings/' );
+  }
+  getLearningById(id:String){
+    return this.httpClient.get(this.learningBaseUrl + '/learnings/'+id );
+
+  }
+  getAllTypes(){
+    return this.httpClient.get(this.learningBaseUrl + '/learnings/types/' );
+  }
+  getAllSubjects(){
+    return this.httpClient.get(this.learningBaseUrl + '/learnings/subjects/' );
   }
 }
