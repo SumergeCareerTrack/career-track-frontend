@@ -55,6 +55,7 @@ export class AuthService {
           this.destroySubsription(subscription);
         })
       );
+
   }
 
   handleLoginProcess(userResponse: UserResponse) {

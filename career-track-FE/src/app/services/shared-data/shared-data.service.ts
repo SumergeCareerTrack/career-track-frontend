@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LearningReq, SubjectReq, TypeReq } from '../../interfaces/backend-requests';
+import { LearningReq, SubjectReq, TypeReq, UserRequest, UserResponse } from '../../interfaces/backend-requests';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +10,13 @@ export class SharedDataService {
   learningBaseUrl = 'http://localhost:8081';
   constructor(private httpClient: HttpClient) {}
 
+
+  getAllUsers(){
+    return this.httpClient.get(this.baseUrl + '/users/')
+  }
+  getUserById(id :string){
+    return this.httpClient.get(this.baseUrl + '/users/'+id)
+  }
   getAllDepartments() {
     return this.httpClient.get(this.baseUrl + '/titles/departments');
   }
@@ -26,6 +33,16 @@ export class SharedDataService {
     return this.httpClient.get(this.baseUrl + '/users/managers', {
       params: { departmentName: department },
     });
+  }
+  updateUser(user:UserRequest){
+    return this.httpClient.put(this.baseUrl + '/users/',user);
+  }
+  changeUserPassword(id:string, password:string){
+    console.log(id,"===",password);
+    return this.httpClient.put(this.baseUrl + '/users/password/'+id,password);
+  }
+  deleteUser(userid:string){
+    return this.httpClient.delete(this.baseUrl + '/users/'+userid);
   }
   getAllLearnings(){
     return this.httpClient.get(this.learningBaseUrl + '/learnings/' );

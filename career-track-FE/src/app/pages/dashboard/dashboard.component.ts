@@ -3,12 +3,12 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { UserResponse } from '../../interfaces/backend-requests';
 import { LeaderboardsComponent } from '../../components/leaderboards/leaderboards.component';
-import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard/admin-dashboard.component";
+import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard-user/admin-dashboard-user.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [LeaderboardsComponent, AdminDashboardComponent],
+  imports: [LeaderboardsComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })

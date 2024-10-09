@@ -1,0 +1,215 @@
+@if(updateType==='User'){
+  <div class="backdrop"></div>
+  <dialog open class="dialogueDiv">
+
+      <h1>Update User </h1>
+
+    <form [formGroup]="updateUser" (ngSubmit)="onSubmit()" class="d-flex flex-column">
+      <label class="d-flex justify-content-center" for="">User Department<span class="text-danger ">*</span></label>
+      <div ngbDropdown class="d-inline-block w-60 d-flex justify-content-around ">
+
+        <button type="button" class="btn btn-outline-primary w-50" id="dropdownBasic2" ngbDropdownToggle>
+          {{ chosenDepartment }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="bg-main-color">
+          @for (item of departments; track $index) {
+          <button class="dropdown-item" (click)="setDepartment(item.name)" type="button">
+            {{ item.name }}
+          </button>
+          }
+        </div>
+        @if (updateUser.get('department')?.invalid &&
+        updateUser.get('department')?.touched) {
+        <div class="text-danger">Type is required.</div>
+        }
+
+      </div>
+      <!-- SUBJECT HERE -->
+      <label class="d-flex justify-content-center" for="">User Title<span class="text-danger">*</span></label>
+      <div ngbDropdown class="d-inline-block w-100 d-flex justify-content-center ">
+
+        <button type="button" class="btn btn-outline-primary w-50" id="dropdownBasic2" ngbDropdownToggle>
+          {{ chosenTitle }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="bg-main-color">
+          @for (item of titles; track $index) {
+          <button class="dropdown-item" (click)="setTitle(item.titleName,item.id,item.departmentId)" type="button">
+            {{ item.titleName }}
+          </button>
+          }
+        </div>
+        @if (updateUser.get('title')?.invalid &&
+        updateUser.get('title')?.touched) {
+        <div class="text-danger">Type is required.</div>
+        }
+
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-6 col-12">
+          <label for="firstName"
+            >First Name<span class="text-danger">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control w-md-75"
+            formControlName="firstName"
+            id="firstName"
+            placeholder="Enter first name"
+          />
+          @if (updateUser.get('firstName')?.invalid &&
+          updateUser.get('firstName')?.touched) {
+          <div class="text-danger">First name is required.</div>
+          }
+        </div>
+
+        <div class="form-group col-md-6 col-12">
+          <label for="lastName"
+            >Last Name<span class="text-danger">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            formControlName="lastName"
+            id="lastName"
+            placeholder="Enter last name"
+          />
+          @if (updateUser.get('lastName')?.invalid &&
+          updateUser.get('lastName')?.touched) {
+          <div class="text-danger">Last name is required.</div>
+          }
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-6 col-12">
+          <label for="email"
+            >Email address<span class="text-danger">*</span></label
+          >
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            id="email"
+            placeholder="Enter email"
+          />
+          @if (updateUser.get('email')?.invalid &&
+          updateUser.get('email')?.touched) {
+          <div class="text-danger">Please enter a valid email.</div>
+          }
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12 mt-2">
+          <div ngbDropdown class="d-inline-block w-100">
+            <label for="">Manager</label>
+            <button
+              type="button"
+              class="btn btn-outline-primary w-100"
+              id="dropdownBasic3"
+              [disabled]="this.updateUser.value.isNotManaged"
+              ngbDropdownToggle
+            >
+              {{ chosenManager }}
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic1"
+              class="bg-main-color"
+            >
+              @for (item of managers; track $index) {
+              <button
+                class="dropdown-item"
+                (click)="
+                  setManager(item.firstName + ' ' + item.lastName, item.id)
+                "
+                type="button"
+              >
+                {{ item.firstName + " " + item.lastName }}
+              </button>
+              }
+            </div>
+            @if (updateUser.get('manager')?.invalid &&
+            updateUser.get('manager')?.touched) {
+            <div class="text-danger">Manager is required.</div>
+            }
+          </div>
+        </div>
+        <div class="form-check col-md-5 mt-md-5 mx-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+            formControlName="isNotManaged"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Does not have a manager
+          </label>
+        </div>
+      </div>
+
+
+
+
+      <p class="actions">
+        <button type="button" (click)="onCancel()">Cancel</button>
+        <button type="submit" (ngOnSubmit)="onSubmit()">Submit</button>
+      </p>
+    </form>
+  </dialog>
+
+}
+@else if(updateType=="password"){
+  <div class="backdrop"></div>
+  <dialog open class="dialogueDiv">
+
+      <h1>Change User Password</h1>
+      <form [formGroup]="passwordChange" (ngSubmit)="onSubmitPassword()" class="d-flex flex-column">
+
+      <div class="form-group col-md-6 col-12">
+        <label for="lastName"
+          >Password<span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="password"
+          id="password"
+          placeholder="Enter password"
+        />
+        @if (updateUser.get('password')?.invalid &&
+        updateUser.get('password')?.touched) {
+        <div class="text-danger">Password is required.</div>
+        }
+      </div>
+
+      <div class="form-group col-md-6 col-12">
+        <label for="lastName"
+          >Password<span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="confirmPassword"
+          id="confirmPassword"
+          placeholder="Confirm password"
+        />
+        @if (updateUser.get('confirmPassword')?.invalid &&
+        updateUser.get('confirmPassword')?.touched) {
+        <div class="text-danger">Password Do not match.</div>
+        }
+      </div>
+
+
+
+      <p class="actions">
+        <button type="button" (click)="onCancel()">Cancel</button>
+        <button type="submit" (ngOnSubmit)="onSubmitPassword()">Submit</button>
+      </p>
+</form>
+</dialog>
+}
+

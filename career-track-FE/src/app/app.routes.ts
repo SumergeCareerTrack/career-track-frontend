@@ -6,7 +6,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LearningsComponent } from './components/learnings/learnings/learnings.component';
 import { FullLearningComponent } from './components/learnings/learning-full/learning-full.component';
 import { NewLearningComponent } from './components/learnings/new-learning/new-learning.component';
-import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard/admin-dashboard.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard-user/admin-dashboard-user.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
@@ -14,7 +14,7 @@ export const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'user-creation',
+    path: 'admin-dashboard/add-user',
     component: CreateUserComponent,
     // canActivate: [authGuard],
   },
@@ -26,5 +26,10 @@ export const routes: Routes = [
   { path: 'learnings', component: LearningsComponent },
   { path: 'learning/:id', component: FullLearningComponent },
   { path: 'learning-add', component:NewLearningComponent},
-  { path: 'admin-dashboard', component: AdminDashboardComponent },
+
+  { path: 'admin-dashboard/user', component: AdminDashboardComponent },
+  { path: 'admin-dashboard/learning', component: AdminDashboardComponent },
+  { path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
+  { path: 'admin-dashboard/booster', component: AdminDashboardComponent },
+
 ];
