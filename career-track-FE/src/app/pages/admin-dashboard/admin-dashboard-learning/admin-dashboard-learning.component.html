@@ -1,0 +1,90 @@
+@if(this.addLearning){
+<app-new-learning (cancel)="onCancel()"></app-new-learning>
+}
+@else if(this.updateLearning){
+<app-admin-update-learning [id]="this.id" (cancel)="onCancel()"></app-admin-update-learning>
+}
+<h1 class="d-flex justify-content-center">Admin Dashboard</h1>
+
+<form class="row align-items-center">
+  <div class="col-auto">
+    <label for="table-filtering-search" class="col-form-label">Full text search:</label>
+  </div>
+  <div class="col-auto">
+    <input
+      id="table-filtering-search"
+      class="form-control"
+      type="text"
+      [formControl]="filter"
+      placeholder="Search users"
+    />
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-primary" type="button" (click)="onAddLearning()">Add Learning</button>
+  </div>
+</form>
+<table class="table table-striped">
+<thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Length</th>
+    <th scope="col">Description</th>
+    <th scope="col">URL</th>
+    <th scope="col">Subject</th>
+    <th scope="col">Subject Type</th>
+    <th scope="col">Type</th>
+    <th scope="col">Type Score</th>
+    <th scope="col">Actions</th>
+  </tr>
+</thead>
+<tbody>
+  @for (learning of this.learnings; track $index) {
+    <tr>
+      <th scope="row">{{ $index }}</th>
+      <td>
+        {{ learning.title }}
+      </td>
+      <td>{{ learning.lengthInHours| number }}</td>
+      <td>{{ learning.description }}</td>
+      <td>{{ learning.url }}</td>
+      <td>{{ learning.subjectName }}</td>
+      <td>{{ learning.subjectType }}</td>
+      <td>{{ learning.typeName }}</td>
+      <td>{{ learning.typeBaseScore }}</td>
+      <td>
+        <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        (click)="onLearningUpdate(learning.id)"
+        style="background-color: #0d6efd; border-color: #0d6efd;">
+        Update Learning
+        </button> |
+        <button
+        type="button"
+        class="btn btn-danger btn-sm"
+        (click)="onDelete(learning.id)"
+        style="background-color: #dc3545; border-color: #dc3545;">
+        Delete learning
+      </button>
+     </td>
+    </tr>
+  }
+</tbody>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+<ngb-pagination
+  [collectionSize]="collectionSize"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  (pageChange)="refreshLearnings()"
+>
+</ngb-pagination>
+
+<select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshLearnings()">
+  <option [ngValue]="2">2 items per page</option>
+  <option [ngValue]="4">4 items per page</option>
+  <option [ngValue]="6">6 items per page</option>
+</select>
+</div>

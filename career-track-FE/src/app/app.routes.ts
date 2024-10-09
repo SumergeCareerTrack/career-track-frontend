@@ -7,6 +7,7 @@ import { LearningsComponent } from './components/learnings/learnings/learnings.c
 import { FullLearningComponent } from './components/learnings/learning-full/learning-full.component';
 import { NewLearningComponent } from './components/learnings/new-learning/new-learning.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard-user/admin-dashboard-user.component';
+import { AdminDashboardLearningComponent } from './pages/admin-dashboard/admin-dashboard-learning/admin-dashboard-learning.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
@@ -28,7 +29,7 @@ export const routes: Routes = [
   { path: 'learning-add', component:NewLearningComponent},
 
   { path: 'admin-dashboard/user', component: AdminDashboardComponent },
-  { path: 'admin-dashboard/learning', component: AdminDashboardComponent },
+  { path: 'admin-dashboard/learning', component: AdminDashboardLearningComponent },
   { path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
   { path: 'admin-dashboard/booster', component: AdminDashboardComponent },
 

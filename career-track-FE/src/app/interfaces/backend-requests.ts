@@ -43,6 +43,8 @@ export interface LearningResp {
   subjectType: string;
   subjectName: string;
   lengthInHours: string;
+  pending: boolean;
+
 }
 export interface LearningReq{
   type: UUID;
@@ -51,6 +53,7 @@ export interface LearningReq{
   url: string;
   description: string;
   lengthInHours: string;
+  pending: boolean;
 }
 
 export interface TypeReq{

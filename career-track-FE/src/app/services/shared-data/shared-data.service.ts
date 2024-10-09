@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LearningReq, SubjectReq, TypeReq, UserRequest, UserResponse } from '../../interfaces/backend-requests';
 
@@ -6,6 +6,7 @@ import { LearningReq, SubjectReq, TypeReq, UserRequest, UserResponse } from '../
   providedIn: 'root',
 })
 export class SharedDataService {
+
   baseUrl = 'http://localhost:8080';
   learningBaseUrl = 'http://localhost:8081';
   constructor(private httpClient: HttpClient) {}
@@ -65,5 +66,12 @@ export class SharedDataService {
   }
   createSubject(Subject:SubjectReq){
     return this.httpClient.post(this.learningBaseUrl + '/learnings/subjects/',Subject);
+  }
+  updateLearning(id:string,Learning:LearningReq){
+    return this.httpClient.put(this.learningBaseUrl + '/learnings/'+id,Learning);
+  }
+  deleteLearning(leagningId: string) {
+    let params = new HttpParams().set('id', leagningId);
+    return this.httpClient.delete(this.learningBaseUrl + '/learnings/' ,{params});
   }
 }
