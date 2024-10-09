@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LearningReq, SubjectReq, TypeReq } from '../../interfaces/backend-requests';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +39,14 @@ export class SharedDataService {
   }
   getAllSubjects(){
     return this.httpClient.get(this.learningBaseUrl + '/learnings/subjects/' );
+  }
+  createLearning(Learning:LearningReq){
+    return this.httpClient.post(this.learningBaseUrl + '/learnings/',Learning);
+  }
+  createType(Type:TypeReq){
+    return this.httpClient.post(this.learningBaseUrl + '/learnings/types/',Type);
+  }
+  createSubject(Subject:SubjectReq){
+    return this.httpClient.post(this.learningBaseUrl + '/learnings/subjects/',Subject);
   }
 }

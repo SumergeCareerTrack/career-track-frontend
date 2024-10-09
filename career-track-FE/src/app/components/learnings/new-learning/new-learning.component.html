@@ -1,70 +1,137 @@
 <div class="backdrop"></div>
 <dialog open class="dialogueDiv">
-  <h2>Add Learning</h2>
+  @if(isAdmin){
+    <h1>Add Learning</h1>
+  }
+  @else {
+    <h1>Add New User Learning</h1>
+  }
   <form [formGroup]="createLearning" (ngSubmit)="onSubmit()" class="d-flex flex-column">
-      <label for="">Type<span class="text-danger">*</span></label>
-      <div ngbDropdown class="d-inline-block w-50">
-        <button
-          type="button"
-          class="btn btn-outline-primary w-50"
-          id="dropdownBasic2"
-          ngbDropdownToggle
-        >
-          {{ chosenType }}
+    <label class="d-flex justify-content-center" for="">Type<span class="text-danger ">*</span></label>
+    <div ngbDropdown class="d-inline-block w-60 d-flex justify-content-around ">
+
+      <button type="button" class="btn btn-outline-primary w-50" id="dropdownBasic2" ngbDropdownToggle>
+        {{ chosenType }}
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="bg-main-color">
+        @for (item of types; track $index) {
+        <button class="dropdown-item" (click)="setType(item.name,item.id)" type="button">
+          {{ item.name }}
         </button>
-        <div
-          ngbDropdownMenu
-          aria-labelledby="dropdownBasic2"
-          class="bg-main-color"
-        >
-          @for (item of types; track $index) {
-          <button
-            class="dropdown-item"
-            (click)="setType(item.name,item.id)"
-            type="button"
-          >
-            {{ item.name }}
-          </button>
-          }
-        </div>
-        @if (createLearning.get('type')?.invalid &&
-        createLearning.get('type')?.touched) {
-        <div class="text-danger">Type is required.</div>
         }
-<div>
-        @if(createLearning.get('type')?.value === 'Custom Type'){
-          <input
-          type="text"
-          class="form-control w-50"
-          formControlName="customTypeName"
-          id="typeName"
-          placeholder="Enter Type Name"
-        />
-        @if (createLearning.get('customTypeName')?.invalid &&
-        createLearning.get('customTypeName')?.touched) {
-        <div class="text-danger">Type name is required.</div>
-        }
-        <input
-        type="text"
-        class="form-control w-50"
-        formControlName="customTypeBaseScore"
-        id="typeBaseScore"
-        placeholder="Enter Type Base Score"
-      />
+      </div>
+      @if (createLearning.get('type')?.invalid &&
+      createLearning.get('type')?.touched) {
+      <div class="text-danger">Type is required.</div>
+      }
+
+      @if(createLearning.get('type')?.value === 'Custom Type'){
+        <div class="d-flex flex-column">
+        <input type="text" class="d-flex form-control w-100" formControlName="customTypeName" id="customTypeName"
+          placeholder="Enter Type Name" />
+
+            @if (createLearning.get('customTypeName')?.invalid &&
+            createLearning.get('customTypeName')?.touched) {
+            <div class="text-danger">Type name is required.</div>
+            }
+          </div>
+
+
+      @if(isAdmin){
+        <div class="d-flex flex-column">
+
+        <input type="text" class="form-control w-100" formControlName="customTypeBaseScore" id="customTypeBaseScore"
+        placeholder="Enter Type Base Score" />
       @if (createLearning.get('customTypeBaseScore')?.invalid &&
       createLearning.get('customTypeBaseScore')?.touched) {
       <div class="text-danger">Type Base Score is required.</div>
-      }
-        }
-        </div>
 
+      }
+      </div>
+      }
+
+      }
+    </div>
+    <!-- SUBJECT HERE -->
+    <label class="d-flex justify-content-center" for="">Subject<span class="text-danger">*</span></label>
+    <div ngbDropdown class="d-inline-block w-100 d-flex justify-content-center ">
+
+      <button type="button" class="btn btn-outline-primary w-50" id="dropdownBasic2" ngbDropdownToggle>
+        {{ chosenSubject }}
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="bg-main-color">
+        @for (item of subjects; track $index) {
+        <button class="dropdown-item" (click)="setSubject(item.name,item.id)" type="button">
+          {{ item.name }}
+        </button>
+        }
+      </div>
+      @if (createLearning.get('subject')?.invalid &&
+      createLearning.get('subject')?.touched) {
+      <div class="text-danger">Type is required.</div>
+      }
+
+      @if(createLearning.get('subject')?.value === 'Custom Subject'){
+      <input type="text" class="form-control w-50" formControlName="customSubjectName" id="customSubjectName"
+        placeholder="Enter Subject Name" />
+      @if (createLearning.get('customSubjectName')?.invalid &&
+      createLearning.get('customSubjectName')?.touched) {
+      <div class="text-danger">Subject Name is required.</div>
+      }
+      <!-- HERE -->
+      <div ngbDropdown class="d-inline-block w-100 d-flex justify-content-center ">
+
+        <button type="button" class="btn btn-outline-primary w-70" id="dropdownBasic2" ngbDropdownToggle>
+          {{ chosenSubjectType }}
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="bg-main-color">
+          @for (item of subjectTypes; track $index) {
+          <button class="dropdown-item" (click)="setSubjectType(item)" type="button">
+            {{ item }}
+          </button>
+          }
+        </div>
       </div>
 
+      }
+
+    </div>
+    <div class="d-flex flex-column justify-content-between align-items-center">
+      <!-- TITLE -->
+      <label for="">Title<span class="text-danger">*</span></label>
+      <input type="text" class="form-control w-50" formControlName="title" id="Title"
+        placeholder="Enter Learning title" />
+      @if (createLearning.get('title')?.invalid &&
+      createLearning.get('title')?.touched) {
+      <div class="text-danger">Title is required.</div>}
+      <!-- URL -->
+      <label for="">URL<span class="text-danger">*</span></label>
+      <input type="text" class="form-control w-50" formControlName="url" id="url" placeholder="Enter Learning url" />
+      @if (createLearning.get('url')?.invalid &&
+      createLearning.get('url')?.touched) {
+      <div class="text-danger">URL is required.</div>}
+      <!-- Description -->
+      <label for="">Description<span class="text-danger">*</span></label>
+      <input type="text" class="form-control w-50" formControlName="description" id="description"
+        placeholder="Enter Learning description" />
+      @if (createLearning.get('description')?.invalid &&
+      createLearning.get('description')?.touched) {
+      <div class="text-danger">Description is required.</div>}
+      <!-- Hours -->
+      <label for="">Hours<span class="text-danger">*</span></label>
+      <input type="number" class="form-control w-50" formControlName="lengthInHours" id="lengthInHours"
+        placeholder="Enter Learning Hours " />
+      @if (createLearning.get('lengthInHours')?.invalid &&
+      createLearning.get('lengthInHours')?.touched) {
+      <div class="text-danger">Learning Hours are required.</div>}
+
+
+    </div>
 
 
     <p class="actions">
-      <button type="button" (ngOnSubmit)="onSubmit()">Cancel</button>
-      <button type="submit">Create</button>
+      <button type="button" (click)="onCancel()">Cancel</button>
+      <button type="submit" (ngOnSubmit)="onSubmit()">Submit</button>
     </p>
   </form>
 </dialog>

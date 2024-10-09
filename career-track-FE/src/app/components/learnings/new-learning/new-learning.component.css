@@ -19,16 +19,20 @@ dialog {
   top: 5rem;
 }
 
-h2 {
+h1 {
   margin: 0;
   color: #d0c2e1;
+}
+
+h4{
+  color:azure
 }
 
 label {
   display: block;
   font-weight: bold;
-  font-size: 0.85rem;
-  color: #ab9ac0;
+  font-size: 1.2rem;
+  color: #91aadd;
 }
 
 input,
@@ -40,7 +44,12 @@ textarea {
   border: 1px solid #ab9ac0;
   background-color: #d0c2e1;
 }
+#dropdownBasic2{
+  background-color: #61576d;
+}
+.dropdown-item{
 
+}
 .actions {
   margin: 1rem 0 0;
   display: flex;
@@ -56,7 +65,9 @@ button {
   border-radius: 4px;
   background-color: transparent;
 }
-
+button[type="button"].dropdown-item {
+  color: #000000;
+}
 button[type="button"] {
   color: #bdadcf;
 }

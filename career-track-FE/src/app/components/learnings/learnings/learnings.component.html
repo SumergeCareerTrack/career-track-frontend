@@ -1,9 +1,11 @@
 <div class="learnings-container">
   <div class="header">
     <h2>My Learnings</h2>
-    <button class="add-learning-btn" (click)="onAddLearning()">Add Learning</button>
+    <button class="add-learning-btn" (click)="onStartAddTask()">Add Learning</button>
   </div>
-
+  @if (isAddingTask) {
+    <app-new-learning (cancel)="onCancelAddTask()" />
+  }
   <div class="learning-box">
     <!-- Check if learnings exist -->
     @if(learnings.length === 0) {

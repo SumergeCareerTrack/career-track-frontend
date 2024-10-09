@@ -35,6 +35,7 @@ export interface UserResponse {
 
 export interface LearningResp {
   id:UUID;
+  title: string;
   url: string;
   typeName:string;
   typeBaseScore:number;
@@ -46,6 +47,7 @@ export interface LearningResp {
 export interface LearningReq{
   type: UUID;
   subject: UUID;
+  title: string;
   url: string;
   description: string;
   lengthInHours: string;
@@ -88,3 +90,8 @@ enum ApprovalStatus {
   Approved = 'APPROVED',
   Rejected = 'REJECTED'
 }
+export enum SubjectType {
+  Functional= 'FUNCTIONAL',
+  Organisational= 'ORGANISATIONAL',
+}
+
