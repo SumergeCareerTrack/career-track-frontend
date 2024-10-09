@@ -6,6 +6,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LearningsComponent } from './components/learnings/learnings/learnings.component';
 import { FullLearningComponent } from './components/learnings/learning-full/learning-full.component';
 import { NewLearningComponent } from './components/learnings/new-learning/new-learning.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard/admin-dashboard.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
@@ -24,5 +25,6 @@ export const routes: Routes = [
   },
   { path: 'learnings', component: LearningsComponent },
   { path: 'learning/:id', component: FullLearningComponent },
-  { path: 'learning-add', component:NewLearningComponent}
+  { path: 'learning-add', component:NewLearningComponent},
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
 ];

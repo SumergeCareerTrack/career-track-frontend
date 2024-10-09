@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
 import { Title } from '@angular/platform-browser';
 import { forkJoin, of, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-learning',
@@ -38,7 +39,8 @@ export class NewLearningComponent {
   constructor(
     formBuilder: FormBuilder,
     private sharedDataService: SharedDataService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private router:Router
   ) {
     this.isAdmin = this.cookieService.get('isAdmin') === 'true';
     this.createLearning = formBuilder.group({
@@ -71,6 +73,7 @@ export class NewLearningComponent {
 
   onCancel() {
     this.cancel.emit();
+    this.router.navigate(['/learnings']);
   }
   setType(type: string,id:string) {
     this.createLearning.get('type')?.setValue(type);
@@ -108,14 +111,14 @@ export class NewLearningComponent {
    onSubmit() {
     let typeIdSignal$=of<any>(Object)
     let subjectIdSignal$=of<any>(Object)
-    let typeReq: TypeReq;
     if(this.newType&&this.isAdmin){
-       typeReq={
+      const typeReq:TypeReq={
         name: this.createLearning.get('customTypeName')?.value,
         baseScore: this.createLearning.get('customTypeBaseScore')?.value
       };
+      typeIdSignal$=this.sharedDataService.createType(typeReq);
     } else if(this.newType&&!this.isAdmin){
-       typeReq={
+      const typeReq:TypeReq={
         name: this.createLearning.get('customTypeName')?.value,
         baseScore: 2 //Base Score
       };
@@ -132,12 +135,12 @@ export class NewLearningComponent {
     forkJoin([typeIdSignal$, subjectIdSignal$])
     .pipe(
       switchMap(([typeResponse, subjectResponse]) => {
-        if (typeResponse) {
+        if (this.newType) {
           const responseType = typeResponse as TypeResp;
           this.typeId = responseType.id;
         }
 
-        if (subjectResponse) {
+        if (this.newSubject) {
           const responseSubject = subjectResponse as SubjectResp;
           this.subjectId = responseSubject.id;
         }
@@ -156,6 +159,8 @@ export class NewLearningComponent {
     )    .subscribe({
       next: (response) => {
         console.log(response, 'Learning created successfully');
+        this.onCancel();
+
       },
       error: (error) => {
         console.log(error, 'Error while creating learning');

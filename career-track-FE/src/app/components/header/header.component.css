@@ -16,3 +16,22 @@
   font-size: 24px;
   color: white;
 }
+#floatright {
+  position: absolute;
+  top: 1px;
+  right: 8%;
+}
+.custom-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-width: 200px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  overflow: visible;
+}
+
+
