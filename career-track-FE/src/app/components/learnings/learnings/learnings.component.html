@@ -1,0 +1,23 @@
+<div class="learnings-container">
+  <div class="header">
+    <h2>My Learnings</h2>
+    <button class="add-learning-btn" (click)="onStartAddTask()">Add Learning</button>
+  </div>
+  @if (isAddingTask) {
+    <app-new-learning (cancel)="onCancelAddTask()" />
+  }
+  <div class="learning-box">
+    <!-- Check if learnings exist -->
+    @if(learnings.length === 0) {
+      <p>No learnings found. Please check back later.</p>
+    }
+    @else {
+      @for(learning of learnings; track $index) {
+        <app-learning-item
+          [learning]="learning"
+          (viewMore)="onViewMore(learning.id.toString())"
+        ></app-learning-item>
+      }
+    }
+  </div>
+</div>

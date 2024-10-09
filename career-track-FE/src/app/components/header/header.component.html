@@ -64,6 +64,19 @@
             >Create User</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link text-light"
+            (click)="toggleNavbarCollapsing()"
+            routerLink="learnings"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/learnings'
+            }"
+            >Learnings Library</a
+          >
+        </li>
+
       </ul>
       @if (isAuthenticated) {
       <button class="btn btn-danger bg-danger" (click)="LogOut()">

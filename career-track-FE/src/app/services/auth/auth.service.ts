@@ -46,6 +46,7 @@ export class AuthService {
       .pipe(
         tap((tokenData) => {
           this.cookieService.set('token', tokenData.token);
+
           const subscription = this.getUserByEmail(email).subscribe(
             (userData: any) => {
               this.handleLoginProcess(userData);
@@ -59,6 +60,7 @@ export class AuthService {
   handleLoginProcess(userResponse: UserResponse) {
     this.user.next(userResponse);
     this.cookieService.set('UserData', JSON.stringify(userResponse));
+    this.cookieService.set('isAdmin',userResponse.department.name === 'HR' ? 'true' : 'false');
   }
 
   createUser(newUser: User) {
