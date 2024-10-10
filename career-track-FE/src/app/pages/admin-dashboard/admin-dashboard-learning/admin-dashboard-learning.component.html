@@ -22,16 +22,16 @@
 
       <form class="row align-items-center">
         <div class="col-auto">
-          <label for="table-filtering-search" class="col-form-label">Full text search:</label>
+          <label for="learning-search" class="col-form-label">Full text search:</label>
         </div>
         <div class="col-auto">
           <input
-            id="table-filtering-search"
-            class="form-control"
-            type="text"
-            [formControl]="filter"
-            placeholder="Search users"
-          />
+          id="learning-search"
+          class="form-control"
+          type="text"
+          [formControl]="filter"
+          placeholder="Search learnings"
+        />
         </div>
         <div class="col-auto">
           <button class="btn btn-primary" type="button" (click)="onAddLearning()">Add Learning</button>
@@ -53,7 +53,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (learning of this.learnings; track $index) {
+        @for (learning of this.filteredLearnings; track $index) {
           <tr>
             <th scope="row">{{ $index }}</th>
             <td>
@@ -88,15 +88,14 @@
       </table>
 
       <div class="d-flex justify-content-between p-2">
-      <ngb-pagination
-        [collectionSize]="collectionSize"
-        [(page)]="page"
-        [pageSize]="pageSize"
+        <ngb-pagination
+        [collectionSize]="learningCollectionSize"
+        [(page)]="learningPage"
+        [pageSize]="learningPageSize"
         (pageChange)="refreshLearnings()"
-      >
-      </ngb-pagination>
+      ></ngb-pagination>
 
-      <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshLearnings()">
+      <select class="form-select" style="width: auto" [(ngModel)]="learningPageSize" (ngModelChange)="refreshLearnings()">
         <option [ngValue]="2">2 items per page</option>
         <option [ngValue]="4">4 items per page</option>
         <option [ngValue]="6">6 items per page</option>
@@ -115,16 +114,16 @@
 
       <form class="row align-items-center">
         <div class="col-auto">
-          <label for="table-filtering-search" class="col-form-label">Full text search:</label>
+          <label for="type-search" class="col-form-label">Full text search:</label>
         </div>
         <div class="col-auto">
           <input
-            id="table-filtering-search"
-            class="form-control"
-            type="text"
-            [formControl]="filter1"
-            placeholder="Search users"
-          />
+          id="type-search"
+          class="form-control"
+          type="text"
+          [formControl]="filter1"
+          placeholder="Search types"
+        />
         </div>
         <div class="col-auto">
           <button class="btn btn-primary" type="button" (click)="onTypeCreate()">Add Type</button>
@@ -140,7 +139,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (type of this.types; track $index) {
+        @for (type of this.filteredTypes; track $index) {
           <tr>
             <th scope="row">{{ $index }}</th>
             <td>
@@ -170,21 +169,19 @@
       </table>
 
       <div class="d-flex justify-content-between p-2">
-      <ngb-pagination
-        [collectionSize]="collectionSize"
-        [(page)]="page"
-        [pageSize]="pageSize"
-        (pageChange)="refreshLearnings()"
-      >
-      </ngb-pagination>
+        <ngb-pagination
+          [collectionSize]="typeCollectionSize"
+          [(page)]="typePage"
+          [pageSize]="typePageSize"
+          (pageChange)="refreshTypes()"
+        ></ngb-pagination>
 
-      <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshLearnings()">
-        <option [ngValue]="2">2 items per page</option>
-        <option [ngValue]="4">4 items per page</option>
-        <option [ngValue]="6">6 items per page</option>
-      </select>
+        <select class="form-select" style="width: auto" [(ngModel)]="typePageSize" (ngModelChange)="refreshTypes()">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+        </select>
       </div>
-
     }
     @else {
       <div class="d-flex justify-content-center">
@@ -198,16 +195,16 @@
 
       <form class="row align-items-center">
         <div class="col-auto">
-          <label for="table-filtering-search" class="col-form-label">Full text search:</label>
+          <label for="subject-search" class="col-form-label">Full text search:</label>
         </div>
         <div class="col-auto">
           <input
-            id="table-filtering-search"
-            class="form-control"
-            type="text"
-            [formControl]="filter2"
-            placeholder="Search users"
-          />
+          id="subject-search"
+          class="form-control"
+          type="text"
+          [formControl]="filter2"
+          placeholder="Search subjects"
+        />
         </div>
         <div class="col-auto">
           <button class="btn btn-primary" type="button" (click)="onAddSubject()">Add Subjects</button>
@@ -223,7 +220,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (subject of this.subjects; track $index) {
+        @for (subject of this.filteredSubjects; track $index) {
           <tr>
             <th scope="row">{{ $index }}</th>
             <td>
@@ -253,19 +250,18 @@
       </table>
 
       <div class="d-flex justify-content-between p-2">
-      <ngb-pagination
-        [collectionSize]="collectionSize"
-        [(page)]="page"
-        [pageSize]="pageSize"
-        (pageChange)="refreshLearnings()"
-      >
-      </ngb-pagination>
+        <ngb-pagination
+          [collectionSize]="subjectCollectionSize"
+          [(page)]="subjectPage"
+          [pageSize]="subjectPageSize"
+          (pageChange)="refreshSubjects()"
+        ></ngb-pagination>
 
-      <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshLearnings()">
-        <option [ngValue]="2">2 items per page</option>
-        <option [ngValue]="4">4 items per page</option>
-        <option [ngValue]="6">6 items per page</option>
-      </select>
+        <select class="form-select" style="width: auto" [(ngModel)]="subjectPageSize" (ngModelChange)="refreshSubjects()">
+          <option [ngValue]="2">2 items per page</option>
+          <option [ngValue]="4">4 items per page</option>
+          <option [ngValue]="6">6 items per page</option>
+        </select>
       </div>
 
     }

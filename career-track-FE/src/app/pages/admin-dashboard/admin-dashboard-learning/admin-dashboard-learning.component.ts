@@ -18,6 +18,18 @@ import { NewUpdateSubjectComponent } from '../../../components/learnings/new-upd
   styleUrl: './admin-dashboard-learning.component.css'
 })
 export class AdminDashboardLearningComponent {
+  learningPage = 1;
+  learningPageSize = 4;
+  learningCollectionSize = 0;
+
+  typePage = 1;
+  typePageSize = 4;
+  typeCollectionSize = 0;
+
+  subjectPage = 1;
+  subjectPageSize = 4;
+  subjectCollectionSize = 0;
+
   updateLearning= false;
   addLearning=false;
   addType= false;
@@ -25,80 +37,106 @@ export class AdminDashboardLearningComponent {
   addSubject= false;
   updateSubject= false;
   id: string = '';
-  page = 1;
-	pageSize = 4;
   learnings: LearningResp[] = [];
-  types:TypeResp[]=[];
+  filteredLearnings: LearningResp[] = [];
+  types: TypeResp[] = [];
+  filteredTypes: TypeResp[] = [];
   subjects:SubjectResp[]=[];
-  learnings$: Observable<LearningResp[]>;
-  types$: Observable<TypeResp[]>;
-  subjects$: Observable<SubjectResp[]>;
+  filteredSubjects: SubjectResp[] = [];
+
   filter = new FormControl('', { nonNullable: true });
   filter1 = new FormControl('', { nonNullable: true });
   filter2 = new FormControl('', { nonNullable: true });
-	collectionSize = this.learnings ? this.learnings.length : 0;
   @Output() cancel = new EventEmitter<void>()
 
+  ngOnInit() {
+    // Load learnings
+    this.sharedDataService.getAllLearnings().subscribe({
+      next: (response) => {
+        this.learnings = response as LearningResp[];
+        this.refreshLearnings();
+      },
+    });
+
+    // Load types
+    this.sharedDataService.getAllTypes().subscribe({
+      next: (response) => {
+        this.types = response as TypeResp[];
+        this.refreshTypes();
+      },
+    });
+
+    // Load subjects
+    this.sharedDataService.getAllSubjects().subscribe({
+      next: (response) => {
+        this.subjects = response as SubjectResp[];
+        this.refreshSubjects();
+      },
+    });
+  }
 
 	constructor(private sharedDataService:SharedDataService) {
 
-    this.learnings$ = this.filter.valueChanges.pipe(
-			startWith(''),
-      map((text) => this.searchLearning(text)),
-		);
-
-    this.types$ = this.filter1.valueChanges.pipe(
-			startWith(''),
-      map((text) => this.searchType(text)),
-		);
-
-    this.subjects$ = this.filter2.valueChanges.pipe(
-			startWith(''),
-      map((text) => this.searchSubject(text)),
-		);
+    this.filter.valueChanges.subscribe(() => this.refreshLearnings());
+    this.filter1.valueChanges.subscribe(() => this.refreshTypes());
+    this.filter2.valueChanges.subscribe(() => this.refreshSubjects());
 
 	}
   refreshLearnings() {
-		this.learnings = this.learnings.map((learning, i) => learning.id ? learning : ({ ...learning, id: (i + 1).toString() })).slice(
-			(this.page - 1) * this.pageSize,
-			(this.page - 1) * this.pageSize + this.pageSize,
-		);
-	}
+    const filtered = this.searchLearning(this.filter.value);
+    this.learningCollectionSize = filtered.length;
+    const startIndex = (this.learningPage - 1) * this.learningPageSize;
+    const endIndex = startIndex + this.learningPageSize;
+    this.filteredLearnings = filtered.slice(startIndex, endIndex);
+  }
+
+  refreshTypes() {
+    const filtered = this.searchType(this.filter1.value);
+    this.typeCollectionSize = filtered.length;
+    const startIndex = (this.typePage - 1) * this.typePageSize;
+    const endIndex = startIndex + this.typePageSize;
+    this.filteredTypes = filtered.slice(startIndex, endIndex);
+  }
+
+  refreshSubjects() {
+    const filtered = this.searchSubject(this.filter2.value);
+    this.subjectCollectionSize = filtered.length;
+    const startIndex = (this.subjectPage - 1) * this.subjectPageSize;
+    const endIndex = startIndex + this.subjectPageSize;
+    this.filteredSubjects = filtered.slice(startIndex, endIndex);
+  }
 
   searchLearning(text: string): LearningResp[] {
-    return this.learnings.filter((learning) => {
-      const term = text.toLowerCase();
-      return (
-        learning.description.toLowerCase().includes(term) ||
-        learning.lengthInHours.toLowerCase().includes(term) ||
-        learning.subjectName.toLowerCase().includes(term) ||
-        learning.subjectType.toLowerCase().includes(term) ||
-        learning.title.toLowerCase().includes(term)||
-        learning.typeBaseScore.toString().toLowerCase().includes(term)||
-        learning.typeName.toLowerCase().includes(term)||
-        learning.url.toLowerCase().includes(term)
-      );
-    });
+    const term = text.toLowerCase();
+    return this.learnings.filter((learning) =>
+      learning.description.toLowerCase().includes(term) ||
+      learning.lengthInHours.toString().toLowerCase().includes(term) ||
+      learning.subjectName.toLowerCase().includes(term) ||
+      learning.subjectType.toLowerCase().includes(term) ||
+      learning.title.toLowerCase().includes(term) ||
+      learning.typeBaseScore.toString().toLowerCase().includes(term) ||
+      learning.typeName.toLowerCase().includes(term) ||
+      learning.url.toLowerCase().includes(term)
+    );
   }
 
-    searchType(text: string): TypeResp[] {
-    return this.types.filter((type) => {
-      const term = text.toLowerCase();
-      return (
-        type.name.toLowerCase().includes(term) ||
-        type.baseScore.toString().toLowerCase().includes(term)
-      );
-    });
+  searchType(text: string): TypeResp[] {
+    const term = text.toLowerCase();
+    return this.types.filter((type) =>
+      type.name.toLowerCase().includes(term) ||
+      type.baseScore.toString().toLowerCase().includes(term)
+    );
   }
+
   searchSubject(text: string): SubjectResp[] {
-    return this.subjects.filter((subject) => {
-      const term = text.toLowerCase();
-      return (
-        subject.name.toLowerCase().includes(term) ||
-        subject.type.toString().toLowerCase().includes(term)
-      );
-    });
+    const term = text.toLowerCase();
+    return this.subjects.filter((subject) =>
+      subject.name.toLowerCase().includes(term) ||
+      subject.type.toString().toLowerCase().includes(term)
+    );
   }
+
+
   onCancel() {
     this.addLearning=false;
     this.updateLearning=false;
@@ -126,23 +164,8 @@ export class AdminDashboardLearningComponent {
   });
   this.ngOnInit();
 }
-  ngOnInit() {
-    this.sharedDataService.getAllLearnings().subscribe({
-      next: (response) => {
-        this.learnings = response as LearningResp[];
-      },
-    });
-    this.sharedDataService.getAllTypes().subscribe({
-      next: (response) => {
-        this.types = response as TypeResp[];
-      },
-    });
-    this.sharedDataService.getAllSubjects().subscribe({
-      next: (response) => {
-        this.subjects = response as SubjectResp[];
-      },
-    });
-  }
+
+
   onTypeCreate(){
     this.addType=true;
     this.updateType = false;

@@ -10,7 +10,7 @@ export interface Title {
   id: string;
   departmentId: string;
   manager: boolean;
-  titleName: string;
+  name: string;
 }
 
 export interface UserRequest {

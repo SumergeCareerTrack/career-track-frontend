@@ -14,12 +14,13 @@
   </div>
   <div class="col-auto">
     <input
-      id="table-filtering-search"
-      class="form-control"
-      type="text"
-      [formControl]="filter"
-      placeholder="Search users"
-    />
+    id="table-filtering-search"
+    class="form-control"
+    type="text"
+    [formControl]="filter"
+    placeholder="Search users"
+    (input)="refreshUsers()"
+  />
   </div>
   <div class="col-auto">
     <button class="btn btn-primary" type="button" (click)="onAddUser()">Add User</button>
@@ -39,9 +40,9 @@
 		</tr>
 	</thead>
 	<tbody>
-		@for (user of this.users ; track user.firstName; let i = $index) {
+		@for (user of this.filteredUsers ; track user.firstName; let i = $index) {
 			<tr>
-				<th scope="row">{{ i + 1 }}</th>
+        <th scope="row">{{ (userPage - 1) * userPageSize + (i + 1) }}</th>
 				<td>
 					<img
             src="assets/images/avatar1.png"
@@ -53,7 +54,7 @@
 				</td>
 				<td><ngb-highlight [result]="user.email" [term]="filter.value" /></td>
 				<td><ngb-highlight [result]="user.department.name" [term]="filter.value" /></td>
-				<td><ngb-highlight [result]="user.title.titleName" [term]="filter.value" /></td>
+				<td><ngb-highlight [result]="user.title.name" [term]="filter.value" /></td>
 				<td><ngb-highlight [result]="user.title.manager ? 'Yes' : 'No'" [term]="filter.value" /></td>
         <td>
           <!-- Update Button with solid color -->
@@ -88,4 +89,19 @@
 		}
 	</tbody>
 </table>
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination
+    [collectionSize]="userCollectionSize"
+    [(page)]="userPage"
+    [pageSize]="userPageSize"
+    (pageChange)="refreshUsers()"
+  ></ngb-pagination>
+
+  <select class="form-select" style="width: auto" [(ngModel)]="userPageSize" (ngModelChange)="refreshUsers()">
+    <option [ngValue]="2">2 items per page</option>
+    <option [ngValue]="4">4 items per page</option>
+    <option [ngValue]="6">6 items per page</option>
+  </select>
+</div>
+
 </div>
