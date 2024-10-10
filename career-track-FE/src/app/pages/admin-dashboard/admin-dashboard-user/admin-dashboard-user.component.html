@@ -1,3 +1,4 @@
+<div class="container">
 @if(updateEnabled){
   <app-admin-update [updateType]="'User'" (cancel)="onCancel()" [id]="this.id"></app-admin-update>
 }
@@ -62,7 +63,7 @@
             (click)="onUpdate(user.id)"
             style="background-color: #0d6efd; border-color: #0d6efd;">
             Update User
-          </button> |
+          </button>
                      |
                     <button
                     type="button"
@@ -87,3 +88,4 @@
 		}
 	</tbody>
 </table>
+</div>

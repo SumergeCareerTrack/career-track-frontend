@@ -19,18 +19,18 @@ export class AdminUpdateLearningComponent {
   @Input() id: string = '';
   learning: LearningResp | undefined;
 
-  chosenType = 'Choose Type';
-  chosenSubject = 'Choose Subject';
   chosenSubjectType='Choose Subject Type';
-  typeId = '';
+  chosenSubject = 'Choose Subject';
+  chosenType = 'Choose Type';
   subjectId = '';
-  newType=false;
+  typeId = '';
   newSubject=false;
-  types: TypeResp[] = [];
+  newType=false;
   subjects: SubjectResp[] = [];
-  updateLearning: FormGroup;
-  subjectTypes = Object.values(SubjectType);
+  types: TypeResp[] = [];
   selectedSubjectType: SubjectType | undefined;
+  subjectTypes = Object.values(SubjectType);
+  updateLearning: FormGroup;
   isAdmin:boolean;
 
 
@@ -39,8 +39,7 @@ export class AdminUpdateLearningComponent {
   constructor(
     formBuilder: FormBuilder,
     private sharedDataService: SharedDataService,
-    private cookieService: CookieService,
-    private router:Router
+    private cookieService: CookieService
   ) {
     this.isAdmin = this.cookieService.get('isAdmin') === 'true';
     this.updateLearning = formBuilder.group({
@@ -55,7 +54,13 @@ export class AdminUpdateLearningComponent {
       description: ['', [Validators.required]],
       lengthInHours: [Number, [Validators.required]],
     });
+  }
 
+  onCancel() {
+    this.cancel.emit();
+    this.ngOnInit();
+  }
+  ngOnInit() {
     this.sharedDataService.getAllTypes().subscribe({
       next: (response) => {
         this.types = response as TypeResp[];
@@ -68,15 +73,6 @@ export class AdminUpdateLearningComponent {
         this.subjects.push({ id: '0', name: 'Custom Subject', type: "" });
       },
     });
-
-  }
-
-  onCancel() {
-    this.cancel.emit();
-    this.ngOnInit();
-  }
-  ngOnInit() {
-
   }
   setType(type: string,id:string) {
     this.updateLearning.get('type')?.setValue(type);

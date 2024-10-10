@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminDashboardLearningComponent } from './admin-dashboard-learning.component';
+import { AdminDashboardLearningComponent } from '../admin-dashboard/admin-dashboard-learning.component';
 
 describe('AdminDashboardLearningComponent', () => {
   let component: AdminDashboardLearningComponent;
