@@ -1,0 +1,56 @@
+@if(updateEnabled||createEnabled){
+  <div class="backdrop"></div>
+  <dialog open class="dialogueDiv">
+    @if(updateEnabled){
+      <h1>Update Type</h1>
+    }
+    @else if(createEnabled){
+      <h1>Create Type</h1>
+
+    }
+      <form [formGroup]="updateCreateType" (ngSubmit)="onSubmit()" class="d-flex flex-column">
+
+      <div class="form-group col-md-6 col-12">
+        <label for="TypeName"
+          >Type Name<span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          class="form-control"
+          formControlName="typeName"
+          id="typeName"
+          placeholder="Enter Type Name"
+        />
+        @if (updateCreateType.get('typeName')?.invalid &&
+        updateCreateType.get('typeName')?.touched&&this.createEnabled) {
+        <div class="text-danger">Type name is required.</div>
+        }
+      </div>
+
+      <div class="form-group col-md-6 col-12">
+        <label for="lastName"
+          >Type Base Score<span class="text-danger">*</span></label
+        >
+        <input
+          type="number"
+          class="form-control"
+          formControlName="typeBaseScore"
+          id="typeBaseScore"
+          placeholder="Enter Type Base Score"
+        />
+        @if (updateCreateType.get('typeBaseScore')?.invalid &&
+        updateCreateType.get('typeBaseScore')?.touched&&this.createEnabled) {
+        <div class="text-danger">TypeBaseScore is required.</div>
+        }
+      </div>
+
+
+
+      <p class="actions">
+        <button type="button" (click)="onCancel()">Cancel</button>
+        <button type="submit" (ngOnSubmit)="onSubmit()">Submit</button>
+      </p>
+</form>
+</dialog>
+}
+
