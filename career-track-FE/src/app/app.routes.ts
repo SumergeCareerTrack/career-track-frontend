@@ -31,6 +31,4 @@ export const routes: Routes = [
   { path: 'admin-dashboard/user', component: AdminDashboardComponent },
   { path: 'admin-dashboard/learning', component: AdminDashboardLearningComponent },
   { path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
-  { path: 'admin-dashboard/booster', component: AdminDashboardComponent },
-
 ];
