@@ -43,6 +43,21 @@ export class AdminUpdateComponent {
     private router: Router
   ) {
     this.isAdmin = this.cookieService.get('isAdmin') === 'true';
+    this.passwordChange = formBuilder.group({});
+    this.updateUser = formBuilder.group({});
+    this.formCreation(formBuilder, this.updateUser, this.passwordChange);
+    this.fetchDepartments();
+
+  }
+  fetchDepartments() {
+    this.sharedDataService.getAllDepartments().subscribe({
+      next: (response) => {
+        this.departments = response as Department[];
+      },
+    });
+  }
+
+  formCreation(formBuilder:FormBuilder,updateUser:FormGroup,passwordChange:FormGroup){
     this.updateUser = formBuilder.group({
       email: ['', [Validators.email]],
       password: ['', [Validators.minLength(6)]],
@@ -59,19 +74,6 @@ export class AdminUpdateComponent {
       confirmPassword: ['', [Validators.minLength(6), this.passwordMatch]],
 
     });
-
-    this.sharedDataService.getAllDepartments().subscribe({
-      next: (response) => {
-        this.departments = response as Department[];
-      },
-    });
-
-    this.sharedDataService.getAllTitles().subscribe({
-      next: (response) => {
-        this.titles = response as Title[];
-      },
-    });
-
   }
   passwordMatch(control: FormGroup): { [key: string]: boolean } | null {
     const password = control.get('password');
@@ -145,7 +147,6 @@ export class AdminUpdateComponent {
       managerId: this.managerId || this.user.managerId,
       department: this.departmentId+'' || this.user.title.departmentId,
       titleName: this.titleId+"" || this.user.title.id,
-
     };
     this.sharedDataService.updateUser(userReq).subscribe({
       next: (response) => {

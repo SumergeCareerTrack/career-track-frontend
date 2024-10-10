@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -60,19 +60,25 @@ export class AdminUpdateLearningComponent {
     this.cancel.emit();
     this.ngOnInit();
   }
-  ngOnInit() {
-    this.sharedDataService.getAllTypes().subscribe({
-      next: (response) => {
-        this.types = response as TypeResp[];
-        this.types.push({ id: '0', name: 'Custom Type', baseScore: 0 });
-      },
-    });
+  fetchSubjects(){
     this.sharedDataService.getAllSubjects().subscribe({
       next: (response) => {
         this.subjects = response as SubjectResp[];
         this.subjects.push({ id: '0', name: 'Custom Subject', type: "" });
       },
     });
+  }
+  fetchTypes(){
+    this.sharedDataService.getAllTypes().subscribe({
+      next: (response) => {
+        this.types = response as TypeResp[];
+        this.types.push({ id: '0', name: 'Custom Type', baseScore: 0 });
+      },
+    });
+  }
+  ngOnInit() {
+    this.fetchSubjects()
+    this.fetchTypes()
   }
   setType(type: string,id:string) {
     this.updateLearning.get('type')?.setValue(type);
@@ -106,6 +112,54 @@ export class AdminUpdateLearningComponent {
     this.selectedSubjectType = subjectType as SubjectType;
     this.updateLearning.get('subjectType')?.setValue(subjectType);
     }
+
+  createTypeReq(typeIdSignal$: Observable<Object>){
+    let typeReq:TypeReq={
+      name: '',
+      baseScore: 0
+    };
+    if(this.newType&&this.isAdmin){
+
+        typeReq={
+        name: this.updateLearning.get('customTypeName')?.value,
+        baseScore: this.updateLearning.get('customTypeBaseScore')?.value
+      };
+
+    } else if(this.newType&&!this.isAdmin){
+       typeReq={
+        name: this.updateLearning.get('customTypeName')?.value,
+        baseScore: 2 //Base Score
+      };
+    }
+    typeIdSignal$=this.sharedDataService.createType(typeReq);
+    return typeIdSignal$;
+  }
+  createSubjectReq(subjectIdSignal$: Observable<Object>){
+    let subjectReq:SubjectReq={
+      type: "",
+      name: ""
+    }
+    if(this.newSubject){
+       subjectReq={
+        type: this.updateLearning.get('customSubjectType')?.value,
+        name: this.updateLearning.get('customSubjectName')?.value
+      }
+    }
+    return subjectIdSignal$=this.sharedDataService.createSubject(subjectReq);
+
+  }
+  createLearningReq(){
+    const learning: LearningReq = {
+      type: this.typeId || "",
+      subject: this.subjectId || "",
+      title: this.updateLearning.get('title')?.value || null,
+      url: this.updateLearning.get('url')?.value || null,
+      description: this.updateLearning.get('description')?.value || null,
+      lengthInHours: this.updateLearning.get('lengthInHours')?.value || null,
+      pending: this.updateLearning.get("pending")?.value || null
+    };
+    return learning
+  }
    onSubmit() {
     this.sharedDataService.getLearningById(this.id).subscribe({
       next: (response) => {
@@ -115,27 +169,8 @@ export class AdminUpdateLearningComponent {
     });
     let typeIdSignal$=of<any>(Object)
     let subjectIdSignal$=of<any>(Object)
-    if(this.newType&&this.isAdmin){
-      const typeReq:TypeReq={
-        name: this.updateLearning.get('customTypeName')?.value,
-        baseScore: this.updateLearning.get('customTypeBaseScore')?.value
-      };
-      typeIdSignal$=this.sharedDataService.createType(typeReq);
-    } else if(this.newType&&!this.isAdmin){
-      const typeReq:TypeReq={
-        name: this.updateLearning.get('customTypeName')?.value,
-        baseScore: 2 //Base Score
-      };
-      typeIdSignal$=this.sharedDataService.createType(typeReq);
-
-    }
-    if(this.newSubject){
-      const subjectReq:SubjectReq={
-        type: this.updateLearning.get('customSubjectType')?.value,
-        name: this.updateLearning.get('customSubjectName')?.value
-      }
-      subjectIdSignal$=this.sharedDataService.createSubject(subjectReq);
-    }
+    typeIdSignal$=this.createTypeReq(typeIdSignal$);
+    subjectIdSignal$=this.createSubjectReq(subjectIdSignal$);
     forkJoin([typeIdSignal$, subjectIdSignal$])
     .pipe(
       switchMap(([typeResponse, subjectResponse]) => {
@@ -143,21 +178,11 @@ export class AdminUpdateLearningComponent {
           const responseType = typeResponse as TypeResp;
           this.typeId = responseType.id;
         }
-
         if (this.newSubject) {
           const responseSubject = subjectResponse as SubjectResp;
           this.subjectId = responseSubject.id;
         }
-
-        const learning: LearningReq = {
-          type: this.typeId || "",
-          subject: this.subjectId || "",
-          title: this.updateLearning.get('title')?.value || null,
-          url: this.updateLearning.get('url')?.value || null,
-          description: this.updateLearning.get('description')?.value || null,
-          lengthInHours: this.updateLearning.get('lengthInHours')?.value || null,
-          pending: this.updateLearning.get("pending")?.value || null
-        };
+        const learning: LearningReq = this.createLearningReq();
 
         return this.sharedDataService.updateLearning(this.id,learning);
       })
