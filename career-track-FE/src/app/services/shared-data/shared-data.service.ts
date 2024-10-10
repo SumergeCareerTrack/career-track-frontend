@@ -7,6 +7,8 @@ import { LearningReq, SubjectReq, TypeReq, UserRequest, UserResponse } from '../
 })
 export class SharedDataService {
 
+
+
   baseUrl = 'http://localhost:8080';
   learningBaseUrl = 'http://localhost:8081';
   constructor(private httpClient: HttpClient) {}
@@ -61,17 +63,31 @@ export class SharedDataService {
   createLearning(Learning:LearningReq){
     return this.httpClient.post(this.learningBaseUrl + '/learnings/',Learning);
   }
-  createType(Type:TypeReq){
-    return this.httpClient.post(this.learningBaseUrl + '/learnings/types/',Type);
-  }
-  createSubject(Subject:SubjectReq){
-    return this.httpClient.post(this.learningBaseUrl + '/learnings/subjects/',Subject);
-  }
   updateLearning(id:string,Learning:LearningReq){
     return this.httpClient.put(this.learningBaseUrl + '/learnings/'+id,Learning);
   }
   deleteLearning(leagningId: string) {
     let params = new HttpParams().set('id', leagningId);
     return this.httpClient.delete(this.learningBaseUrl + '/learnings/' ,{params});
+  }
+  createType(Type:TypeReq){
+    return this.httpClient.post(this.learningBaseUrl + '/learnings/types/',Type);
+  }
+  updateType(id: string, Type: TypeReq) {
+    return this.httpClient.put(this.learningBaseUrl + '/learnings/types/'+id,Type);
+  }
+  deleteType(typeId: string) {
+    let params = new HttpParams().set('id', typeId);
+    return this.httpClient.delete(this.learningBaseUrl + '/learnings/types/' ,{params});
+  }
+  createSubject(Subject:SubjectReq){
+    return this.httpClient.post(this.learningBaseUrl + '/learnings/subjects/',Subject);
+  }
+  updateSubject(id: string, subject: SubjectReq) {
+    return this.httpClient.put(this.learningBaseUrl + '/learnings/subjects/'+id,subject);
+  }
+  deleteSubject(subjectId: string) {
+    let params = new HttpParams().set('id', subjectId);
+    return this.httpClient.delete(this.learningBaseUrl + '/learnings/subjects/' ,{params});
   }
 }
