@@ -1,4 +1,4 @@
-import { Department, Title, UserRequest, UserResponse } from './../../../interfaces/backend-requests';
+import { Department, Title, UserRequest, UserResponse } from '../../../interfaces/backend-requests';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
@@ -20,28 +20,21 @@ export class AdminUpdateComponent {
   @Input() id: string = '';
 
   chosenDepartment = 'Choose Department';
+  chosenManager = 'Choose Manager';
   chosenTitle = 'Choose Title';
-  managerId = '';
   departmentId = '';
+  managerId = '';
   titleId = '';
   password='';
   departments: Department[] = [];
   titles: Title[] = [];
-  updateUser: FormGroup;
-  passwordChange: FormGroup;
   user: UserResponse | undefined;
-  isAdmin: boolean;
-  chosenManager = 'Choose Manager';
   managers: UserRequest[] = [];
+  passwordChange: FormGroup;
+  updateUser: FormGroup;
+  isAdmin: boolean;
 
-  passwordMatch(control: FormGroup): { [key: string]: boolean } | null {
-    const password = control.get('password');
-    const confirmPassword = control.get('confirmPassword');
-    if (password && confirmPassword && password.value !== confirmPassword.value) {
-      return { 'mismatch': true };
-    }
-    return null;
-  }
+
 
   constructor(
     formBuilder: FormBuilder,
@@ -78,8 +71,16 @@ export class AdminUpdateComponent {
         this.titles = response as Title[];
       },
     });
-  }
 
+  }
+  passwordMatch(control: FormGroup): { [key: string]: boolean } | null {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+    if (password && confirmPassword && password.value !== confirmPassword.value) {
+      return { 'mismatch': true };
+    }
+    return null;
+  }
   onCancel() {
     this.cancel.emit();
   }
@@ -118,7 +119,6 @@ export class AdminUpdateComponent {
   }
 
   onSubmit() {
-
     this.sharedDataService.getUserById(this.id).subscribe({
       next: (response) => {
         this.user = response as UserResponse;
@@ -147,9 +147,6 @@ export class AdminUpdateComponent {
       titleName: this.titleId+"" || this.user.title.id,
 
     };
-
-    console.log('Original User:', this.user);
-    console.log('Updated User Request:', userReq);
     this.sharedDataService.updateUser(userReq).subscribe({
       next: (response) => {
         console.log("Done",response);

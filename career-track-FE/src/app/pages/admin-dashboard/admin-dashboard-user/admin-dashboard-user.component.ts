@@ -18,14 +18,14 @@ import { Router } from '@angular/router';
 export class AdminDashboardComponent {
 
 
-  users: UserResponse[] =[]
-  users$: Observable<UserResponse[]>;
-  @Output() cancel = new EventEmitter<void>()
-
   filter = new FormControl('', { nonNullable: true });
-  updateEnabled=false;
+  @Output() cancel = new EventEmitter<void>()
+  users$: Observable<UserResponse[]>;
+  users: UserResponse[] =[]
   changePassword=false;
+  updateEnabled=false;
   id='';
+
 
 
 
@@ -35,6 +35,7 @@ export class AdminDashboardComponent {
       map((text) => this.searchUser(text)),
 		);
   }
+
   ngOnInit() {
     this.sharedDataService.getAllUsers().subscribe({
       next: (data: any) => {
@@ -46,7 +47,6 @@ export class AdminDashboardComponent {
       }
     });
 
-    // Initialize users$ with filtered users based on valueChanges in filter
     this.users$ = this.filter.valueChanges.pipe(
       startWith(''),
       map((text) => this.searchUser(text))
@@ -58,7 +58,6 @@ export class AdminDashboardComponent {
   }
   onAddUser() {
     this.router.navigate(['/admin-dashboard/add-user']);
-
   }
 
 
