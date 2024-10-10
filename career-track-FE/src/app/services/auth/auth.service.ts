@@ -1,10 +1,11 @@
 import { DestroyRef, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../interfaces/user.model';
-import { BehaviorSubject, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, Subscription, switchMap, tap } from 'rxjs';
 import { AuthResponseData } from '../../interfaces/auth-response-data';
 import { UserResponse } from '../../interfaces/backend-requests';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +16,8 @@ export class AuthService {
   constructor(
     private httpClient: HttpClient,
     private cookieService: CookieService,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private router: Router
   ) {}
 
   autoLogin() {
@@ -23,44 +25,70 @@ export class AuthService {
     if (!userData) {
       return;
     }
-    console.log('User Data: ', userData);
+    const expiresAt = this.cookieService.get('expiresIn');
+    const expirationDate = new Date(expiresAt);
+
+    if (expirationDate < new Date()) {
+      this.logOut();
+      return;
+    }
+
+    const expirationDuration = expirationDate.getTime() - new Date().getTime();
+    this.autoLogout(expirationDuration);
     const user: UserResponse = JSON.parse(userData);
     this.user.next(user);
   }
 
+  autoLogout(expiresIn: number) {
+    setTimeout(() => {
+      this.logOut();
+    }, expiresIn);
+  }
+
   logOut() {
-    this.cookieService.delete('token');
-    this.cookieService.delete('UserData');
+    this.cookieService.deleteAll();
+    this.user.next(null);
+    this.router.navigate(['/auth']);
   }
 
   logIn(email: string, password: string) {
     return this.httpClient
-      .post<AuthResponseData>(
-        this.baseURL + '/auth/login',
-        {
-          email,
-          password,
-        },
-        { headers: {} }
-      )
+      .post<AuthResponseData>(this.baseURL + '/auth/login', {
+        email,
+        password,
+      })
       .pipe(
         tap((tokenData) => {
           this.cookieService.set('token', tokenData.token);
-
-          const subscription = this.getUserByEmail(email).subscribe(
-            (userData: any) => {
-              this.handleLoginProcess(userData);
-            }
-          );
-          this.destroySubsription(subscription);
+        }),
+        switchMap(() => {
+          return this.getUserByEmail(email);
+        }),
+        tap((userData: any) => {
+          this.handleLoginProcess(userData);
         })
       );
   }
 
   handleLoginProcess(userResponse: UserResponse) {
     this.user.next(userResponse);
+    console.log('User Response: ', userResponse);
     this.cookieService.set('UserData', JSON.stringify(userResponse));
-    this.cookieService.set('isAdmin',userResponse.department.name === 'HR' ? 'true' : 'false');
+    this.cookieService.set(
+      'isAdmin',
+      userResponse.department.name === 'HR' ? 'true' : 'false'
+    );
+    this.cookieService.set(
+      'isManager',
+      userResponse.title.manager ? 'true' : 'false'
+    );
+    this.setExpiration();
+  }
+
+  setExpiration() {
+    const expirationTime = new Date(new Date().getTime() + 3600 * 1000);
+    this.cookieService.set('expiresIn', expirationTime.toString());
+    this.autoLogout(3600 * 1000);
   }
 
   createUser(newUser: User) {

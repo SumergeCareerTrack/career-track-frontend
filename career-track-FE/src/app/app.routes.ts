@@ -7,7 +7,9 @@ import { LearningsComponent } from './components/learnings/learnings/learnings.c
 import { FullLearningComponent } from './components/learnings/learning-full/learning-full.component';
 import { NewLearningComponent } from './components/learnings/new-learning/new-learning.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard/admin-dashboard.component';
+import { SubmissionsComponent } from './pages/submissions/submissions.component';
 export const routes: Routes = [
+  //TODO add childeren and parent
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'auth',
@@ -16,15 +18,16 @@ export const routes: Routes = [
   {
     path: 'user-creation',
     component: CreateUserComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
   },
   { path: 'learnings', component: LearningsComponent },
   { path: 'learning/:id', component: FullLearningComponent },
-  { path: 'learning-add', component:NewLearningComponent},
+  { path: 'learning-add', component: NewLearningComponent },
   { path: 'admin-dashboard', component: AdminDashboardComponent },
+  { path: 'submissions', component: SubmissionsComponent },
 ];

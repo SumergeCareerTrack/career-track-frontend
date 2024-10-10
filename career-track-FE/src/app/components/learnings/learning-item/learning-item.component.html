@@ -1,7 +1,13 @@
-<div class="learning-card">
-  <h5>{{ learning.subjectName }}</h5>
-  <p>{{ learning.typeName }}</p>
-  <p>{{ learning.description }}</p>
-  <button (click)="onViewMore()">View More</button>
-
+<div class="card learning-card" style="width: 18rem">
+  <div class="card-body">
+    <h5 class="card-title">{{ learning.subjectName }}</h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">
+      {{ learning.typeName }}
+    </h6>
+    <p class="card-text">{{ learning.description }}</p>
+    <div class="d-flex justify-content-between">
+      <a class="btn btn-primary" (click)="onViewMore()">View</a>
+      <a class="btn btn-success">Submit Learning</a>
+    </div>
+  </div>
 </div>

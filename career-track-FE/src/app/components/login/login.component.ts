@@ -33,14 +33,11 @@ export class LoginComponent {
     this.isFailed = false;
     if (this.loginForm.valid) {
       this.authService
-        .logIn(
-          this.loginForm.value.email,
-          this.loginForm.value.password
-          // this.authService.hashPasswordSync(this.loginForm.value.password)
-        )
+        .logIn(this.loginForm.value.email, this.loginForm.value.password)
         .subscribe({
           next: (response) => {
             this.router.navigate(['/dashboard']);
+            console.log(response);
           },
           error: (error) => {
             this.isFailed = true;

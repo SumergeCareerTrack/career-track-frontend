@@ -77,18 +77,51 @@
           >
         </li>
         @if(this.isAdmin) {
-          <li class="nav-item" id="floatright">
-            <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Manage</button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="custom-dropdown-menu">
-                <button ngbDropdownItem (click)="AdminSelectedOption='ManageUser'" routerLink="admin-dashboard">Manage Users</button>
-                <button ngbDropdownItem (click)="AdminSelectedOption='ManageLearning'" routerLink="admin-dashboard">Manage Learnings</button>
-                <button ngbDropdownItem (click)="AdminSelectedOption='ManageCP'" routerLink="admin-dashboard">Manage Career Package</button>
-                <button ngbDropdownItem (click)="AdminSelectedOption='ManageBooster'" routerLink="admin-dashboard">Manage Boosters</button>
-              </div>
+        <li class="nav-item" id="floatright">
+          <div ngbDropdown class="d-inline-block">
+            <button
+              class="btn btn-outline-primary"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              Manage
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic1"
+              class="custom-dropdown-menu"
+            >
+              <button
+                ngbDropdownItem
+                (click)="AdminSelectedOption = 'ManageUser'"
+                routerLink="admin-dashboard"
+              >
+                Manage Users
+              </button>
+              <button
+                ngbDropdownItem
+                (click)="AdminSelectedOption = 'ManageLearning'"
+                routerLink="admin-dashboard"
+              >
+                Manage Learnings
+              </button>
+              <button
+                ngbDropdownItem
+                (click)="AdminSelectedOption = 'ManageCP'"
+                routerLink="admin-dashboard"
+              >
+                Manage Career Package
+              </button>
+              <button
+                ngbDropdownItem
+                (click)="AdminSelectedOption = 'ManageBooster'"
+                routerLink="admin-dashboard"
+              >
+                Manage Boosters
+              </button>
             </div>
-
-          </li>
+          </div>
+        </li>
         }
       </ul>
       @if (isAuthenticated) {

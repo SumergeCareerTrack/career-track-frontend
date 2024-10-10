@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LearningResp } from '../../../interfaces/backend-requests';
 
@@ -7,7 +13,7 @@ import { LearningResp } from '../../../interfaces/backend-requests';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './learning-item.component.html',
-  styleUrls: ['./learning-item.component.css']
+  styleUrls: ['./learning-item.component.css'],
 })
 export class LearningItemComponent {
   @Input() learning!: LearningResp;
