@@ -68,6 +68,7 @@ export class AuthService {
           this.handleLoginProcess(userData);
         })
       );
+
   }
 
   handleLoginProcess(userResponse: UserResponse) {

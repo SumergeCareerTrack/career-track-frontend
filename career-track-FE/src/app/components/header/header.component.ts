@@ -17,7 +17,7 @@ export class HeaderComponent {
   loc = window.location;
   navbarCollapsed = true;
   isAuthenticated = false;
-  AdminOptions = ["Manage Users", "Manage Career Package", "Manage boosters","Manage Learnings "];
+  AdminOptions = ["Manage Users", "Manage Career Package","Manage Learnings "];
   AdminSelectedOption: string = "Manage";
   constructor(private authService: AuthService, private router: Router,private CookieService:CookieService) {
     this.isAdmin = this.CookieService.get('isAdmin') === 'true';

@@ -36,6 +36,7 @@ export class LoginComponent {
         .logIn(this.loginForm.value.email, this.loginForm.value.password)
         .subscribe({
           next: (response) => {
+            console.log(response)
             this.router.navigate(['/dashboard']);
             console.log(response);
           },

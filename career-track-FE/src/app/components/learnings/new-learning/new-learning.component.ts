@@ -1,11 +1,11 @@
 import { CookieService } from 'ngx-cookie-service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, PipeTransform } from '@angular/core';
 import { LearningReq, SubjectReq, SubjectResp, SubjectType, TypeReq, TypeResp } from '../../../interfaces/backend-requests';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
 import { Title } from '@angular/platform-browser';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -43,6 +43,28 @@ export class NewLearningComponent {
     private router:Router
   ) {
     this.isAdmin = this.cookieService.get('isAdmin') === 'true';
+    this.createLearning = formBuilder.group({});
+    this.createForm(formBuilder,this.createLearning);
+    this.fetchAndUpdateTypes();
+    this.fetchAndUpdateSubjects();
+  }
+  fetchAndUpdateSubjects(){
+    this.sharedDataService.getAllSubjects().subscribe({
+      next: (response) => {
+        this.subjects = response as SubjectResp[];
+        this.subjects.push({ id: '0', name: 'Custom Subject', type: "" });
+      },
+    });
+  }
+  fetchAndUpdateTypes(){
+    this.sharedDataService.getAllTypes().subscribe({
+      next: (response) => {
+        this.types = response as TypeResp[];
+        this.types.push({ id: '0', name: 'Custom Type', baseScore: 0 });
+      },
+    });
+  }
+  createForm(formBuilder:FormBuilder,createLearning:FormGroup){
     this.createLearning = formBuilder.group({
       type: ['', [Validators.required]],
       customTypeName: [''],
@@ -55,25 +77,13 @@ export class NewLearningComponent {
       description: ['', [Validators.required]],
       lengthInHours: [Number, [Validators.required]],
     });
-
-    this.sharedDataService.getAllTypes().subscribe({
-      next: (response) => {
-        this.types = response as TypeResp[];
-        this.types.push({ id: '0', name: 'Custom Type', baseScore: 0 });
-      },
-    });
-    this.sharedDataService.getAllSubjects().subscribe({
-      next: (response) => {
-        this.subjects = response as SubjectResp[];
-        this.subjects.push({ id: '0', name: 'Custom Subject', type: "" });
-      },
-    });
-
   }
-
   onCancel() {
     this.cancel.emit();
-    this.router.navigate(['/learnings']);
+    this.ngOnInit();
+  }
+  ngOnInit() {
+
   }
   setType(type: string,id:string) {
     this.createLearning.get('type')?.setValue(type);
@@ -108,30 +118,65 @@ export class NewLearningComponent {
     this.selectedSubjectType = subjectType as SubjectType;
     this.createLearning.get('subjectType')?.setValue(subjectType);
     }
+
+    createTypeReq(typeIdSignal$: Observable<Object>){
+      let typeReq:TypeReq={
+        name: '',
+        baseScore: 0
+      };
+      if(this.newType&&this.isAdmin){
+
+          typeReq={
+          name: this.createLearning.get('customTypeName')?.value,
+          baseScore: this.createLearning.get('customTypeBaseScore')?.value
+        };
+
+      } else if(this.newType&&!this.isAdmin){
+         typeReq={
+          name: this.createLearning.get('customTypeName')?.value,
+          baseScore: 2 //Base Score
+        };
+      }
+      typeIdSignal$=this.sharedDataService.createType(typeReq);
+      return typeIdSignal$;
+    }
+    createSubjectReq(subjectIdSignal$: Observable<Object>){
+      let subjectReq:SubjectReq={
+        type: "",
+        name: ""
+      }
+      if(this.newSubject){
+         subjectReq={
+          type: this.createLearning.get('customSubjectType')?.value,
+          name: this.createLearning.get('customSubjectName')?.value
+        }
+      }
+      return subjectIdSignal$=this.sharedDataService.createSubject(subjectReq);
+
+    }
+    createLearningReq(){
+      let learning: LearningReq = {
+        type: this.typeId || "",
+        subject: this.subjectId || "",
+        title: this.createLearning.get('title')?.value || null,
+        url: this.createLearning.get('url')?.value || null,
+        description: this.createLearning.get('description')?.value || null,
+        lengthInHours: this.createLearning.get('lengthInHours')?.value || null,
+        pending: this.createLearning.get("pending")?.value || null
+      };
+      if(this.isAdmin){
+        learning.pending=true;
+      }
+      else{
+        learning.pending=false;
+      }
+      return learning
+    }
    onSubmit() {
     let typeIdSignal$=of<any>(Object)
     let subjectIdSignal$=of<any>(Object)
-    if(this.newType&&this.isAdmin){
-      const typeReq:TypeReq={
-        name: this.createLearning.get('customTypeName')?.value,
-        baseScore: this.createLearning.get('customTypeBaseScore')?.value
-      };
-      typeIdSignal$=this.sharedDataService.createType(typeReq);
-    } else if(this.newType&&!this.isAdmin){
-      const typeReq:TypeReq={
-        name: this.createLearning.get('customTypeName')?.value,
-        baseScore: 2 //Base Score
-      };
-      typeIdSignal$=this.sharedDataService.createType(typeReq);
-
-    }
-    if(this.newSubject){
-      const subjectReq:SubjectReq={
-        type: this.createLearning.get('customSubjectType')?.value,
-        name: this.createLearning.get('customSubjectName')?.value
-      }
-      subjectIdSignal$=this.sharedDataService.createSubject(subjectReq);
-    }
+    typeIdSignal$=this.createTypeReq(typeIdSignal$);
+    subjectIdSignal$=this.createSubjectReq(subjectIdSignal$);
     forkJoin([typeIdSignal$, subjectIdSignal$])
     .pipe(
       switchMap(([typeResponse, subjectResponse]) => {
@@ -145,14 +190,7 @@ export class NewLearningComponent {
           this.subjectId = responseSubject.id;
         }
 
-        const learning: LearningReq = {
-          type: this.typeId,
-          subject: this.subjectId,
-          title: this.createLearning.get('title')?.value,
-          url: this.createLearning.get('url')?.value,
-          description: this.createLearning.get('description')?.value,
-          lengthInHours: this.createLearning.get('lengthInHours')?.value
-        };
+      const learning:LearningReq=this.createLearningReq()
 
         return this.sharedDataService.createLearning(learning);
       })

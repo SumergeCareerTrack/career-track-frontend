@@ -13,6 +13,7 @@ import {
   Title,
   UserRequest,
 } from '../../interfaces/backend-requests';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-user',
@@ -23,6 +24,7 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class CreateUserComponent {
+
   chosenTitle = 'Choose Title';
   chosenDepartment = 'Choose Department';
   chosenManager = 'Choose Manager';
@@ -37,7 +39,8 @@ export class CreateUserComponent {
   constructor(
     formBuilder: FormBuilder,
     private authService: AuthService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private router:Router
   ) {
     this.createUserForm = formBuilder.group({
       firstName: ['', [Validators.required]],
@@ -47,7 +50,7 @@ export class CreateUserComponent {
       title: ['', [Validators.required]],
       department: ['', [Validators.required]],
       isNotManaged: [false],
-      manager: [''],
+      manager: ['',[Validators.required]],
     });
 
     //fetching data upon initialization
@@ -60,11 +63,12 @@ export class CreateUserComponent {
 
     this.createUserForm.get('isNotManaged')?.valueChanges.subscribe((value) => {
       if (value) {
-        this.createUserForm
-          .get('manager')
-          ?.setValidators([Validators.required]);
-      } else {
         this.createUserForm.get('manager')?.clearValidators();
+        this.createUserForm.get('manager')?.setValue('');
+        console.log("true - manager not required");
+      } else {
+        this.createUserForm.get('manager')?.setValidators([Validators.required]);
+        console.log("false - manager required");
       }
       this.createUserForm.get('manager')?.updateValueAndValidity();
     });
@@ -75,6 +79,7 @@ export class CreateUserComponent {
     this.titleId = titleId;
     this.departmentId = departmentId;
     this.createUserForm.get('title')?.setValue(title);
+
   }
 
   setManager(manager: string, managerId: string) {
@@ -103,21 +108,20 @@ export class CreateUserComponent {
           console.log(response);
         },
       });
+      console.log("HERE"+this.titles)
   }
 
   onSubmit() {
     if (this.createUserForm.valid) {
       this.createUserForm.value.title = this.titleId;
       this.createUserForm.value.department = this.departmentId;
-      console.log(this.createUserForm.value);
-      console.log(this.departmentId);
-      console.log(this.titleId);
-      console.log(this.managerId);
+
       this.authService.createUser(this.createUserForm.value).subscribe({
         next: (response) => {
           console.log(response);
         },
       });
+      this.router.navigate(['admin-dashboard/user'])
     } else {
       console.log('Form is invalid');
     }

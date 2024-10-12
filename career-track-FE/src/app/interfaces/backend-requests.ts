@@ -9,8 +9,8 @@ export interface Department {
 export interface Title {
   id: string;
   departmentId: string;
-  titleName: string;
   manager: boolean;
+  name: string;
 }
 
 export interface UserRequest {
@@ -20,17 +20,17 @@ export interface UserRequest {
   id: string;
   managerId: string;
   department: string;
-  title: string;
+  titleName: string;
+  password?:string;
 }
 export interface UserResponse {
-  email: string;
+  id: string;
   firstName: string;
   lastName: string;
-  id: string;
-  managerId: string;
+  email: string;
   department: Department;
   title: Title;
-  token: string;
+  managerId: string;
 }
 
 export interface LearningResp {
@@ -43,6 +43,8 @@ export interface LearningResp {
   subjectType: string;
   subjectName: string;
   lengthInHours: string;
+  pending: boolean;
+
 }
 export interface LearningReq{
   type: UUID;
@@ -51,6 +53,7 @@ export interface LearningReq{
   url: string;
   description: string;
   lengthInHours: string;
+  pending: boolean;
 }
 
 export interface TypeReq{
@@ -94,4 +97,6 @@ export enum SubjectType {
   Functional= 'FUNCTIONAL',
   Organisational= 'ORGANISATIONAL',
 }
+
+
 
