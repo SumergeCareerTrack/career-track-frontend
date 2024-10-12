@@ -21,3 +21,7 @@
 .learning-card button:hover {
   background-color: #0056b3;
 }
+
+.custom-card {
+  z-index: 10;
+}

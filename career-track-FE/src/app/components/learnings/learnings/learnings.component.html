@@ -1,23 +1,60 @@
-<div class="learnings-container">
+<!-- <div class="learnings-container">
   <div class="header">
     <h2>My Learnings</h2>
-    <button class="add-learning-btn" (click)="onStartAddTask()">Add Learning</button>
+    <button class="add-learning-btn" (click)="onStartAddTask()">
+      Add Learning
+    </button>
   </div>
   @if (isAddingTask) {
-    <app-new-learning (cancel)="onCancelAddTask()" />
+  <app-new-learning (cancel)="onCancelAddTask()" />
   }
   <div class="learning-box">
-    <!-- Check if learnings exist -->
     @if(learnings.length === 0) {
-      <p>No learnings found. Please check back later.</p>
-    }
-    @else {
-      @for(learning of learnings; track $index) {
-        <app-learning-item
-          [learning]="learning"
-          (viewMore)="onViewMore(learning.id.toString())"
-        ></app-learning-item>
-      }
-    }
+    <p>No learnings found. Please check back later.</p>
+    } @else { @for(learning of learnings; track $index) {
+    <div class="col-md-3 col-12">
+      <app-learning-item
+        [learning]="learning"
+        (viewMore)="onViewMore(learning.id.toString())"
+      ></app-learning-item>
+    </div>
+    }}
+  </div> -->
+@if (isAddingTask) {
+<app-new-learning (cancel)="onCancelAddTask()" />
+}
+<div class="container">
+  <div class="col-12 mt-5">
+    <div class="d-flex justify-content-between">
+      <h1>Learning Library</h1>
+      <span class="fw-bold d-flex flex-column">
+        Didn't find a good learning ? Add new learning to the library!
+        <button class="add-learning-btn" (click)="onStartAddTask()">
+          Add Learning
+        </button>
+      </span>
+    </div>
+    <div class="col-12">
+      <h5>The more you learn the more you get to the prize!!</h5>
+      <h4 class="mt-5">Library Learnings available</h4>
+      <div class="row mt-4">
+        @if(learnings.length === 0) {
+        <p>No learnings found. Please check back later.</p>
+        } @else { @for(learning of learnings; track $index) {
+        <div
+          class="col-xl-3 col-md-4 col-sm-6 d-flex justify-content-center gap-2 mt-2"
+        >
+          <app-learning-item
+            [learning]="learning"
+            (viewMore)="onViewMore(learning.id.toString())"
+          ></app-learning-item>
+        </div>
+        } } @if (learnings.length > 8 ) {
+        <button class="btn btn-info col-md-2 col-8 mt-4 mx-2 ms-auto">
+          View More
+        </button>
+        }
+      </div>
+    </div>
   </div>
 </div>
