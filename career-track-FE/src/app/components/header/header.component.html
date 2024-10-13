@@ -48,7 +48,11 @@
           <a
             class="nav-link text-light"
             (click)="toggleNavbarCollapsing()"
-            href="#"
+            routerLink="career-packages"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/career-packages'
+            }"
             >Career Packages</a
           >
         </li>
@@ -107,9 +111,9 @@
               >
                 Manage Boosters
               </button>
-<!-- >>>>>>> admin-dashboard-bp -->
+              <!-- >>>>>>> admin-dashboard-bp -->
 
-<!--           <li class="nav-item" id="floatright">
+              <!--           <li class="nav-item" id="floatright">
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Manage</button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="custom-dropdown-menu">

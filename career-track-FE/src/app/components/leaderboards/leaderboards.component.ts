@@ -16,15 +16,14 @@ export class LeaderboardsComponent {
 
   constructor(private userScoresService: UserScoresService) {}
   ngOnInit() {
-    setTimeout(() => {
-      this.positionNames();
-    }, 100);
-
     this.userScoresService.getUserScores().subscribe({
       next: (response) => {
         this.leaderboard = response as any[];
       },
     });
+    setTimeout(() => {
+      this.positionNames();
+    }, 100);
   }
 
   levelIdentifier(score: number): { level: string; color: string } {
