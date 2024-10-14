@@ -21,6 +21,11 @@
   top: 1px;
   right: 8%;
 }
+#floatright-img {
+  position: absolute;
+  top: 10%;
+  right: 16%;
+}
 .custom-dropdown-menu {
   position: absolute;
   top: 100%;
@@ -34,4 +39,20 @@
   overflow: visible;
 }
 
+.notifications {
+  background: none; /* Remove default background */
+  border: none; /* Remove border */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  width: auto; /* Ensure width is auto */
+  height: auto; /* Ensure height is auto */
+  display: inline-flex; /* Align items */
+  align-items: center; /* Center vertically */
+  position: relative; /* Position relative */
+  right: 50;}
 
+.notifications img {
+  width: 35px; /* or your desired width */
+  height: 35px; /* or your desired height */
+  object-fit: contain; /* Ensure the image fits without distortion */
+}

@@ -63,9 +63,15 @@
             }"
             >Learnings Library</a
           >
+
+        </li>
+        <li class="nav-item" id="floatright-img">
+          <button class="notifications" routerLink="notifications"><img src="../../../assets/images/bell.png"/></button>
+
         </li>
         @if(this.isAdmin) {
           <li class="nav-item" id="floatright">
+
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Manage</button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="custom-dropdown-menu">
