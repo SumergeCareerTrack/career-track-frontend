@@ -21,7 +21,6 @@ export class LearningsComponent {
 
   ) {
     const userData = this.cookieService.get('UserData');
-    const user: UserResponse = JSON.parse(userData);
     this.sharedDataService.getAllLearnings().subscribe({
       next: (response) => {
         this.learnings = response as LearningResp[];
