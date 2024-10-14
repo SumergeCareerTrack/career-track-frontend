@@ -1,0 +1,16 @@
+<div class="card border-0" [ngClass]="{ notReadBackground: !card.seen }">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-10 col-sm-10">
+        <div class="row">
+            <p class="mb-0">
+              <span class="name fw-bold">{{ card.name }} </span><br>
+              <span> {{card.actor?.firstName}} has {{ card.name }} {{ card.entityTypeName }} </span><br>
+              <span>with ID:  </span><br>
+              <span>On the </span><br>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

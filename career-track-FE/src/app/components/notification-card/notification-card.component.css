@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;800&display=swap");
+
+p {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 14px;
+}
+
+.avatar,
+.commentPicture {
+  max-width: 2.5rem;
+}
+
+.name:hover,
+.link:hover {
+  cursor: pointer;
+  color: hsl(219, 85%, 26%);
+}
+.message:hover {
+  cursor: pointer;
+  background-color: hsl(205, 33%, 90%);
+}
+
+.commentPicture:hover {
+  cursor: pointer;
+  border: 1.5px solid #e4eff9;
+  border-radius: 8px;
+}
+
+.notReadBackground {
+  background-color: #c9ccce;
+}
+
+.dot {
+  height: 7px;
+  width: 7px;
+  background-color: #ff453f;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 2px;
+  margin-left: 5px;
+}
+
+.lightgrey {
+  color: #97979e;
+}
+
+.col-sm-2-avatar {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media (min-width: 768px) {
+  .col-sm-2-avatar {
+    flex: 0 0 auto;
+    width: 10.666667%;
+  }
+}
+
+.col-sm-2 {
+  flex: 0 0 auto;
+  width: 10.666667%;
+}
