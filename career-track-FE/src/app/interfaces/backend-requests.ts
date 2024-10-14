@@ -98,5 +98,35 @@ export enum SubjectType {
   Organisational= 'ORGANISATIONAL',
 }
 
+export interface Notifications {
+  receiverID: string[];
+  actorId: string;
+  name: ActionEnum;
+  entityId: string;
+  entityTypeName: EntityTypeEnum;
+  date: Date;
+  seen: boolean;
+}
+export interface NotificationData{
+  receiverID: string[];
+  actor?: UserResponse;
+  name: string;
+  entity?: LearningResp //| WikiResp | CareerPackageResp | BlogResp;
+  entityTypeName: string;
+  date: string;
+  seen: boolean;
+}
+
+export enum ActionEnum {
+  approval= 'APPROVAL',
+  rejection= 'REJECTION',
+  submission='SUBMISSION'
+}
+export enum EntityTypeEnum {
+  approval= 'LEARNING',
+  wiki= 'WIKI',
+  blog='BLOG',
+  Career_package='CAREER_PACKAGE'
+}
 
 
