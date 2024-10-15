@@ -11,14 +11,17 @@ export class SharedDataService {
 
   baseUrl = 'http://localhost:8080';
   learningBaseUrl = 'http://localhost:8081';
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
 
-  getAllUsers(){
-    return this.httpClient.get(this.baseUrl + '/users/')
+  getAllUsers() {
+    return this.httpClient.get(this.baseUrl + '/users/');
   }
-  getUserById(id :string){
-    return this.httpClient.get(this.baseUrl + '/users/'+id)
+  getBatchUsers(ids: string[]) {
+    return this.httpClient.post(this.baseUrl + "/users/batch", ids);
+  }
+  getUserById(id: string) {
+    return this.httpClient.get(this.baseUrl + '/users/' + id);
   }
   getAllDepartments() {
     return this.httpClient.get(this.baseUrl + '/titles/departments');
@@ -37,57 +40,57 @@ export class SharedDataService {
       params: { departmentName: department },
     });
   }
-  updateUser(user:UserRequest){
-    return this.httpClient.put(this.baseUrl + '/users/',user);
+  updateUser(user: UserRequest) {
+    return this.httpClient.put(this.baseUrl + '/users/', user);
   }
-  changeUserPassword(id:string, password:string){
-    console.log(id,"===",password);
-    return this.httpClient.put(this.baseUrl + '/users/password/'+id,password);
+  changeUserPassword(id: string, password: string) {
+    console.log(id, "===", password);
+    return this.httpClient.put(this.baseUrl + '/users/password/' + id, password);
   }
-  deleteUser(userid:string){
-    return this.httpClient.delete(this.baseUrl + '/users/'+userid);
+  deleteUser(userid: string) {
+    return this.httpClient.delete(this.baseUrl + '/users/' + userid);
   }
-  getAllLearnings(){
-    return this.httpClient.get(this.learningBaseUrl + '/learnings/' );
+  getAllLearnings() {
+    return this.httpClient.get(this.learningBaseUrl + '/learnings/');
   }
-  getLearningById(id:String){
-    return this.httpClient.get(this.learningBaseUrl + '/learnings/'+id );
+  getLearningById(id: String) {
+    return this.httpClient.get(this.learningBaseUrl + '/learnings/' + id);
 
   }
-  getAllTypes(){
-    return this.httpClient.get(this.learningBaseUrl + '/learnings/types/' );
+  getAllTypes() {
+    return this.httpClient.get(this.learningBaseUrl + '/learnings/types/');
   }
-  getAllSubjects(){
-    return this.httpClient.get(this.learningBaseUrl + '/learnings/subjects/' );
+  getAllSubjects() {
+    return this.httpClient.get(this.learningBaseUrl + '/learnings/subjects/');
   }
-  createLearning(Learning:LearningReq){
-    return this.httpClient.post(this.learningBaseUrl + '/learnings/',Learning);
+  createLearning(Learning: LearningReq) {
+    return this.httpClient.post(this.learningBaseUrl + '/learnings/', Learning);
   }
-  updateLearning(id:string,Learning:LearningReq){
-    return this.httpClient.put(this.learningBaseUrl + '/learnings/'+id,Learning);
+  updateLearning(id: string, Learning: LearningReq) {
+    return this.httpClient.put(this.learningBaseUrl + '/learnings/' + id, Learning);
   }
   deleteLearning(leagningId: string) {
     let params = new HttpParams().set('id', leagningId);
-    return this.httpClient.delete(this.learningBaseUrl + '/learnings/' ,{params});
+    return this.httpClient.delete(this.learningBaseUrl + '/learnings/', { params });
   }
-  createType(Type:TypeReq){
-    return this.httpClient.post(this.learningBaseUrl + '/learnings/types/',Type);
+  createType(Type: TypeReq) {
+    return this.httpClient.post(this.learningBaseUrl + '/learnings/types/', Type);
   }
   updateType(id: string, Type: TypeReq) {
-    return this.httpClient.put(this.learningBaseUrl + '/learnings/types/'+id,Type);
+    return this.httpClient.put(this.learningBaseUrl + '/learnings/types/' + id, Type);
   }
   deleteType(typeId: string) {
     let params = new HttpParams().set('id', typeId);
-    return this.httpClient.delete(this.learningBaseUrl + '/learnings/types/' ,{params});
+    return this.httpClient.delete(this.learningBaseUrl + '/learnings/types/', { params });
   }
-  createSubject(Subject:SubjectReq){
-    return this.httpClient.post(this.learningBaseUrl + '/learnings/subjects/',Subject);
+  createSubject(Subject: SubjectReq) {
+    return this.httpClient.post(this.learningBaseUrl + '/learnings/subjects/', Subject);
   }
   updateSubject(id: string, subject: SubjectReq) {
-    return this.httpClient.put(this.learningBaseUrl + '/learnings/subjects/'+id,subject);
+    return this.httpClient.put(this.learningBaseUrl + '/learnings/subjects/' + id, subject);
   }
   deleteSubject(subjectId: string) {
     let params = new HttpParams().set('id', subjectId);
-    return this.httpClient.delete(this.learningBaseUrl + '/learnings/subjects/' ,{params});
+    return this.httpClient.delete(this.learningBaseUrl + '/learnings/subjects/', { params });
   }
 }

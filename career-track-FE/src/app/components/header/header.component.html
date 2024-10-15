@@ -64,16 +64,56 @@
             >Learnings Library</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link text-light"
+            (click)="toggleNavbarCollapsing()"
+            routerLink="articles"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/articles'
+            }"
+            >Articles</a
+          >
+        </li>
         @if(this.isAdmin) {
-          <li class="nav-item" id="floatright">
-            <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Manage</button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="custom-dropdown-menu">
-                <button ngbDropdownItem (click)="AdminSelectedOption='ManageUser'" routerLink="admin-dashboard/user">Manage Users</button>
-                <button ngbDropdownItem (click)="AdminSelectedOption='ManageLearning'" routerLink="admin-dashboard/learning">Manage Learnings</button>
-                <button ngbDropdownItem (click)="AdminSelectedOption='ManageCP'" routerLink="admin-dashboard/careerpackage">Manage Career Package</button>
-              </div>
+        <li class="nav-item" id="floatright">
+          <div ngbDropdown class="d-inline-block">
+            <button
+              class="btn btn-outline-primary"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              Manage
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic1"
+              class="custom-dropdown-menu"
+            >
+              <button
+                ngbDropdownItem
+                (click)="AdminSelectedOption = 'ManageUser'"
+                routerLink="admin-dashboard/user"
+              >
+                Manage Users
+              </button>
+              <button
+                ngbDropdownItem
+                (click)="AdminSelectedOption = 'ManageLearning'"
+                routerLink="admin-dashboard/learning"
+              >
+                Manage Learnings
+              </button>
+              <button
+                ngbDropdownItem
+                (click)="AdminSelectedOption = 'ManageCP'"
+                routerLink="admin-dashboard/careerpackage"
+              >
+                Manage Career Package
+              </button>
             </div>
+          </div>
         </li>
         }
       </ul>

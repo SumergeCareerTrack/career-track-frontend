@@ -21,7 +21,7 @@ export interface UserRequest {
   managerId: string;
   department: string;
   titleName: string;
-  password?:string;
+  password?: string;
 }
 export interface UserResponse {
   id: string;
@@ -34,11 +34,11 @@ export interface UserResponse {
 }
 
 export interface LearningResp {
-  id:UUID;
+  id: UUID;
   title: string;
   url: string;
-  typeName:string;
-  typeBaseScore:number;
+  typeName: string;
+  typeBaseScore: number;
   description: string;
   subjectType: string;
   subjectName: string;
@@ -46,7 +46,7 @@ export interface LearningResp {
   pending: boolean;
 
 }
-export interface LearningReq{
+export interface LearningReq {
   type: UUID;
   subject: UUID;
   title: string;
@@ -56,34 +56,34 @@ export interface LearningReq{
   pending: boolean;
 }
 
-export interface TypeReq{
+export interface TypeReq {
   name: string;
   baseScore: number;
 }
 
-export interface TypeResp{
-  id:UUID;
+export interface TypeResp {
+  id: UUID;
   name: string;
   baseScore: number;
 }
 
-export interface SubjectReq{
-  type:string;
+export interface SubjectReq {
+  type: string;
   name: string;
 }
-export interface SubjectResp{
+export interface SubjectResp {
   id: UUID;
   type: string;
   name: string;
 }
 
-export interface myLearningReq{
+export interface myLearningReq {
   proof: String;
   comment: string;
   date: Date;
   approvalStatus: ApprovalStatus;
-  User : User;
-  Learning : LearningResp;
+  User: User;
+  Learning: LearningResp;
   // Booster: Booster;
   // ProofType: ProofType;
 
@@ -94,8 +94,19 @@ enum ApprovalStatus {
   Rejected = 'REJECTED'
 }
 export enum SubjectType {
-  Functional= 'FUNCTIONAL',
-  Organisational= 'ORGANISATIONAL',
+  Functional = 'FUNCTIONAL',
+  Organisational = 'ORGANISATIONAL',
+}
+
+export interface Article {
+  id?: UUID,
+  title: string,
+  author: string,
+  type: "BLOG" | "WIKI",
+  submissionDate: Date,
+  approvalStatus: ApprovalStatus,
+  comment: string,
+  body: string;
 }
 
 

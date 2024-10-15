@@ -10,6 +10,8 @@ import { NewLearningComponent } from './components/learnings/new-learning/new-le
 import { SubmissionsComponent } from './pages/submissions/submissions.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard-user/admin-dashboard-user.component';
 import { AdminDashboardLearningComponent } from './pages/admin-dashboard/admin-dashboard-learning/admin-dashboard-learning.component';
+import { WikiComponent } from './pages/wiki/wiki.component';
+import { ArticleComponent } from './pages/wiki/article/article.component';
 export const routes: Routes = [
   //TODO add childeren and parent
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -36,6 +38,9 @@ export const routes: Routes = [
 
   { path: 'admin-dashboard/user', component: AdminDashboardComponent },
   { path: 'admin-dashboard/learning', component: AdminDashboardLearningComponent },
+  { path: 'articles', component: WikiComponent },
+  { path: 'articles/:articleId', component: ArticleComponent },
+  // { path: 'wiki/new', component: WikiComponent },
   //{ path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
 
 ];
