@@ -65,10 +65,17 @@
           >
 
         </li>
-        <li class="nav-item" id="floatright-img">
-          <button class="notifications" routerLink="notifications"><img src="../../../assets/images/bell.png"/></button>
+        @if (isAuthenticated) {
+          <li class="nav-item" id="floatright-img">
+            <button class="notifications" routerLink="notifications">
+              <img src="../../../assets/images/bell.png" />
+              @if(notifications!=0){
+                  <span class="notification-count">{{ notifications }}</span> <!-- Notification Count -->
+                }
+                </button>
+              </li>
 
-        </li>
+      }
         @if(this.isAdmin) {
           <li class="nav-item" id="floatright">
 
