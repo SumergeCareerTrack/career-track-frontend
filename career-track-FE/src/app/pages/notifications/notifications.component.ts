@@ -1,12 +1,10 @@
 import { SharedDataService } from './../../services/shared-data/shared-data.service';
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { map, mergeMap, Subject, takeUntil, tap } from 'rxjs';
-import { NotificationData, Notifications, UserResponse,LearningResp } from '../../interfaces/backend-requests';
+import { Component } from '@angular/core';
+import { Subject} from 'rxjs';
+import { NotificationData, Notifications, UserResponse } from '../../interfaces/backend-requests';
 import { NotificationService } from '../../services/notifications/notifications-service';
-import { read } from '@popperjs/core';
 import { CookieService } from 'ngx-cookie-service';
 import { NotificationCardComponent } from "../../components/notification-card/notification-card.component";
-import { User } from '../../interfaces/user.model';
 
 @Component({
   selector: 'app-notifications',
@@ -32,7 +30,15 @@ export class NotificationsComponent {
     }
 
     ngOnInit(): void {
-
+      this.notificationService.getNotificationByUserId(this.user!.id).subscribe({
+        next: (response) => {
+          this.data = response as Notifications[];
+          this.notificationsNum = this.data.length;
+          this.data.forEach((notification) => {
+            this.notificationService.fromNotificationToData(notification).then((card) => {this.cards.push(card)});
+          });
+      }
+    });
     }
 
     read() {

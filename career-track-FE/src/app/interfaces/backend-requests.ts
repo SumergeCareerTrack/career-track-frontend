@@ -99,6 +99,7 @@ export enum SubjectType {
 }
 
 export interface Notifications {
+  id: string;
   receiverID: string[];
   actorId: string;
   name: ActionEnum;
@@ -108,12 +109,13 @@ export interface Notifications {
   seen: boolean;
 }
 export interface NotificationData{
+  id:string;
   receiverID: string[];
   actor?: UserResponse;
   name: string;
   entity?: LearningResp //| WikiResp | CareerPackageResp | BlogResp;
   entityTypeName: string;
-  date: string;
+  date: Date;
   seen: boolean;
 }
 
@@ -123,10 +125,10 @@ export enum ActionEnum {
   submission='SUBMISSION'
 }
 export enum EntityTypeEnum {
-  approval= 'LEARNING',
+  learning= 'LEARNING',
   wiki= 'WIKI',
   blog='BLOG',
-  Career_package='CAREER_PACKAGE'
+  career_package='CAREER_PACKAGE'
 }
 
 

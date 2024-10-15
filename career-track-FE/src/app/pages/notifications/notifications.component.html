@@ -1,14 +1,10 @@
 
-<br><div class="container">
-  <div class="background">
-    <div class="container">
-
-      <div class="main">
+<br><div class="container ">
 
         <div class="row justify-content-center align-items-center minh-100">
 
           <div class="card shadow border-0 container-notifications">
-            <div class="card-body">
+            <div class="card-body ">
 
               <div class="row d-flex">
                 <div class="col-6">
@@ -28,6 +24,7 @@
                 @for(notification of cards; track $index){
                   <div class="col-12">
                           <app-notification-card [card]="notification"></app-notification-card>
+                          <br>
                   </div>
                 }
 
@@ -38,8 +35,5 @@
         </div>
         <!-- END CENTER -->
       </div>
-      <!-- END MAIN -->
-    </div>
-  </div>
 
-</div>
+
