@@ -2,25 +2,38 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import * as d3 from 'd3';
 import { UserScoresService } from '../../services/user-scores/user-scores.service';
+import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-leaderboards',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingSpinnerComponent],
   templateUrl: './leaderboards.component.html',
   styleUrls: ['./leaderboards.component.css'],
 })
 export class LeaderboardsComponent {
+  isLoading = true;
   image = 'assets/images/avatar1.png';
   leaderboard = [] as any[];
 
   constructor(private userScoresService: UserScoresService) {}
+
   ngOnInit() {
-    this.userScoresService.getUserScores().subscribe({
-      next: (response) => {
-        this.leaderboard = response as any[];
-      },
-    });
+    if (this.userScoresService.userScores.length < 1) {
+      this.userScoresService.getUserScores().subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          this.leaderboard = response as any[];
+        },
+        error: (error) => {
+          this.isLoading = false;
+          console.error('Error fetching user scores', error);
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+      });
+    } else this.leaderboard = this.userScoresService.userScores;
     setTimeout(() => {
       this.positionNames();
     }, 100);

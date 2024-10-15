@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { saveAs } from 'file-saver';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,20 +18,10 @@ export class FileService {
       .subscribe(
         (response) => {
           if (response.body) {
-            // Check if response.body is not null
             const contentDisposition = response.headers.get(
               'Content-Disposition'
             );
-            let filename = 'downloadedFile';
-
-            if (contentDisposition) {
-              const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-              const matches = filenameRegex.exec(contentDisposition);
-              if (matches != null && matches[1]) {
-                filename = matches[1].replace(/['"]/g, '');
-              }
-            }
-
+            const filename = this.getFilenameFromHeader(contentDisposition);
             saveAs(response.body, filename);
           } else {
             console.error('Download failed: File content is null');
@@ -40,5 +31,55 @@ export class FileService {
           console.error('Download error:', error);
         }
       );
+  }
+
+  uploadNewCareerPackage(file: File, titleId: string): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('titleId', titleId);
+
+    return this.httpClient.post(
+      'http://localhost:8082/career-packages',
+      formData,
+      {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+        }),
+        responseType: 'json',
+      }
+    );
+  }
+
+  uploadNewUserSubmission(file: File, userId: string) {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('employeeId', userId);
+
+    formData.append('date', new Date(new Date().getTime()).toISOString());
+
+    return this.httpClient.post(
+      'http://localhost:8082/employee-packages',
+      formData,
+      {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+        }),
+        responseType: 'json',
+      }
+    );
+  }
+
+  private getFilenameFromHeader(contentDisposition: string | null): string {
+    let filename = 'downloaded-file'; // Default filename if not found in header
+    if (contentDisposition) {
+      const result = contentDisposition
+        .split(';')
+        .find((part) => part.trim().startsWith('filename='));
+      if (result) {
+        filename = result.split('=')[1].trim().replace(/"/g, ''); // Extract the filename and remove quotes
+      }
+    }
+
+    return filename;
   }
 }
