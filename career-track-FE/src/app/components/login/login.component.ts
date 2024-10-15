@@ -25,7 +25,7 @@ export class LoginComponent {
   ) {
     this.loginForm = formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -36,7 +36,7 @@ export class LoginComponent {
         .logIn(this.loginForm.value.email, this.loginForm.value.password)
         .subscribe({
           next: (response) => {
-            console.log(response)
+            console.log(response);
             this.router.navigate(['/dashboard']);
             console.log(response);
           },
