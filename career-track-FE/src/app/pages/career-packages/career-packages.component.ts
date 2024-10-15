@@ -48,6 +48,7 @@ export class CareerPackagesComponent {
       );
     }
   }
+
   onDownload() {
     this.downloadedFile.load(
       this.careerPackagesService.getCareerPackageByTitleId(

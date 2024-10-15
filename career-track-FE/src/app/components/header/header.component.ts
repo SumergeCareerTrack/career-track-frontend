@@ -15,6 +15,7 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 })
 export class HeaderComponent {
   isAdmin = false;
+  isManager = false;
   loc = window.location;
   navbarCollapsed = false;
   isAuthenticated = false;
@@ -26,6 +27,7 @@ export class HeaderComponent {
     private CookieService: CookieService
   ) {
     this.isAdmin = this.CookieService.get('isAdmin') === 'true';
+    this.isManager = this.CookieService.get('isManager') === 'true';
   }
 
   ngOnInit() {

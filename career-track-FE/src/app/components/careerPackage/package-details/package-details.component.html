@@ -3,14 +3,14 @@
   <div class="d-flex justify-content-around mt-5 row text-center">
     <div class="align-self-center col-md-4">
       <button class="btn btn-success" (click)="onDownload()">
-        Download My Next Package
+        Download My Next Package <i class="bi bi-download"></i>
       </button>
     </div>
     <span class="fs-3 align-self-center col-md-2">-OR-</span>
     <form class="d-flex flex-column col-md-4" (ngSubmit)="uploadFile()">
       <label for="formFile" class="form-label"
-        >Submit your career package</label
-      >
+        >Submit your career package
+      </label>
       <input
         type="file"
         (change)="onFileSelected($event)"
@@ -29,7 +29,7 @@
         type="submit"
         [disabled]="isUploadDisabled"
       >
-        Upload
+        Upload <i class="bi bi-upload"></i>
       </button>
     </form>
   </div>
@@ -62,8 +62,12 @@
             </span>
           </td>
           <td>
-            <!-- <i class="fa-solid fa-download" (click)="onView(item.fileId)"></i> -->
-            <a class="btn btn-primary" (click)="onView(item.fileId)">View</a>
+            <span class="btn">
+              <i class="bi bi-download" (click)="onView(item.fileId)"></i>
+            </span>
+            <span class="btn">
+              <i class="bi bi-chat" (click)="seeComment(item.comment)"></i>
+            </span>
           </td>
         </tr>
         } @empty{

@@ -65,7 +65,20 @@
             >Learnings Library</a
           >
         </li>
-        @if(this.isAdmin) {
+        @if (isManager) {
+        <li class="nav-item">
+          <a
+            class="nav-link text-light"
+            routerLink="manage"
+            (click)="navbarCollapsed = true"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/manage'
+            }"
+            >Manage</a
+          >
+        </li>
+        } @if(this.isAdmin) {
         <li class="nav-item" id="floatright">
           <div ngbDropdown class="d-inline-block">
             <button
@@ -99,7 +112,7 @@
                 (click)="AdminSelectedOption = 'ManageCP'"
                 routerLink="admin-dashboard/careerpackage"
               >
-                Manage Career Package
+                Manage Career Packages
               </button>
             </div>
           </div>

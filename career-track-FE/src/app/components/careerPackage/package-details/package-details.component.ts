@@ -6,12 +6,13 @@ import { FileService } from '../../../services/file/file.service';
 import { AuthService } from '../../../services/auth/auth.service';
 import { Title, UserResponse } from '../../../interfaces/backend-requests';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 export interface UserSubmission {
   id: string;
   approvalStatus: string;
   submissionDate: string;
-  comments: string;
+  comment: string;
   fileId: string;
 }
 
@@ -88,6 +89,12 @@ export class PackageDetailsComponent {
         )
       );
     }
+  }
+  seeComment(comment: string) {
+    Swal.fire({
+      title: 'Your Manager Comment:',
+      text: comment,
+    });
   }
 
   onDownload() {

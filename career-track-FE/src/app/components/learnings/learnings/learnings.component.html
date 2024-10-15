@@ -2,7 +2,7 @@
 <app-new-learning (cancel)="onCancelAddTask()" />
 }
 <div class="container">
-  <div class="col-12 mt-5">
+  <div class="col-12 mt-5 mb-5">
     <div class="d-flex justify-content-between">
       <h1>Learning Library</h1>
       <span class="fw-bold d-flex flex-column">
@@ -20,7 +20,7 @@
         <p>No learnings found. Please check back later.</p>
         } @else { @for(learning of learnings; track $index) {
         <div
-          class="col-xl-3 col-md-4 col-sm-6 d-flex justify-content-center gap-2 mt-2"
+          class="col-lg-3 col-md-4 col-sm-6 d-flex justify-content-center gap-2 mt-2"
         >
           <app-learning-item
             [learning]="learning"
