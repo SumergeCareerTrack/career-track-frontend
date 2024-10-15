@@ -5,6 +5,7 @@ import { CareerPackagesService } from '../../../services/career-packages/career-
 import { FileService } from '../../../services/file/file.service';
 import { AuthService } from '../../../services/auth/auth.service';
 import { Title, UserResponse } from '../../../interfaces/backend-requests';
+import { FormsModule } from '@angular/forms';
 
 export interface UserSubmission {
   id: string;
@@ -17,7 +18,7 @@ export interface UserSubmission {
 @Component({
   selector: 'app-package-details',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule, DatePipe, FormsModule],
   templateUrl: './package-details.component.html',
   styleUrl: './package-details.component.css',
 })
@@ -74,6 +75,7 @@ export class PackageDetailsComponent {
   }
 
   onFileSelected(event: any) {
+    console.log('File downloaded');
     this.selectedFile = event.target.files[0];
   }
 
@@ -87,6 +89,7 @@ export class PackageDetailsComponent {
       );
     }
   }
+
   onDownload() {
     this.downloadedFile.load(
       this.careerPackagesService.getCareerPackageByTitleId(
