@@ -25,24 +25,27 @@ export class HeaderComponent {
   user: UserResponse | undefined;
 
     constructor(private authService: AuthService, private router: Router,private cookieService:CookieService,private notificationService:NotificationService) {
-    this.isAdmin = this.cookieService.get('isAdmin') === 'true';
-    const userData = this.cookieService.get('UserData');
-    this.user= JSON.parse(userData);
-    this.notificationService.getNotificationByUserId(this.user!.id).subscribe({
-      next: (response) => {
-        let data = response as Notifications[];
-        data.forEach((element) => {!element.seen?this.notifications++:null});
-        console.log(data,"data")
-      },
-    });
-    this.authService.user.subscribe((user) => {
-      this.isAuthenticated = !!user;
-    });
-    console.log("Test")
+
   }
 
   ngOnInit() {
+    this.isAdmin = this.cookieService.get('isAdmin') === 'true';
 
+    this.authService.user.subscribe((user) => {
+      this.isAuthenticated = !!user;
+    });
+    if(this.isAuthenticated){
+      const userData = this.cookieService.get('UserData');
+      this.user= JSON.parse(userData);
+      this.notificationService.getNotificationByUserId(this.user!.id).subscribe({
+        next: (response) => {
+          let data = response as Notifications[];
+          data.forEach((element) => {!element.seen?this.notifications+=1:null});
+          console.log(data,"data")
+        },
+      });
+
+    }
   }
 
   toggleNavbarCollapsing() {
@@ -52,6 +55,9 @@ export class HeaderComponent {
   LogOut() {
     this.authService.logOut();
     this.router.navigate(['/auth']);
+    this.cookieService.deleteAll();
+    this.isAdmin=false;
+    this.ngOnInit();
   }
 
 

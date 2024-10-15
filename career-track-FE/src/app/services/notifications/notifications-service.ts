@@ -71,5 +71,7 @@ export class NotificationService {
   markAsRead(notificationId: string) {
     return this.httpClient.put(this.notificationBaseUrl+this.notificationBasePort + '/notifications/'+notificationId,{})
   }
-
+  markAllAsRead(receiverId:string){
+    return this.httpClient.put(this.notificationBaseUrl+this.notificationBasePort + '/notifications/all/'+receiverId,{});
+  }
   }

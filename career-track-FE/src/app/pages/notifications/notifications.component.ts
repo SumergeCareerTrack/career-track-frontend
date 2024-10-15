@@ -33,7 +33,7 @@ export class NotificationsComponent {
       this.notificationService.getNotificationByUserId(this.user!.id).subscribe({
         next: (response) => {
           this.data = response as Notifications[];
-          this.notificationsNum = this.data.length;
+          this.notificationsNum = this.data.reduce((count, element) => !element.seen ? count + 1 : count, 0);
           this.data.forEach((notification) => {
             this.notificationService.fromNotificationToData(notification).then((card) => {this.cards.push(card)});
           });
@@ -42,7 +42,12 @@ export class NotificationsComponent {
     }
 
     read() {
-
+        this.notificationService.markAllAsRead(this.user!.id).subscribe({
+          next: (response) => {
+            this.notificationsNum = 0;
+            this.cards.forEach((card) => {card.seen = true;});
+          }
+        })
     }
 
     ngOnDestroy() {
