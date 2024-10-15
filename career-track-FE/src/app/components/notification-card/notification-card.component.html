@@ -12,20 +12,28 @@
                       {{ card.actor?.firstName + " " + card.actor?.lastName }}
                       has {{ card.name }} {{ card.name === 'Submitted' ? 'a new ' : 'your ' }} {{ card.entityTypeName }}
                     </span><br>
-                    @if(card.entityTypeName === 'Learning'){
+
                     <span >
                       with Title:
+                      @if(card.entityTypeName === 'Learning'){
                       <button class="enhancedButton" [routerLink]="'/learning/' + card.entity?.id">
                         {{ card.entity?.title }}
                       </button>
-                    </span>
-                  }
+                    }
                   <!-- TODO: HERE WE NEED TO FINISH FOR WIKI BLOG AND CAREER PACKAGE -->
-                  @else {
-                    <span>
-                      with ID: {{ card.entity?.id }}
-                    </span><br>
-                  }
+                    @else if (card.entityTypeName === 'Wiki'||card.entityTypeName === 'Blog'){
+                      <button class="enhancedButton" [routerLink]="'/articles/' + card.entity?.id">
+                        {{ card.entity?.title }}
+                      </button>
+                    }
+                    @else if (card.entityTypeName === 'Career Package'){
+                      <button class="enhancedButton" [routerLink]="'/career-package/' + card.entity?.id">
+                        {{ card.entity?.title }}
+                      </button>
+                    }
+                    </span>
+
+
 
                   @if(!card.seen){
                   <br><span class="date">On the {{ card.date | date: 'dd/MM/yyyy HH:mm' }}</span><br>

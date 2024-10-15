@@ -113,12 +113,37 @@ export interface NotificationData{
   receiverID: string[];
   actor?: UserResponse;
   name: string;
-  entity?: LearningResp //| WikiResp | CareerPackageResp | BlogResp;
+  entity?: LearningResp |ArticleResp // TODO FILL FOR CAREERPACKAGE
   entityTypeName: string;
   date: Date;
   seen: boolean;
 }
 
+export interface ArticleReq{
+  title: string;
+  author: string;
+  type: ArticleType;
+  submissionDate: Date;
+  approvalStatus: ApprovalStatus;
+  comment: string;
+  body: string;
+}
+
+export interface ArticleResp{
+  id: string;
+  title: string;
+  author: string;
+  type: ArticleType;
+  submissionDate: Date;
+  approvalStatus: ApprovalStatus;
+  comment: string;
+  body: string;
+}
+
+export enum ArticleType {
+  blog= 'BLOG',
+  wiki='WIKI'
+}
 export enum ActionEnum {
   approval= 'APPROVAL',
   rejection= 'REJECTION',

@@ -3,7 +3,7 @@ import { NotificationData, Notifications } from '../../interfaces/backend-reques
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { NotificationService } from '../../services/notifications/notifications-service';
+import { NotificationService } from '../../services/notifications/notifications-service.service';
 
 
 @Component({

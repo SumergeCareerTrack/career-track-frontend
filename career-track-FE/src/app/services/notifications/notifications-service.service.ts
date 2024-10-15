@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
-import { LearningReq, LearningResp, NotificationData, Notifications, SubjectReq, TypeReq, UserRequest, UserResponse } from '../../interfaces/backend-requests';
-import { switchMap, pipe, firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import {  ArticleResp, LearningResp, NotificationData, Notifications, UserResponse } from '../../interfaces/backend-requests';
+import {  firstValueFrom } from 'rxjs';
 import { SharedDataService } from '../shared-data/shared-data.service';
+import { ArticleService } from '../articles/article-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class NotificationService {
 
   notificationBaseUrl = 'http://localhost:';
   notificationBasePort= '8090';
-  constructor(private httpClient: HttpClient,private sharedDataService:SharedDataService) {
+  constructor(private httpClient: HttpClient,private sharedDataService:SharedDataService,private articleService:ArticleService) {
 
   }
 
@@ -32,14 +33,17 @@ export class NotificationService {
   }
   async setUpEntityName(notification:Notifications){
     let entityType="";
-    let entityObject: LearningResp = {} as LearningResp // | WikiResp | Career|Blog
+    let entityObject: LearningResp|ArticleResp = {} as LearningResp | ArticleResp;
     if(notification.entityTypeName == "LEARNING") {
       entityType = "Learning";
       entityObject=await firstValueFrom(this.sharedDataService.getLearningById(notification.entityId)) as LearningResp;
     }
-  //TODO: Have to Finish Wiki Career and Blog after we Merge
-  else if(notification.entityTypeName == "WIKI") { entityType = "Wiki"; }
-  else if(notification.entityTypeName == "CAREER_PACKAGE") { entityType = "Career Package"; }
+    else if(notification.entityTypeName == "WIKI") {
+      entityType = "Wiki";
+      entityObject=await firstValueFrom(this.articleService.getArticleById(notification.entityId)) as ArticleResp;
+    }
+    //TODO: Have to Finish Wiki Career and Blog after we Merge
+    else if(notification.entityTypeName == "CAREER_PACKAGE") { entityType = "Career Package"; }
   else if(notification.entityTypeName == "BLOG") { entityType = "Blog"; }
 
   return {entityType, entityObject};

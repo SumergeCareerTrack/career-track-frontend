@@ -2,7 +2,7 @@ import { SharedDataService } from './../../services/shared-data/shared-data.serv
 import { Component } from '@angular/core';
 import { Subject} from 'rxjs';
 import { NotificationData, Notifications, UserResponse } from '../../interfaces/backend-requests';
-import { NotificationService } from '../../services/notifications/notifications-service';
+import { NotificationService } from '../../services/notifications/notifications-service.service';
 import { CookieService } from 'ngx-cookie-service';
 import { NotificationCardComponent } from "../../components/notification-card/notification-card.component";
 
@@ -37,6 +37,8 @@ export class NotificationsComponent {
           this.data.forEach((notification) => {
             this.notificationService.fromNotificationToData(notification).then((card) => {this.cards.push(card)});
           });
+          console.log(this.cards,"cards");
+          console.log(this.data,"data");
       }
     });
     }

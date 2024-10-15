@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { NotificationService } from '../../services/notifications/notifications-service';
+import { NotificationService } from '../../services/notifications/notifications-service.service';
 import { Notifications, UserResponse } from '../../interfaces/backend-requests';
 
 @Component({
