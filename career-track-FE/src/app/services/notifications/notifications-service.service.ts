@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {  ArticleResp, LearningResp, NotificationData, Notifications, UserResponse } from '../../interfaces/backend-requests';
+import {  ArticleResp, EmployeeCareerPackageResponseDTO, LearningResp, NotificationData, Notifications, UserResponse } from '../../interfaces/backend-requests';
 import {  firstValueFrom } from 'rxjs';
 import { SharedDataService } from '../shared-data/shared-data.service';
 import { ArticleService } from '../articles/article-service.service';
+import { CareerPackagesService } from '../career-packages/career-packages.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,10 @@ export class NotificationService {
 
   notificationBaseUrl = 'http://localhost:';
   notificationBasePort= '8090';
-  constructor(private httpClient: HttpClient,private sharedDataService:SharedDataService,private articleService:ArticleService) {
+  constructor(private httpClient: HttpClient,
+    private sharedDataService:SharedDataService,
+    private articleService:ArticleService,
+    private careerPackagesService:CareerPackagesService) {
 
   }
 
@@ -33,7 +37,7 @@ export class NotificationService {
   }
   async setUpEntityName(notification:Notifications){
     let entityType="";
-    let entityObject: LearningResp|ArticleResp = {} as LearningResp | ArticleResp;
+    let entityObject: LearningResp|ArticleResp|EmployeeCareerPackageResponseDTO = {} as LearningResp | ArticleResp|EmployeeCareerPackageResponseDTO;
     if(notification.entityTypeName == "LEARNING") {
       entityType = "Learning";
       entityObject=await firstValueFrom(this.sharedDataService.getLearningById(notification.entityId)) as LearningResp;
@@ -42,9 +46,14 @@ export class NotificationService {
       entityType = "Wiki";
       entityObject=await firstValueFrom(this.articleService.getArticleById(notification.entityId)) as ArticleResp;
     }
-    //TODO: Have to Finish Wiki Career and Blog after we Merge
-    else if(notification.entityTypeName == "CAREER_PACKAGE") { entityType = "Career Package"; }
-  else if(notification.entityTypeName == "BLOG") { entityType = "Blog"; }
+    else if(notification.entityTypeName == "CAREER_PACKAGE") {
+       entityType = "Career Package";
+       entityObject=await firstValueFrom(this.careerPackagesService.getEmployeeCareerPackageById(notification.entityId)) as EmployeeCareerPackageResponseDTO;
+      }
+  else if(notification.entityTypeName == "BLOG") {
+    entityType = "Blog";
+    entityObject=await firstValueFrom(this.articleService.getArticleById(notification.entityId)) as ArticleResp;
+   }
 
   return {entityType, entityObject};
   }
@@ -62,7 +71,7 @@ export class NotificationService {
       receiverID: notification.receiverID,
       actor: user,
       name: action,
-      entity: entityObject, //| WikiResp | CareerPackageResp | Blog;
+      entity: entityObject,
       entityTypeName: entityType,
       date: notification.date,
       seen: notification.seen

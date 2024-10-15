@@ -20,15 +20,15 @@
                         {{ card.entity?.title }}
                       </button>
                     }
-                  <!-- TODO: HERE WE NEED TO FINISH FOR WIKI BLOG AND CAREER PACKAGE -->
                     @else if (card.entityTypeName === 'Wiki'||card.entityTypeName === 'Blog'){
                       <button class="enhancedButton" [routerLink]="'/articles/' + card.entity?.id">
                         {{ card.entity?.title }}
                       </button>
                     }
+                    <!-- TODO: Add career Package Title after adding it in back end -->
                     @else if (card.entityTypeName === 'Career Package'){
                       <button class="enhancedButton" [routerLink]="'/career-package/' + card.entity?.id">
-                        {{ card.entity?.title }}
+                        {{card.entity?.title}}'s CareerPackage
                       </button>
                     }
                     </span>

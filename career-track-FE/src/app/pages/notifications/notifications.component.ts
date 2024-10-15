@@ -37,11 +37,12 @@ export class NotificationsComponent {
           this.data.forEach((notification) => {
             this.notificationService.fromNotificationToData(notification).then((card) => {this.cards.push(card)});
           });
-          console.log(this.cards,"cards");
           console.log(this.data,"data");
       }
     });
+
     }
+
 
     read() {
         this.notificationService.markAllAsRead(this.user!.id).subscribe({

@@ -113,7 +113,7 @@ export interface NotificationData{
   receiverID: string[];
   actor?: UserResponse;
   name: string;
-  entity?: LearningResp |ArticleResp // TODO FILL FOR CAREERPACKAGE
+  entity?: LearningResp | ArticleResp| EmployeeCareerPackageResponseDTO
   entityTypeName: string;
   date: Date;
   seen: boolean;
@@ -138,6 +138,32 @@ export interface ArticleResp{
   approvalStatus: ApprovalStatus;
   comment: string;
   body: string;
+}
+export interface CareerPackageTemplateRequestDTO {
+  file: File;
+  titleId: string;
+  name: string;
+}
+export interface EmployeeCareerPackageRequestDTO {
+  employeeId: string;
+  file: File;
+}
+export interface CareerPackageTemplateResponseDTO {
+  id: string;
+  fileId: string;
+  titleId: string;
+  name: string;
+}
+
+
+export interface EmployeeCareerPackageResponseDTO {
+  id: string;
+  employeeId: string;
+  fileId: string;
+  submissionDate: Date;
+  comment: string;
+  approvalStatus: ApprovalStatus;
+  title?:""
 }
 
 export enum ArticleType {
