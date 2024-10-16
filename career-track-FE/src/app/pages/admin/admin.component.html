@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <h1 class="d-flex justify-content-center">Admin Dashboard</h1>
+  <hr>
+
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <button ngbNavLink>Manage Users</button>
+      <ng-template ngbNavContent>
+        <app-admin-user-dashboard></app-admin-user-dashboard>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <button ngbNavLink>Manage Learnings</button>
+      <ng-template ngbNavContent>
+        <app-admin-dashboard-learning></app-admin-dashboard-learning>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <button ngbNavLink>Manage Wikis/Blogs</button>
+      <ng-template ngbNavContent>
+         </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <button ngbNavLink>Manage Career Packages</button>
+      <ng-template ngbNavContent>
+        <app-admin-dashboard-career-packages></app-admin-dashboard-career-packages>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>
