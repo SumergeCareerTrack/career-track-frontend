@@ -68,7 +68,6 @@ export class AuthService {
           this.handleLoginProcess(userData);
         })
       );
-
   }
 
   handleLoginProcess(userResponse: UserResponse) {
@@ -110,5 +109,13 @@ export class AuthService {
 
   getToken() {
     return this.cookieService.get('token');
+  }
+
+  getTitle() {
+    return this.user.value?.title;
+  }
+
+  getUserData() {
+    return this.user.value;
   }
 }

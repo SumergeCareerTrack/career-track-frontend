@@ -1,13 +1,13 @@
 <div class="card learning-card" style="width: 18rem">
   <div class="card-body">
-    <h5 class="card-title">{{ learning.subjectName }}</h5>
+    <h5 class="card-title">{{ learning.title }}</h5>
     <h6 class="card-subtitle mb-2 text-body-secondary">
-      {{ learning.typeName }}
+      score: <span class="text-primary">{{ learning.typeBaseScore }}</span>
     </h6>
     <p class="card-text">{{ learning.description }}</p>
     <div class="d-flex justify-content-between">
       <a class="btn btn-primary" (click)="onViewMore()">View</a>
-      <a class="btn btn-success">Submit Learning</a>
+      <a class="btn btn-success" (click)="submitModal()">Submit Learning</a>
     </div>
   </div>
 </div>

@@ -1,0 +1,21 @@
+<div class="container mt-5">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <li [ngbNavItem]="1">
+      <button ngbNavLink>Manage User Learnings</button>
+      <ng-template ngbNavContent>
+        <app-manage-user-learnings></app-manage-user-learnings>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <button ngbNavLink>Manage Wikis/Blogs</button>
+      <ng-template ngbNavContent> </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <button ngbNavLink>Manage Career Packages</button>
+      <ng-template ngbNavContent>
+        <app-manage-career-packages></app-manage-career-packages>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+</div>
