@@ -1,4 +1,6 @@
-<script>this.ngOninit()</script>
+<script>
+  this.ngOninit();
+</script>
 <nav class="navbar navbar-expand-lg nav-bg-color text-light">
   <div class="container-fluid">
     <a class="navbar-brand text-light fw-bold" routerLink="/dashboard">
@@ -20,19 +22,6 @@
         <li class="nav-item">
           <a
             class="nav-link text-light"
-            aria-current="page"
-            routerLink="auth"
-            [ngClass]="{
-              'active fw-bold border-bottom border-light border-2':
-                loc.pathname === '/auth'
-            }"
-            (click)="navbarCollapsed = true"
-            >LogIn</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link text-light"
             (click)="navbarCollapsed = true"
             routerLink="dashboard"
             [ngClass]="{
@@ -42,6 +31,7 @@
             >Dashboard</a
           >
         </li>
+        @if(!isManager){
         <li class="nav-item">
           <a
             class="nav-link text-light"
@@ -54,6 +44,7 @@
             >Career Packages</a
           >
         </li>
+        }
         <li class="nav-item">
           <a
             class="nav-link text-light"
@@ -65,20 +56,19 @@
             }"
             >Learnings Library</a
           >
-
         </li>
         @if (isAuthenticated) {
-          <li class="nav-item" id="floatright-img">
-            <button class="notifications" routerLink="notifications">
-              <img src="../../../assets/images/bell.png" />
-              @if(notifications!=0){
-                  <span class="notification-count">{{ notifications }}</span> <!-- Notification Count -->
-                }
-                </button>
-              </li>
+        <li class="nav-item" id="floatright-img">
+          <button class="notifications" routerLink="notifications">
+            <img src="../../../assets/images/bell.png" />
+            @if(notifications!=0){
+            <span class="notification-count">{{ notifications }}</span>
+            <!-- Notification Count -->
+            }
+          </button>
+        </li>
 
-      }
-        @if (isManager) {
+        } @if (isManager) {
         <li class="nav-item">
           <a
             class="nav-link text-light"
@@ -93,7 +83,6 @@
         </li>
         } @if(this.isAdmin) {
         <li class="nav-item" id="floatright">
-
           <div ngbDropdown class="d-inline-block">
             <button
               class="btn btn-outline-primary"

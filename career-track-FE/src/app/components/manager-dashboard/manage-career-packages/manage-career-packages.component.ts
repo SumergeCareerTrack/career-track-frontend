@@ -80,7 +80,7 @@ export class ManageCareerPackagesComponent {
 
       if (result.isConfirmed) {
         this.careerPackagesService
-          .approveSubmission(packageId, text)
+          .approveSubmission(packageId, text, this.user?.id as string)
           .subscribe({
             next: (response) => {
               Swal.fire({
@@ -101,6 +101,7 @@ export class ManageCareerPackagesComponent {
         console.log('Reject clicked.');
         this.careerPackagesService.rejectSubmission(packageId, text).subscribe({
           next: (response) => {
+            this.ngOnInit();
             Swal.fire({
               title: 'Rejected!',
               text: 'The package has been rejected.',
@@ -116,7 +117,6 @@ export class ManageCareerPackagesComponent {
           },
         });
       }
-      this.ngOnInit();
     });
   }
 

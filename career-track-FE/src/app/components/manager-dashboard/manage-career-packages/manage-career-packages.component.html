@@ -30,7 +30,7 @@
             <span class="btn">
               <i class="bi bi-download" (click)="onView(item.fileId)"></i>
             </span>
-            @if(item.approvalStatus === 'Pending') {
+            @if(item.approvalStatus === 'PENDING') {
             <span class="btn">
               <i class="bi bi-chat" (click)="openModal(item.id)"></i>
             </span>

@@ -13,11 +13,14 @@ import { AuthService } from './services/auth/auth.service';
 })
 export class AppComponent {
   title = 'career-track-FE';
-  isAuth = true;
+  isAuth = false;
 
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.authService.user.subscribe((user) => {
+      this.isAuth = !!user;
+    });
     this.authService.autoLogin();
   }
 }
