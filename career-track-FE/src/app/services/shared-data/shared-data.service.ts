@@ -17,6 +17,10 @@ export class SharedDataService {
   getAllUsers(){
     return this.httpClient.get(this.baseUrl + '/users/')
   }
+  getAllUsersPaginated(page:number, size:number){
+    return this.httpClient.get(this.baseUrl + '/users/?page='+page+'&size='+size)
+
+  }
   getUserById(id :string){
     return this.httpClient.get(this.baseUrl + '/users/'+id)
   }

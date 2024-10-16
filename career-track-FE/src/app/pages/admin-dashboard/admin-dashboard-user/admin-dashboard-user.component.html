@@ -19,7 +19,7 @@
     type="text"
     [formControl]="filter"
     placeholder="Search users"
-    (input)="refreshUsers()"
+
   />
   </div>
   <div class="col-auto">
@@ -90,18 +90,23 @@
 	</tbody>
 </table>
 <div class="d-flex justify-content-between p-2">
+@if(this.userPageSize!-1){
   <ngb-pagination
-    [collectionSize]="userCollectionSize"
-    [(page)]="userPage"
-    [pageSize]="userPageSize"
-    (pageChange)="refreshUsers()"
-  ></ngb-pagination>
+  [collectionSize]="userCollectionSize"
+  [(page)]="userPage"
+  [pageSize]="userPageSize"
+  (pageChange)="onPageChange($event)"
+></ngb-pagination>
+}
 
-  <select class="form-select" style="width: auto" [(ngModel)]="userPageSize" (ngModelChange)="refreshUsers()">
+  <select class="form-select" style="width: auto" [(ngModel)]="userPageSize" (ngModelChange)="onPageSizeChange()">
     <option [ngValue]="2">2 items per page</option>
     <option [ngValue]="4">4 items per page</option>
     <option [ngValue]="6">6 items per page</option>
+    <option [ngValue]="1">All items</option>
+
   </select>
 </div>
+
 
 </div>
