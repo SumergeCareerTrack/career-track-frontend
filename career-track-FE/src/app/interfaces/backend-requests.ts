@@ -192,3 +192,13 @@ export interface UserLearningReq {
   userId: string;
   learningId: string;
 }
+
+export interface TitleResponseDTO{
+    id:string;
+
+    departmentId:string;
+
+    name:string;
+
+    isManager:boolean;
+}
