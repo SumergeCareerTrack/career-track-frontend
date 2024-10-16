@@ -1,3 +1,4 @@
+<script>this.ngOninit()</script>
 <nav class="navbar navbar-expand-lg nav-bg-color text-light">
   <div class="container-fluid">
     <a class="navbar-brand text-light fw-bold" routerLink="/dashboard">
@@ -64,7 +65,19 @@
             }"
             >Learnings Library</a
           >
+
         </li>
+        @if (isAuthenticated) {
+          <li class="nav-item" id="floatright-img">
+            <button class="notifications" routerLink="notifications">
+              <img src="../../../assets/images/bell.png" />
+              @if(notifications!=0){
+                  <span class="notification-count">{{ notifications }}</span> <!-- Notification Count -->
+                }
+                </button>
+              </li>
+
+      }
         @if (isManager) {
         <li class="nav-item">
           <a
@@ -80,6 +93,7 @@
         </li>
         } @if(this.isAdmin) {
         <li class="nav-item" id="floatright">
+
           <div ngbDropdown class="d-inline-block">
             <button
               class="btn btn-outline-primary"

@@ -27,13 +27,16 @@ export class LearningsComponent {
     private router: Router,
     private sharedDataService: SharedDataService,
     private authService: AuthService,
-    private userLearningsService: UserLearningsService
+    private userLearningsService: UserLearningsService,
+    private cookieService: CookieService
   ) {
     this.sharedDataService.getAllLearnings().subscribe({
       next: (response) => {
         this.learnings = response as LearningResp[];
       },
     });
+    const userData = this.cookieService.get('UserData');
+
   }
 
   ngOnInit(): void {

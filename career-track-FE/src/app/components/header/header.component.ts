@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationService } from '../../services/notifications/notifications-service.service';
+import { Notifications, UserResponse } from '../../interfaces/backend-requests';
 
 @Component({
   selector: 'app-header',
@@ -21,16 +23,21 @@ export class HeaderComponent {
   isAuthenticated = false;
   AdminOptions = ['Manage Users', 'Manage Career Package', 'Manage Learnings '];
   AdminSelectedOption: string = 'Manage';
-  constructor(
+  notifications=0;
+  user: UserResponse | undefined;
+
+    constructor(
     private authService: AuthService,
     private router: Router,
-    private CookieService: CookieService
-  ) {
-    this.isAdmin = this.CookieService.get('isAdmin') === 'true';
-    this.isManager = this.CookieService.get('isManager') === 'true';
+    private cookieService: CookieService
+  ,private notificationService:NotificationService) {
+
+    this.isManager = this.cookieService.get('isManager') === 'true';
   }
 
   ngOnInit() {
+    this.isAdmin = this.cookieService.get('isAdmin') === 'true';
+
     this.authService.user.subscribe((user) => {
       this.isAuthenticated = !!user;
     });
@@ -39,5 +46,8 @@ export class HeaderComponent {
   LogOut() {
     this.authService.logOut();
     this.router.navigate(['/auth']);
+    this.cookieService.deleteAll();
+    this.isAdmin=false;
+    this.ngOnInit();
   }
 }

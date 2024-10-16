@@ -18,8 +18,13 @@
 }
 #floatright {
   position: absolute;
-  top: 1px;
+  top: 16%;
   right: 8%;
+}
+#floatright-img {
+  position: absolute;
+  top: 16%;
+  right: 16%;
 }
 .custom-dropdown-menu {
   position: absolute;
@@ -34,4 +39,29 @@
   overflow: visible;
 }
 
+.notifications {
+  background: none;
+  border: none;
+  width: auto;
+  height: auto;
+  position: relative;
+}
 
+.notifications img {
+  width: 35px;
+  height: 35px;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px; /* Adjust to place it on top */
+  right: -5px; /* Adjust to place it on top */
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  border-radius: 50%;
+  padding: 2px 5px;
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+}
