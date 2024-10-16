@@ -52,7 +52,7 @@ export class UserScoresService {
     );
   }
 
-  private getUserNamesByIds(ids: string[]): Observable<User[]> {
+  getUserNamesByIds(ids: string[]): Observable<User[]> {
     return this.httpClient
       .post<User[]>(`${this.userBaseUrl}/users/batch`, ids)
       .pipe(

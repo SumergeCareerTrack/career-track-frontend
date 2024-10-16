@@ -50,7 +50,7 @@
         @for (item of submissions.data; track $index) {
         <tr>
           <th scope="row">{{ $index + 1 }}</th>
-          <td>{{ user?.title?.name }} Package</td>
+          <td>{{ item.title }}</td>
           <td>{{ item.submissionDate | date : "MMM d, y, h:mm a" }}</td>
           <td>
             <span

@@ -14,6 +14,7 @@ export interface UserSubmission {
   submissionDate: string;
   comment: string;
   fileId: string;
+  title: string;
 }
 
 @Component({
@@ -49,7 +50,6 @@ export class PackageDetailsComponent {
       .getUserSubmissions(this.user!.id)
       .subscribe((data: UserSubmission[]) => {
         this.submissions.data = data;
-        console.log(this.submissions.data);
         if (
           this.submissions?.data?.[this.submissions.data.length - 1]
             ?.approvalStatus === 'PENDING'

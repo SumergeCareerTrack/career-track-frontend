@@ -57,6 +57,18 @@
             >Learnings Library</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link text-light"
+            routerLink="user-learnings"
+            (click)="navbarCollapsed = true"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/user-learnings'
+            }"
+            >User Learnings</a
+          >
+        </li>
         @if (isAuthenticated) {
         <li class="nav-item" id="floatright-img">
           <button class="notifications" routerLink="notifications">

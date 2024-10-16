@@ -14,6 +14,7 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
 import { CareerPackagesComponent } from './pages/career-packages/career-packages.component';
 import { AdminDashboardCareerPackagesComponent } from './pages/admin-dashboard/admin-dashboard-career-packages/admin-dashboard-career-packages.component';
 import { ManagerComponent } from './pages/manager/manager.component';
+import { LearningsSubmissionsComponent } from './pages/learnings-submissions/learnings-submissions.component';
 export const routes: Routes = [
   //TODO add childeren and parent
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -41,10 +42,18 @@ export const routes: Routes = [
 
   { path: 'admin-dashboard/user', component: AdminDashboardComponent },
 
-  { path: 'admin-dashboard/learning', component: AdminDashboardLearningComponent },
+  {
+    path: 'admin-dashboard/learning',
+    component: AdminDashboardLearningComponent,
+  },
   //{ path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
-  {path:'notifications' , component:NotificationsComponent},
+  { path: 'notifications', component: NotificationsComponent },
 
+  {
+    path: 'user-learnings',
+    component: LearningsSubmissionsComponent,
+    canActivate: [authGuard],
+  },
 
   {
     path: 'admin-dashboard/learning',

@@ -15,7 +15,7 @@
         @for (item of submissions; track $index) {
         <tr>
           <th scope="row">{{ $index + 1 }}</th>
-          <td>Package</td>
+          <td>{{ item.title }}</td>
           <td>{{ item.submissionDate | date : "MMM d, y, h:mm a" }}</td>
           <td>
             <span
@@ -32,7 +32,7 @@
             </span>
             @if(item.approvalStatus === 'PENDING') {
             <span class="btn">
-              <i class="bi bi-chat" (click)="openModal(item.id)"></i>
+              <i class="bi bi-chat" (click)="actionModal(item.id)"></i>
             </span>
             } @else {
             <span class="btn">

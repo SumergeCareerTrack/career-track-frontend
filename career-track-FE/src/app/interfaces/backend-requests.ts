@@ -44,6 +44,7 @@ export interface LearningResp {
   lengthInHours: string;
   approved: boolean;
 }
+
 export interface LearningReq {
   type: UUID;
   subject: UUID;
@@ -182,7 +183,7 @@ export interface UserLearningResp {
   comment: string;
   date: Date;
   approvalStatus: ApprovalStatus;
-  userId: User;
+  userId: string;
   learning: LearningResp;
   booster: any;
 }
@@ -191,4 +192,26 @@ export interface UserLearningReq {
   proof: string;
   userId: string;
   learningId: string;
+}
+
+export interface UserLearningApprovalReq {
+  approvalStatus: string;
+  comment: string;
+  date: string;
+  id: string;
+  booster: any;
+  learning: CustomUserLearning;
+  proof: string;
+  userId: string;
+}
+
+export interface CustomUserLearning {
+  id: string;
+  approved: boolean;
+  description: string;
+  lengthInHours: number;
+  subject: SubjectResp;
+  type: TypeResp;
+  title: string;
+  url: string;
 }

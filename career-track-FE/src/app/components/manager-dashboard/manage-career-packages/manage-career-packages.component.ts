@@ -50,7 +50,7 @@ export class ManageCareerPackagesComponent {
     }
   }
 
-  openModal(packageId: string) {
+  actionModal(packageId: string) {
     Swal.fire({
       input: 'textarea',
       inputLabel: 'Comment',
@@ -68,7 +68,6 @@ export class ManageCareerPackagesComponent {
       }
 
       const text = result.value;
-      console.log(text);
       Swal.fire({
         title: 'Processing...',
         allowOutsideClick: false,
@@ -98,7 +97,6 @@ export class ManageCareerPackagesComponent {
             },
           });
       } else if (result.isDenied) {
-        console.log('Reject clicked.');
         this.careerPackagesService.rejectSubmission(packageId, text).subscribe({
           next: (response) => {
             this.ngOnInit();
