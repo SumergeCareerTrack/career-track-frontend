@@ -1,0 +1,97 @@
+<div class="container">
+  @if(createEnabled){
+    <app-admin-update-careerpackage [postType]="'Create'" (cancel)="onCancel()" ></app-admin-update-careerpackage>
+  }
+  @else if(updateEnabled){
+    <app-admin-update-careerpackage [postType]="'Update'" (cancel)="onCancel()" [data]="this.package"  ></app-admin-update-careerpackage>
+
+  }
+
+
+  <form class="row align-items-center">
+    <div class="col-auto">
+      <label for="table-filtering-search" class="col-form-label">Full text search:</label>
+    </div>
+    <div class="col-auto">
+      <input
+      id="table-filtering-search"
+      class="form-control"
+      type="text"
+      [formControl]="filter"
+      placeholder="Search Career Packages"
+
+    />
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" type="button" (click)="onAddPackage()">Add Career Package Template</button>
+    </div>
+  </form>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Department</th>
+        <th scope="col">Actions</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      @for (data of this.filteredPackages ; track data.name; let i = $index) {
+        <tr>
+          <th scope="row">{{ (packagePage - 1) * packagePageSize + (i + 1) }}</th>
+          <td>
+            <ngb-highlight [result]="data.name" [term]="filter.value" />
+          </td>
+          <td><ngb-highlight [result]="data.title" [term]="filter.value" /></td>
+          <td>
+            <!-- Update Button with solid color -->
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              (click)="onUpdate(data)"
+              style="background-color: #0d6efd; border-color: #0d6efd;">
+              Update Package
+            </button>
+                       |
+                      <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      (click)="onDelete(data.id)"
+                      style="background-color: #dc3545; border-color: #dc3545;">
+                      Delete Package
+                    </button> |
+                    <i class="bi bi-download" (click)="onView(data.fileId)"></i>
+
+
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="4" style="text-align: center">No Packages found</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-between p-2">
+    @if(this.packagePageSize!-1){
+      <ngb-pagination
+      [collectionSize]="packageCollectionSize"
+      [(page)]="packagePage"
+      [pageSize]="packagePageSize"
+      (pageChange)="onPageChange($event)"
+    ></ngb-pagination>
+    }
+
+      <select class="form-select" style="width: auto" [(ngModel)]="packagePageSize" (ngModelChange)="onPageSizeChange()">
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+        <option [ngValue]="1">All items</option>
+
+      </select>
+    </div>
+
+
+    </div>
