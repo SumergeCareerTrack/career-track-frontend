@@ -8,7 +8,7 @@ import { UserResponse } from '../../interfaces/backend-requests';
   providedIn: 'root',
 })
 export class CareerPackagesService {
-  private baseUrl = 'http://localhost:8082';
+  private baseUrl = 'http://localhost:8083';
   private usersUrl = 'http://localhost:8080';
 
   constructor(private httpClient: HttpClient) {}

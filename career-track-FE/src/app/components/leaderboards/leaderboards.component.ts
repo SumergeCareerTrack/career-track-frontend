@@ -24,6 +24,9 @@ export class LeaderboardsComponent {
         next: (response) => {
           this.isLoading = false;
           this.leaderboard = response as any[];
+          setTimeout(() => {
+            this.positionNames();
+          }, 100);
         },
         error: (error) => {
           this.isLoading = false;
@@ -34,9 +37,6 @@ export class LeaderboardsComponent {
         },
       });
     } else this.leaderboard = this.userScoresService.userScores;
-    setTimeout(() => {
-      this.positionNames();
-    }, 100);
   }
 
   levelIdentifier(score: number): { level: string; color: string } {

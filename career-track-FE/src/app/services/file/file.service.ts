@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FileService {
-  private baseUrl = 'http://localhost:8082/file';
+  private baseUrl = 'http://localhost:8083/file';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -39,7 +39,7 @@ export class FileService {
     formData.append('titleId', titleId);
 
     return this.httpClient.post(
-      'http://localhost:8082/career-packages',
+      'http://localhost:8083/career-packages',
       formData,
       {
         headers: new HttpHeaders({
@@ -50,15 +50,19 @@ export class FileService {
     );
   }
 
-  uploadNewUserSubmission(file: File, userId: string) {
+  uploadNewUserSubmission(
+    file: File,
+    userId: string,
+    name: string,
+    managerId: string
+  ) {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('employeeId', userId);
-
-    formData.append('date', new Date(new Date().getTime()).toISOString());
+    formData.append('name', name);
 
     return this.httpClient.post(
-      'http://localhost:8082/employee-packages',
+      'http://localhost:8083/employee-packages/' + managerId,
       formData,
       {
         headers: new HttpHeaders({

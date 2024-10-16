@@ -1,4 +1,4 @@
-import { User } from "./user.model";
+import { User } from './user.model';
 
 export type UUID = string;
 export interface Department {
@@ -21,7 +21,7 @@ export interface UserRequest {
   managerId: string;
   department: string;
   titleName: string;
-  password?:string;
+  password?: string;
 }
 export interface UserResponse {
   id: string;
@@ -34,19 +34,18 @@ export interface UserResponse {
 }
 
 export interface LearningResp {
-  id:UUID;
+  id: UUID;
   title: string;
   url: string;
-  typeName:string;
-  typeBaseScore:number;
+  typeName: string;
+  typeBaseScore: number;
   description: string;
   subjectType: string;
   subjectName: string;
   lengthInHours: string;
   pending: boolean;
-
 }
-export interface LearningReq{
+export interface LearningReq {
   type: UUID;
   subject: UUID;
   title: string;
@@ -56,47 +55,60 @@ export interface LearningReq{
   pending: boolean;
 }
 
-export interface TypeReq{
+export interface TypeReq {
   name: string;
   baseScore: number;
 }
 
-export interface TypeResp{
-  id:UUID;
+export interface TypeResp {
+  id: UUID;
   name: string;
   baseScore: number;
 }
 
-export interface SubjectReq{
-  type:string;
+export interface SubjectReq {
+  type: string;
   name: string;
 }
-export interface SubjectResp{
+export interface SubjectResp {
   id: UUID;
   type: string;
   name: string;
 }
 
-export interface myLearningReq{
+export interface myLearningReq {
   proof: String;
   comment: string;
   date: Date;
   approvalStatus: ApprovalStatus;
-  User : User;
-  Learning : LearningResp;
+  User: User;
+  Learning: LearningResp;
   // Booster: Booster;
   // ProofType: ProofType;
-
 }
 enum ApprovalStatus {
   Pending = 'PENDING',
   Approved = 'APPROVED',
-  Rejected = 'REJECTED'
+  Rejected = 'REJECTED',
 }
 export enum SubjectType {
-  Functional= 'FUNCTIONAL',
-  Organisational= 'ORGANISATIONAL',
+  Functional = 'FUNCTIONAL',
+  Organisational = 'ORGANISATIONAL',
 }
 
+export interface UserLearningResp {
+  id: UUID;
+  proof: string;
+  comment: string;
+  date: Date;
+  approvalStatus: ApprovalStatus;
+  userId: User;
+  learning: LearningResp;
+  booster: any;
+}
 
-
+export interface UserLearningReq {
+  proof: string;
+  userId: string;
+  learningId: string;
+}

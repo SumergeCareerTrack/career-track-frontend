@@ -24,7 +24,8 @@
         >
           <app-learning-item
             [learning]="learning"
-            (viewMore)="onViewMore(learning.id.toString())"
+            (viewMore)="onViewMoreModal(learning)"
+            (submit)="onSubmitLearning(learning)"
           ></app-learning-item>
         </div>
         } } @if (learnings.length > 8 ) {

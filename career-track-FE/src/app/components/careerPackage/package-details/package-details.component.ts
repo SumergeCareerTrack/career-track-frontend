@@ -85,7 +85,9 @@ export class PackageDetailsComponent {
       this.uploadedFile.load(
         this.fileService.uploadNewUserSubmission(
           this.selectedFile,
-          this.user?.id as string
+          this.user?.id as string,
+          (this.user?.title.name as string) + ' Package',
+          this.user?.managerId as string
         )
       );
     }
