@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { Observable } from 'rxjs';
+import { CareerPackageTemplateRequestDTO } from '../../interfaces/backend-requests';
+import { CareerPackageTemplate } from '../../interfaces/front-end-interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -33,14 +35,32 @@ export class FileService {
       );
   }
 
-  uploadNewCareerPackage(file: File, titleId: string): Observable<any> {
+  uploadNewCareerPackage(file: File, titleId: string,fileName:string): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('titleId', titleId);
-
+    formData.append('name', fileName);
     return this.httpClient.post(
       'http://localhost:8083/career-packages',
       formData,
+      {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+        }),
+        responseType: 'json',
+      }
+    );
+  }
+
+  updateCareerPackageTemplate(file: File, titleId: string,fileName:string,data:CareerPackageTemplate): Observable<any> {
+    let request={
+      file: file,
+      titleId: titleId==''?data.titleId:titleId,
+      name: fileName==''?data.name:fileName
+    }
+    return this.httpClient.put(
+      'http://localhost:8083/career-packages/'+data.id,
+      request,
       {
         headers: new HttpHeaders({
           Accept: 'application/json',
