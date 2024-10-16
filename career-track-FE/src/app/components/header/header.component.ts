@@ -4,23 +4,30 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule,NgbDropdownModule],
+  imports: [RouterLink, CommonModule, NgbDropdownModule, NgbCollapseModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
   isAdmin = false;
+  isManager = false;
   loc = window.location;
-  navbarCollapsed = true;
+  navbarCollapsed = false;
   isAuthenticated = false;
-  AdminOptions = ["Manage Users", "Manage Career Package","Manage Learnings "];
-  AdminSelectedOption: string = "Manage";
-  constructor(private authService: AuthService, private router: Router,private CookieService:CookieService) {
+  AdminOptions = ['Manage Users', 'Manage Career Package', 'Manage Learnings '];
+  AdminSelectedOption: string = 'Manage';
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private CookieService: CookieService
+  ) {
     this.isAdmin = this.CookieService.get('isAdmin') === 'true';
+    this.isManager = this.CookieService.get('isManager') === 'true';
   }
 
   ngOnInit() {
@@ -29,14 +36,8 @@ export class HeaderComponent {
     });
   }
 
-  toggleNavbarCollapsing() {
-    this.navbarCollapsed = !this.navbarCollapsed;
-  }
-
   LogOut() {
     this.authService.logOut();
     this.router.navigate(['/auth']);
   }
-
-
 }
