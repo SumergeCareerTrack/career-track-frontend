@@ -8,12 +8,10 @@ import { FullLearningComponent } from './components/learnings/learning-full/lear
 import { NewLearningComponent } from './components/learnings/new-learning/new-learning.component';
 
 import { SubmissionsComponent } from './pages/submissions/submissions.component';
-import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard-user/admin-dashboard-user.component';
-import { AdminDashboardLearningComponent } from './pages/admin-dashboard/admin-dashboard-learning/admin-dashboard-learning.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
 import { CareerPackagesComponent } from './pages/career-packages/career-packages.component';
-import { AdminDashboardCareerPackagesComponent } from './pages/admin-dashboard/admin-dashboard-career-packages/admin-dashboard-career-packages.component';
 import { ManagerComponent } from './pages/manager/manager.component';
+import { AdminComponent } from './pages/admin/admin.component';
 export const routes: Routes = [
   //TODO add childeren and parent
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -39,23 +37,12 @@ export const routes: Routes = [
 
   { path: 'submissions', component: SubmissionsComponent },
 
-  { path: 'admin-dashboard/user', component: AdminDashboardComponent },
+  { path: 'admin-dashboard', component: AdminComponent },
 
-  { path: 'admin-dashboard/learning', component: AdminDashboardLearningComponent },
-  //{ path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
   {path:'notifications' , component:NotificationsComponent},
 
-
-  {
-    path: 'admin-dashboard/learning',
-    component: AdminDashboardLearningComponent,
-  },
   {
     path: 'manage',
     component: ManagerComponent,
-  },
-  {
-    path: 'admin-dashboard/careerpackage',
-    component: AdminDashboardCareerPackagesComponent,
   },
 ];
