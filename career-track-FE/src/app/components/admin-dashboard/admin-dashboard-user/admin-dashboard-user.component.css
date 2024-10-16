@@ -1,0 +1,19 @@
+.search{
+    display: flex;
+    justify-content: space-between;
+    margin-left:5%;
+  }
+.add{
+    margin-left:30%;
+    bottom:10%;
+
+}
+
+.btn-primary:hover {
+  background-color: #5393ff !important; /* Lighter shade on hover */
+  border-color: #5393ff !important;
+}
+.btn-danger:hover {
+  background-color: #ff6b75 !important; /* Lighter shade on hover */
+  border-color: #ff6b75 !important;
+}
