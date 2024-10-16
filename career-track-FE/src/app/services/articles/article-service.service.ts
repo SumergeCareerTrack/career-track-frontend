@@ -13,25 +13,34 @@ export class ArticleService {
   }
 
   getArticles() {
-    return this.httpClient.get(this.notificationBaseUrl+this.notificationBasePort + '/article')
+    return this.httpClient.get(this.notificationBaseUrl+this.notificationBasePort + '/articles')
+  }
+  getArticlesPaginated( page: number, size: number) {
+    return this.httpClient.get(
+      this.notificationBaseUrl+this.notificationBasePort + '/articles?page=' +
+        page +
+        '&size=' +
+        size
+    );
+
   }
   getArticleById(articleId: string) {
-    return this.httpClient.get(this.notificationBaseUrl+this.notificationBasePort + '/article/'+articleId)
+    return this.httpClient.get(this.notificationBaseUrl+this.notificationBasePort + '/articles/'+articleId)
   }
   createArticle(managerId:string,article:ArticleReq){
-    return this.httpClient.post(this.notificationBaseUrl+this.notificationBasePort + '/article/'+managerId,article)
+    return this.httpClient.post(this.notificationBaseUrl+this.notificationBasePort + '/articles/'+managerId,article)
   }
   updateArticle(articleId:string,article:ArticleReq){
-    return this.httpClient.put(this.notificationBaseUrl+this.notificationBasePort + '/article/'+articleId,article)
+    return this.httpClient.put(this.notificationBaseUrl+this.notificationBasePort + '/articles/'+articleId,article)
   }
   deleteArticle(articleId:string){
-    return this.httpClient.delete(this.notificationBaseUrl+this.notificationBasePort + '/article/'+articleId)
+    return this.httpClient.delete(this.notificationBaseUrl+this.notificationBasePort + '/articles/'+articleId)
   }
   approveArticle(articleId:string){
-    return this.httpClient.post(this.notificationBaseUrl+this.notificationBasePort + '/article/'+articleId+"/accept",{});
+    return this.httpClient.post(this.notificationBaseUrl+this.notificationBasePort + '/articles/'+articleId+"/accept",{});
   }
   rejectArticle(articleId:string){
-    return this.httpClient.post(this.notificationBaseUrl+this.notificationBasePort + '/article/'+articleId+"/reject",{});
+    return this.httpClient.post(this.notificationBaseUrl+this.notificationBasePort + '/articles/'+articleId+"/reject",{});
   }
 
 }

@@ -59,8 +59,6 @@ export class AdminDashboardCareerPackagesComponent {
         this.careerPackages = [];
         const temp = data as CareerPackageTemplateResponseDTO[];
         this.packageCollectionSize=temp.length ;
-        console.log("set to",this.packageCollectionSize)
-
         temp.forEach((careerpackage) => {
           this.careerPackageMapper(careerpackage).then((packageTemplae) => {this.careerPackages.push(packageTemplae)});
         });

@@ -4,6 +4,7 @@ import { AdminUpdateComponent } from "../../components/admin-update/admin-update
 import { AdminDashboardComponent } from '../../components/admin-dashboard/admin-dashboard-user/admin-dashboard-user.component';
 import { AdminDashboardLearningComponent } from '../../components/admin-dashboard/admin-dashboard-learning/admin-dashboard-learning.component';
 import { AdminDashboardCareerPackagesComponent } from '../../components/admin-dashboard/admin-dashboard-career-packages/admin-dashboard-career-packages.component';
+import { AdminDashboardWikiBlogsComponent } from "../../components/admin-dashboard/admin-dashboard-wiki-blogs/admin-dashboard-wiki-blogs.component";
 
 @Component({
   selector: 'app-admin',
@@ -13,7 +14,8 @@ import { AdminDashboardCareerPackagesComponent } from '../../components/admin-da
     AdminUpdateComponent,
     AdminDashboardComponent,
     AdminDashboardLearningComponent,
-    AdminDashboardCareerPackagesComponent
+    AdminDashboardCareerPackagesComponent,
+    AdminDashboardWikiBlogsComponent
 ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
