@@ -1,8 +1,21 @@
 import { CookieService } from 'ngx-cookie-service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { Component, EventEmitter, Output, PipeTransform } from '@angular/core';
-import { LearningReq, SubjectReq, SubjectResp, SubjectType, TypeReq, TypeResp } from '../../../interfaces/backend-requests';
-import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  LearningReq,
+  SubjectReq,
+  SubjectResp,
+  SubjectType,
+  TypeReq,
+  TypeResp,
+} from '../../../interfaces/backend-requests';
+import {
+  Form,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
 import { Title } from '@angular/platform-browser';
 import { forkJoin, Observable, of, switchMap } from 'rxjs';
@@ -11,52 +24,48 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-learning',
   standalone: true,
-  imports: [ReactiveFormsModule,NgbDropdownModule],
+  imports: [ReactiveFormsModule, NgbDropdownModule],
   templateUrl: './new-learning.component.html',
-  styleUrl: './new-learning.component.css'
+  styleUrl: './new-learning.component.css',
 })
 export class NewLearningComponent {
-  @Output() cancel = new EventEmitter<void>()
-
+  @Output() cancel = new EventEmitter<void>();
 
   chosenType = 'Choose Type';
   chosenSubject = 'Choose Subject';
-  chosenSubjectType='Choose Subject Type';
+  chosenSubjectType = 'Choose Subject Type';
   typeId = '';
   subjectId = '';
-  newType=false;
-  newSubject=false;
+  newType = false;
+  newSubject = false;
   types: TypeResp[] = [];
   subjects: SubjectResp[] = [];
   createLearning: FormGroup;
   subjectTypes = Object.values(SubjectType);
   selectedSubjectType: SubjectType | undefined;
-  isAdmin:boolean;
-
-
-
+  isAdmin: boolean;
 
   constructor(
     formBuilder: FormBuilder,
     private sharedDataService: SharedDataService,
     private cookieService: CookieService,
-    private router:Router
+    private router: Router
   ) {
     this.isAdmin = this.cookieService.get('isAdmin') === 'true';
     this.createLearning = formBuilder.group({});
-    this.createForm(formBuilder,this.createLearning);
+    this.createForm(formBuilder, this.createLearning);
     this.fetchAndUpdateTypes();
     this.fetchAndUpdateSubjects();
   }
-  fetchAndUpdateSubjects(){
+  fetchAndUpdateSubjects() {
     this.sharedDataService.getAllSubjects().subscribe({
       next: (response) => {
         this.subjects = response as SubjectResp[];
-        this.subjects.push({ id: '0', name: 'Custom Subject', type: "" });
+        this.subjects.push({ id: '0', name: 'Custom Subject', type: '' });
       },
     });
   }
-  fetchAndUpdateTypes(){
+  fetchAndUpdateTypes() {
     this.sharedDataService.getAllTypes().subscribe({
       next: (response) => {
         this.types = response as TypeResp[];
@@ -64,14 +73,14 @@ export class NewLearningComponent {
       },
     });
   }
-  createForm(formBuilder:FormBuilder,createLearning:FormGroup){
+  createForm(formBuilder: FormBuilder, createLearning: FormGroup) {
     this.createLearning = formBuilder.group({
       type: ['', [Validators.required]],
       customTypeName: [''],
       customTypeBaseScore: [],
       subject: ['', [Validators.required]],
       customSubjectName: [''],
-      customSubjectType:[''],
+      customSubjectType: [''],
       title: ['', [Validators.required]],
       url: ['', [Validators.required]],
       description: ['', [Validators.required]],
@@ -82,128 +91,128 @@ export class NewLearningComponent {
     this.cancel.emit();
     this.ngOnInit();
   }
-  ngOnInit() {
-
-  }
-  setType(type: string,id:string) {
+  ngOnInit() {}
+  setType(type: string, id: string) {
     this.createLearning.get('type')?.setValue(type);
-    this.chosenType=type;
-    this.typeId=id;
-    if(type==='Custom Type'){
-      this.createLearning.get('customTypeName')?.setValidators([Validators.required]);
-      this.createLearning.get('customTypeBaseScore')?.setValidators([Validators.required]);
-      this.newType=true;
-    }
-    else{
-      this.newType=false;
+    this.chosenType = type;
+    this.typeId = id;
+    if (type === 'Custom Type') {
+      this.createLearning
+        .get('customTypeName')
+        ?.setValidators([Validators.required]);
+      this.createLearning
+        .get('customTypeBaseScore')
+        ?.setValidators([Validators.required]);
+      this.newType = true;
+    } else {
+      this.newType = false;
     }
   }
 
-  setSubject(subject: string,id:string) {
+  setSubject(subject: string, id: string) {
     this.createLearning.get('subject')?.setValue(subject);
-    this.chosenSubject=subject;
-    this.subjectId=id;
-    if(subject==='Custom Subject'){
-      this.createLearning.get('customSubjectName')?.setValidators([Validators.required]);
-      this.createLearning.get('customSubjectType')?.setValidators([Validators.required]);
-      this.newSubject=true;
+    this.chosenSubject = subject;
+    this.subjectId = id;
+    if (subject === 'Custom Subject') {
+      this.createLearning
+        .get('customSubjectName')
+        ?.setValidators([Validators.required]);
+      this.createLearning
+        .get('customSubjectType')
+        ?.setValidators([Validators.required]);
+      this.newSubject = true;
+    } else {
+      this.newSubject = false;
     }
-    else{
-      this.newSubject=false;
-    }
-    console.log(this.chosenSubject,"<-->",this.subjectId);
+    console.log(this.chosenSubject, '<-->', this.subjectId);
   }
-  setSubjectType(subjectType:string){
-    this.chosenSubjectType=subjectType;
+  setSubjectType(subjectType: string) {
+    this.chosenSubjectType = subjectType;
     this.selectedSubjectType = subjectType as SubjectType;
     this.createLearning.get('subjectType')?.setValue(subjectType);
-    }
+  }
 
-    createTypeReq(typeIdSignal$: Observable<Object>){
-      let typeReq:TypeReq={
-        name: '',
-        baseScore: 0
+  createTypeReq(typeIdSignal$: Observable<Object>) {
+    let typeReq: TypeReq = {
+      name: '',
+      baseScore: 0,
+    };
+    if (this.newType && this.isAdmin) {
+      typeReq = {
+        name: this.createLearning.get('customTypeName')?.value,
+        baseScore: this.createLearning.get('customTypeBaseScore')?.value,
       };
-      if(this.newType&&this.isAdmin){
-
-          typeReq={
-          name: this.createLearning.get('customTypeName')?.value,
-          baseScore: this.createLearning.get('customTypeBaseScore')?.value
-        };
-
-      } else if(this.newType&&!this.isAdmin){
-         typeReq={
-          name: this.createLearning.get('customTypeName')?.value,
-          baseScore: 2 //Base Score
-        };
-      }
-      typeIdSignal$=this.sharedDataService.createType(typeReq);
-      return typeIdSignal$;
-    }
-    createSubjectReq(subjectIdSignal$: Observable<Object>){
-      let subjectReq:SubjectReq={
-        type: "",
-        name: ""
-      }
-      if(this.newSubject){
-         subjectReq={
-          type: this.createLearning.get('customSubjectType')?.value,
-          name: this.createLearning.get('customSubjectName')?.value
-        }
-      }
-      return subjectIdSignal$=this.sharedDataService.createSubject(subjectReq);
-
-    }
-    createLearningReq(){
-      let learning: LearningReq = {
-        type: this.typeId || "",
-        subject: this.subjectId || "",
-        title: this.createLearning.get('title')?.value || null,
-        url: this.createLearning.get('url')?.value || null,
-        description: this.createLearning.get('description')?.value || null,
-        lengthInHours: this.createLearning.get('lengthInHours')?.value || null,
-        pending: this.createLearning.get("pending")?.value || null
+    } else if (this.newType && !this.isAdmin) {
+      typeReq = {
+        name: this.createLearning.get('customTypeName')?.value,
+        baseScore: 2, //Base Score
       };
-      if(this.isAdmin){
-        learning.pending=true;
-      }
-      else{
-        learning.pending=false;
-      }
-      return learning
     }
-   onSubmit() {
-    let typeIdSignal$=of<any>(Object)
-    let subjectIdSignal$=of<any>(Object)
-    typeIdSignal$=this.createTypeReq(typeIdSignal$);
-    subjectIdSignal$=this.createSubjectReq(subjectIdSignal$);
+    typeIdSignal$ = this.sharedDataService.createType(typeReq);
+    return typeIdSignal$;
+  }
+  createSubjectReq(subjectIdSignal$: Observable<Object>) {
+    let subjectReq: SubjectReq = {
+      type: '',
+      name: '',
+    };
+    if (this.newSubject) {
+      subjectReq = {
+        type: this.createLearning.get('customSubjectType')?.value,
+        name: this.createLearning.get('customSubjectName')?.value,
+      };
+    }
+    return (subjectIdSignal$ =
+      this.sharedDataService.createSubject(subjectReq));
+  }
+  createLearningReq() {
+    let learning: LearningReq = {
+      type: this.typeId || '',
+      subject: this.subjectId || '',
+      title: this.createLearning.get('title')?.value || null,
+      url: this.createLearning.get('url')?.value || null,
+      description: this.createLearning.get('description')?.value || null,
+      lengthInHours: this.createLearning.get('lengthInHours')?.value || null,
+      approved: this.createLearning.get('approved')?.value || null,
+    };
+    if (this.isAdmin) {
+      learning.approved = true;
+    } else {
+      learning.approved = false;
+    }
+    return learning;
+  }
+  onSubmit() {
+    let typeIdSignal$ = of<any>(Object);
+    let subjectIdSignal$ = of<any>(Object);
+    typeIdSignal$ = this.createTypeReq(typeIdSignal$);
+    subjectIdSignal$ = this.createSubjectReq(subjectIdSignal$);
     forkJoin([typeIdSignal$, subjectIdSignal$])
-    .pipe(
-      switchMap(([typeResponse, subjectResponse]) => {
-        if (this.newType) {
-          const responseType = typeResponse as TypeResp;
-          this.typeId = responseType.id;
-        }
+      .pipe(
+        switchMap(([typeResponse, subjectResponse]) => {
+          if (this.newType) {
+            const responseType = typeResponse as TypeResp;
+            this.typeId = responseType.id;
+          }
 
-        if (this.newSubject) {
-          const responseSubject = subjectResponse as SubjectResp;
-          this.subjectId = responseSubject.id;
-        }
+          if (this.newSubject) {
+            const responseSubject = subjectResponse as SubjectResp;
+            this.subjectId = responseSubject.id;
+          }
 
-      const learning:LearningReq=this.createLearningReq()
+          const learning: LearningReq = this.createLearningReq();
 
-        return this.sharedDataService.createLearning(learning);
-      })
-    )    .subscribe({
-      next: (response) => {
-        console.log(response, 'Learning created successfully');
-        this.onCancel();
-
-      },
-      error: (error) => {
-        console.log(error, 'Error while creating learning');
-      }
-    });
-      }
-
+          return this.sharedDataService.createLearning(learning);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          console.log(response, 'Learning created successfully');
+          this.onCancel();
+        },
+        error: (error) => {
+          console.log(error, 'Error while creating learning');
+        },
+      });
+  }
 }

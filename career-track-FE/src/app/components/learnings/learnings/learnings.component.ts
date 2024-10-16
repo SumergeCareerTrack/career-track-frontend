@@ -2,15 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LearningItemComponent } from '../learning-item/learning-item.component';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
-import { CookieService } from 'ngx-cookie-service';
 import {
   LearningResp,
   UserResponse,
 } from '../../../interfaces/backend-requests';
 import { NewLearningComponent } from '../new-learning/new-learning.component';
 import Swal from 'sweetalert2';
-import { UserLearningsService } from '../../../services/user-learnings/user-learnings.service';
 import { AuthService } from '../../../services/auth/auth.service';
+import { UserLearningsService } from '../../../services/user-learnings/user-learnings.service';
 
 @Component({
   selector: 'app-learnings',
@@ -23,20 +22,18 @@ export class LearningsComponent {
   learnings: LearningResp[] = [];
   isAddingTask = false;
   user: UserResponse | null = null;
+
   constructor(
     private router: Router,
     private sharedDataService: SharedDataService,
-    private authService: AuthService,
     private userLearningsService: UserLearningsService,
-    private cookieService: CookieService
+    private authService: AuthService
   ) {
     this.sharedDataService.getAllLearnings().subscribe({
       next: (response) => {
         this.learnings = response as LearningResp[];
       },
     });
-    const userData = this.cookieService.get('UserData');
-
   }
 
   ngOnInit(): void {

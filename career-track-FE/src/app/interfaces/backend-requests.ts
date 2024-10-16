@@ -32,7 +32,6 @@ export interface UserResponse {
   title: Title;
   managerId: string;
 }
-
 export interface LearningResp {
   id: UUID;
   title: string;
@@ -54,7 +53,6 @@ export interface LearningReq {
   lengthInHours: string;
   approved: boolean;
 }
-
 export interface TypeReq {
   name: string;
   baseScore: number;
@@ -106,18 +104,18 @@ export interface Notifications {
   date: Date;
   seen: boolean;
 }
-export interface NotificationData{
-  id:string;
+export interface NotificationData {
+  id: string;
   receiverID: string[];
   actor?: UserResponse;
   name: string;
-  entity?: LearningResp | ArticleResp| EmployeeCareerPackageResponseDTO
+  entity?: LearningResp | ArticleResp | EmployeeCareerPackageResponseDTO;
   entityTypeName: string;
   date: Date;
   seen: boolean;
 }
 
-export interface ArticleReq{
+export interface ArticleReq {
   title: string;
   author: string;
   type: ArticleType;
@@ -127,7 +125,7 @@ export interface ArticleReq{
   body: string;
 }
 
-export interface ArticleResp{
+export interface ArticleResp {
   id: string;
   title: string;
   author: string;
@@ -153,7 +151,6 @@ export interface CareerPackageTemplateResponseDTO {
   name: string;
 }
 
-
 export interface EmployeeCareerPackageResponseDTO {
   id: string;
   employeeId: string;
@@ -161,23 +158,23 @@ export interface EmployeeCareerPackageResponseDTO {
   submissionDate: Date;
   comment: string;
   approvalStatus: ApprovalStatus;
-  title?:""
+  title?: '';
 }
 
 export enum ArticleType {
-  blog= 'BLOG',
-  wiki='WIKI'
+  blog = 'BLOG',
+  wiki = 'WIKI',
 }
 export enum ActionEnum {
-  approval= 'APPROVAL',
-  rejection= 'REJECTION',
-  submission='SUBMISSION'
+  approval = 'APPROVAL',
+  rejection = 'REJECTION',
+  submission = 'SUBMISSION',
 }
 export enum EntityTypeEnum {
-  learning= 'LEARNING',
-  wiki= 'WIKI',
-  blog='BLOG',
-  career_package='CAREER_PACKAGE'
+  learning = 'LEARNING',
+  wiki = 'WIKI',
+  blog = 'BLOG',
+  career_package = 'CAREER_PACKAGE',
 }
 export interface UserLearningResp {
   id: UUID;
