@@ -84,7 +84,7 @@ export interface myLearningReq {
   // Booster: Booster;
   // ProofType: ProofType;
 }
-enum ApprovalStatus {
+export enum ApprovalStatus {
   Pending = 'PENDING',
   Approved = 'APPROVED',
   Rejected = 'REJECTED',
@@ -92,6 +92,17 @@ enum ApprovalStatus {
 export enum SubjectType {
   Functional = 'FUNCTIONAL',
   Organisational = 'ORGANISATIONAL',
+}
+
+export interface Article {
+  id?: UUID,
+  title: string,
+  author: string,
+  type: "BLOG" | "WIKI",
+  submissionDate: number,
+  approvalStatus: ApprovalStatus,
+  comment: string,
+  body: string;
 }
 
 export interface Notifications {
@@ -182,7 +193,7 @@ export interface UserLearningResp {
   comment: string;
   date: Date;
   approvalStatus: ApprovalStatus;
-  userId: User;
+  userId: string;
   learning: LearningResp;
   booster: any;
 }
@@ -201,4 +212,27 @@ export interface TitleResponseDTO{
     name:string;
 
     isManager:boolean;
+  }
+
+export interface UserLearningApprovalReq {
+  approvalStatus: string;
+  comment: string;
+  date: string;
+  id: string;
+  booster: any;
+  learning: CustomUserLearning;
+  proof: string;
+  userId: string;
 }
+
+export interface CustomUserLearning {
+  id: string;
+  approved: boolean;
+  description: string;
+  lengthInHours: number;
+  subject: SubjectResp;
+  type: TypeResp;
+  title: string;
+  url: string;
+  }
+

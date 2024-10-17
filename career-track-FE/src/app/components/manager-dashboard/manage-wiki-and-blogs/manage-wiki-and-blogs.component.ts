@@ -1,41 +1,38 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../services/auth/auth.service';
-import { UserLearningsService } from '../../../services/user-learnings/user-learnings.service';
 import {
-  CustomUserLearning,
-  UserLearningApprovalReq,
+  ArticleResp,
   UserResponse,
 } from '../../../interfaces/backend-requests';
+import { AuthService } from '../../../services/auth/auth.service';
+import { ArticleService } from '../../../services/articles/article-service.service';
 import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-manage-user-learnings',
+  selector: 'app-manage-wiki-and-blogs',
   standalone: true,
   imports: [DatePipe],
-  templateUrl: './manage-user-learnings.component.html',
-  styleUrl: './manage-user-learnings.component.css',
+  templateUrl: './manage-wiki-and-blogs.component.html',
+  styleUrl: './manage-wiki-and-blogs.component.css',
 })
-export class ManageUserLearningsComponent {
-  submissions: UserLearningApprovalReq[] = [];
+export class ManageWikiAndBlogsComponent {
+  submissions: ArticleResp[] = [];
   user: UserResponse | null = null;
+
   constructor(
     private authService: AuthService,
-    private userLearningsService: UserLearningsService
+    private articlesService: ArticleService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.user = this.authService.getUserData();
-    if (this.user) {
-      this.userLearningsService.getManagerSubordinates(this.user.id).subscribe({
-        next: (response) => {
-          this.submissions = response;
-        },
-        error: (error) => {
-          console.error('Error fetching user learnings', error);
+    this.articlesService
+      .getManagerSubordinates(this.user?.id as string)
+      .subscribe({
+        next: (submissions: ArticleResp[]) => {
+          this.submissions = submissions;
         },
       });
-    }
   }
 
   statusIdentifier(approvalStatus: string) {
@@ -48,18 +45,18 @@ export class ManageUserLearningsComponent {
     }
   }
 
-  actionModal(userLearningId: string) {
+  actionModal(articleId: string) {
     Swal.fire({
       input: 'textarea',
       inputLabel: 'Comment',
       inputPlaceholder: 'Add a comment for approval/rejection...',
-      inputAttributes: {
-        'aria-label': 'Type your message here',
-      },
-      showCancelButton: true,
+      title: 'Add comment',
+      confirmButtonText: 'Submit',
+      confirmButtonColor: 'green',
+      denyButtonColor: 'red',
       showDenyButton: true,
-      confirmButtonText: 'Approve',
       denyButtonText: 'Reject',
+      showCancelButton: true,
     }).then((result) => {
       if (result.isDismissed) {
         return;
@@ -85,13 +82,13 @@ export class ManageUserLearningsComponent {
       });
 
       if (result.isConfirmed) {
-        this.userLearningsService
-          .approveUserLearning(userLearningId, text, this.user?.id as string)
+        this.articlesService
+          .approveArticle(articleId, this.user?.id as string, text as string)
           .subscribe({
             next: (response) => {
               Swal.fire({
                 title: 'Approved!',
-                text: 'The learning has been approved.',
+                text: 'The article has been approved.',
                 icon: 'success',
               });
               this.ngOnInit();
@@ -99,27 +96,29 @@ export class ManageUserLearningsComponent {
             error: (err) => {
               Swal.fire({
                 title: 'Error',
-                text: 'There was an error approving the package.',
+                text: 'There was an error approving the article.',
                 icon: 'error',
               });
             },
           });
-      } else if (result.isDenied) {
-        this.userLearningsService
-          .rejectUserLearning(userLearningId, text, this.user?.id as string)
+      }
+      if (result.isDenied) {
+        this.articlesService
+          .rejectArticle(articleId, this.user?.id as string, text as string)
           .subscribe({
             next: (response) => {
               this.ngOnInit();
               Swal.fire({
                 title: 'Rejected!',
-                text: 'The package has been rejected.',
+                text: 'The article has been rejected.',
                 icon: 'success',
               });
+              this.ngOnInit();
             },
             error: (err) => {
               Swal.fire({
                 title: 'Error',
-                text: 'There was an error rejecting the package.',
+                text: 'There was an error rejecting the article.',
                 icon: 'error',
               });
             },
@@ -128,18 +127,11 @@ export class ManageUserLearningsComponent {
     });
   }
 
-  onViewMoreModal(learning: CustomUserLearning, proof: string): void {
+  onViewMoreModal(title: string, body: string): void {
     Swal.fire({
-      title: `<h2>${learning.title}</h2>`,
+      title: `<h2>${title}</h2>`,
       html: `
-        <p>Description: <span class="text-primary">${learning?.description}</span></p>
-        <p>Length (hours): <span class="text-primary">${learning?.lengthInHours}</span></p>
-        <p>Subject Name: <span class="text-primary">${learning?.subject.name}</span><p>
-        <p>Subject Type:<span class="text-primary"> ${learning?.subject.type}</span></p>
-        <p>Base Score:<span class="text-primary"> ${learning?.type.baseScore}</span></p>
-        <p>Type Name: <span class="text-primary">${learning?.type.name}</span></p>
-        <p>URL: <a href="${learning?.url}" target="_blank">${learning?.url}</a></p>
-        <p>Proof: <a href="${proof}" target="_blank">${proof}</a></p>
+        <p> ${body}</p>
       `,
       showCloseButton: true,
       focusConfirm: false,

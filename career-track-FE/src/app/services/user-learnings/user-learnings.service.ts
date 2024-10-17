@@ -1,7 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, switchMap } from 'rxjs';
-import { UserResponse } from '../../interfaces/backend-requests';
+import {
+  UserLearningApprovalReq,
+  UserResponse,
+} from '../../interfaces/backend-requests';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +14,12 @@ export class UserLearningsService {
   private learningsUrl = 'http://localhost:8081';
 
   constructor(private httpClient: HttpClient) {}
+
+  getUserLearningsByUserId(userId: string): Observable<any> {
+    return this.httpClient.get<UserLearningApprovalReq[]>(
+      `${this.learningsUrl}/users-learnings/user/${userId}`
+    );
+  }
 
   getManagerSubordinates(managerId: string): Observable<any> {
     return this.httpClient
@@ -52,5 +61,35 @@ export class UserLearningsService {
       learningId,
       proof,
     });
+  }
+
+  approveUserLearning(
+    userLearningId: string,
+    comment: string,
+    managerId: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('comment', comment)
+      .set('managerId', managerId);
+
+    return this.httpClient.put(
+      `${this.learningsUrl}/users-learnings/approve/${userLearningId}`,
+      params
+    );
+  }
+
+  rejectUserLearning(
+    userLearningId: string,
+    comment: string,
+    managerId: string
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('comment', comment)
+      .set('managerId', managerId);
+
+    return this.httpClient.put(
+      `${this.learningsUrl}/users-learnings/reject/${userLearningId}`,
+      params
+    );
   }
 }

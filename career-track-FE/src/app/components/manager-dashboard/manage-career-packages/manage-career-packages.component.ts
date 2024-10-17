@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
 import { CareerPackagesService } from '../../../services/career-packages/career-packages.service';
 import { Perform } from '../../../shared/perform.class';
-import { UserSubmission } from '../../careerPackage/package-details/package-details.component';
+import { UserSubmission } from '../../package-details/package-details.component';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FileService } from '../../../services/file/file.service';
@@ -50,7 +50,7 @@ export class ManageCareerPackagesComponent {
     }
   }
 
-  openModal(packageId: string) {
+  actionModal(packageId: string) {
     Swal.fire({
       input: 'textarea',
       inputLabel: 'Comment',
@@ -67,8 +67,16 @@ export class ManageCareerPackagesComponent {
         return;
       }
 
-      const text = result.value;
-      console.log(text);
+      const text = Swal.getInput()?.value;
+      if (!text || text?.trim() === '') {
+        Swal.fire({
+          title: 'Error',
+          text: 'Please provide a valid comment.',
+          icon: 'warning',
+        });
+        return;
+      }
+
       Swal.fire({
         title: 'Processing...',
         allowOutsideClick: false,
@@ -98,24 +106,25 @@ export class ManageCareerPackagesComponent {
             },
           });
       } else if (result.isDenied) {
-        console.log('Reject clicked.');
-        this.careerPackagesService.rejectSubmission(packageId, text).subscribe({
-          next: (response) => {
-            this.ngOnInit();
-            Swal.fire({
-              title: 'Rejected!',
-              text: 'The package has been rejected.',
-              icon: 'success',
-            });
-          },
-          error: (err) => {
-            Swal.fire({
-              title: 'Error',
-              text: 'There was an error rejecting the package.',
-              icon: 'error',
-            });
-          },
-        });
+        this.careerPackagesService
+          .rejectSubmission(packageId, text, this.user?.id as string)
+          .subscribe({
+            next: (response) => {
+              this.ngOnInit();
+              Swal.fire({
+                title: 'Rejected!',
+                text: 'The package has been rejected.',
+                icon: 'success',
+              });
+            },
+            error: (err) => {
+              Swal.fire({
+                title: 'Error',
+                text: 'There was an error rejecting the package.',
+                icon: 'error',
+              });
+            },
+          });
       }
     });
   }

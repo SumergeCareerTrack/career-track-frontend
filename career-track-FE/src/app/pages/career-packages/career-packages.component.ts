@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FileService } from '../../services/file/file.service';
 import { FormsModule } from '@angular/forms';
-import { PackageDetailsComponent } from '../../components/careerPackage/package-details/package-details.component';
+import { PackageDetailsComponent } from '../../components/package-details/package-details.component';
 import { AuthService } from '../../services/auth/auth.service';
 import { UserResponse } from '../../interfaces/backend-requests';
 import { Perform } from '../../shared/perform.class';

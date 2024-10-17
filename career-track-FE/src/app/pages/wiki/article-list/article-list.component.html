@@ -1,0 +1,24 @@
+<ul class="nav nav-tabs nav-fill">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      (click)="setFilter('WIKI')"
+      [class.active]="this.filter === 'WIKI'"
+      >Wiki</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      (click)="setFilter('BLOG')"
+      [class.active]="this.filter === 'BLOG'"
+      >Blog</a
+    >
+  </li>
+</ul>
+
+<div class="row">
+  @for (article of articles | filterArticles : this.filter; track article.id) {
+  <app-article-item [article]="article" class="col-md-3" />
+  }
+</div>

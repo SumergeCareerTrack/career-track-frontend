@@ -17,11 +17,12 @@
         class="form-control form-control-sm"
         id="formFile"
         type="file"
-        [disabled]="isUploadDisabled"
+        [disabled]="isLastSubmissionPending"
       />
-      @if (isUploadDisabled) {
+      @if (isLastSubmissionPending) {
       <span class="text-danger"
-        >Can't upload new package when last submission is not approved!!</span
+        >Can't upload new package when last submission is not
+        approved/rejected!!</span
       >
       }
       <button
@@ -50,7 +51,7 @@
         @for (item of submissions.data; track $index) {
         <tr>
           <th scope="row">{{ $index + 1 }}</th>
-          <td>{{ user?.title?.name }} Package</td>
+          <td>{{ item.title }}</td>
           <td>{{ item.submissionDate | date : "MMM d, y, h:mm a" }}</td>
           <td>
             <span
@@ -65,9 +66,11 @@
             <span class="btn">
               <i class="bi bi-download" (click)="onView(item.fileId)"></i>
             </span>
+            @if (item.comment) {
             <span class="btn">
               <i class="bi bi-chat" (click)="seeComment(item.comment)"></i>
             </span>
+            }
           </td>
         </tr>
         } @empty{

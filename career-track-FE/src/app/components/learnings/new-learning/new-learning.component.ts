@@ -145,7 +145,7 @@ export class NewLearningComponent {
     } else if (this.newType && !this.isAdmin) {
       typeReq = {
         name: this.createLearning.get('customTypeName')?.value,
-        baseScore: 2, //Base Score
+        baseScore: 5, //Base Score
       };
     }
     typeIdSignal$ = this.sharedDataService.createType(typeReq);
