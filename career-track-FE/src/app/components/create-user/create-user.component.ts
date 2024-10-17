@@ -121,7 +121,7 @@ export class CreateUserComponent {
           console.log(response);
         },
       });
-      this.router.navigate(['admin-dashboard/user'])
+      this.router.navigate(['admin-dashboard'])
     } else {
       console.log('Form is invalid');
     }

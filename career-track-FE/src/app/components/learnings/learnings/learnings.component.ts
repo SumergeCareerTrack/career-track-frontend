@@ -91,6 +91,7 @@ export class LearningsComponent {
         didOpen: () => {
           Swal.showLoading();
         },
+
       });
 
       console.log(result);

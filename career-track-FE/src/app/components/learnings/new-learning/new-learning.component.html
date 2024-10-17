@@ -3,8 +3,11 @@
   @if(isAdmin){
     <h1>Add Learning</h1>
   }
-  @else {
-    <h1>Add New User Learning</h1>
+  @else if(learningType==="create"){
+    <h1>Add New Learning</h1>
+  }
+  @else if(learningType==="custom"){
+    <h1>Submit Custom Learning</h1>
   }
   <form [formGroup]="createLearning" (ngSubmit)="onSubmit()" class="d-flex flex-column">
     <label class="d-flex justify-content-center" for="">Type<span class="text-danger ">*</span></label>
@@ -124,7 +127,13 @@
       @if (createLearning.get('lengthInHours')?.invalid &&
       createLearning.get('lengthInHours')?.touched) {
       <div class="text-danger">Learning Hours are required.</div>}
-
+        @if(learningType==="custom"){
+          <label for="">Proof<span class="text-danger">*</span></label>
+          <input type="text" class="form-control w-50" formControlName="proof" id="proof" placeholder="Enter Learning proof" />
+          @if (createLearning.get('proof')?.invalid &&
+          createLearning.get('proof')?.touched) {
+          <div class="text-danger">URL is required.</div>}
+        }
 
     </div>
 

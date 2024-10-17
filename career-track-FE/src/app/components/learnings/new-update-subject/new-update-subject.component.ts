@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
 import { SubjectReq } from '../../../interfaces/backend-requests';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-update-subject',
@@ -61,16 +62,43 @@ onSubmit() {
   if(this.updateEnabled){
     this.sharedDataService.updateSubject(this.id,subject).subscribe({
       next: (response) => {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Subject updated successfully!',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        })
 
       },
+      error:(error)=>{
+        Swal.fire({
+          title: 'Error!',
+          text: error.error,
+          icon: 'error',
+          confirmButtonText: 'Ok',
+        })
+      }
     });
   }
   else if(this.createEnabled){
     this.sharedDataService.createSubject(subject).subscribe({
       next: (response) => {
-
-      },
-    });
+        Swal.fire({
+          title: 'Success!',
+          text: 'Subject created successfully!',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+      })
+    },
+    error:(error)=>{
+      Swal.fire({
+        title: 'Error!',
+        text: error.error,
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      })
+    }
+  });
   }
   this.onCancel()
 }

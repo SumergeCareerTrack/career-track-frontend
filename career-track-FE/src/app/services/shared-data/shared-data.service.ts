@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  CustomUserLearningReq,
   LearningReq,
   SubjectReq,
   TypeReq,
@@ -77,6 +78,9 @@ export class SharedDataService {
   }
   createLearning(Learning: LearningReq) {
     return this.httpClient.post(this.learningBaseUrl + '/learnings/', Learning);
+  }
+  createCustomLearning(Learning: CustomUserLearningReq, managerId: string) {
+    return this.httpClient.post(this.learningBaseUrl + '/users-learnings/custom-learning/'+managerId, Learning);
   }
   updateLearning(id: string, Learning: LearningReq) {
     return this.httpClient.put(

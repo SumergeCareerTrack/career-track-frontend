@@ -1,13 +1,16 @@
 import { CookieService } from 'ngx-cookie-service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { Component, EventEmitter, Output, PipeTransform } from '@angular/core';
+import { Component, EventEmitter, Input, Output, PipeTransform } from '@angular/core';
 import {
+  CustomUserLearning,
+  CustomUserLearningReq,
   LearningReq,
   SubjectReq,
   SubjectResp,
   SubjectType,
   TypeReq,
   TypeResp,
+  UserResponse,
 } from '../../../interfaces/backend-requests';
 import {
   Form,
@@ -20,6 +23,7 @@ import { SharedDataService } from '../../../services/shared-data/shared-data.ser
 import { Title } from '@angular/platform-browser';
 import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-learning',
@@ -30,7 +34,7 @@ import { Router } from '@angular/router';
 })
 export class NewLearningComponent {
   @Output() cancel = new EventEmitter<void>();
-
+  @Input() learningType="";
   chosenType = 'Choose Type';
   chosenSubject = 'Choose Subject';
   chosenSubjectType = 'Choose Subject Type';
@@ -44,6 +48,8 @@ export class NewLearningComponent {
   subjectTypes = Object.values(SubjectType);
   selectedSubjectType: SubjectType | undefined;
   isAdmin: boolean;
+  managerId='';
+  userId='';
 
   constructor(
     formBuilder: FormBuilder,
@@ -56,6 +62,10 @@ export class NewLearningComponent {
     this.createForm(formBuilder, this.createLearning);
     this.fetchAndUpdateTypes();
     this.fetchAndUpdateSubjects();
+    const userData = this.cookieService.get('UserData');
+    let user= JSON.parse(userData) as UserResponse;
+    this.userId = user.id
+    this.managerId= user.managerId;
   }
   fetchAndUpdateSubjects() {
     this.sharedDataService.getAllSubjects().subscribe({
@@ -85,7 +95,10 @@ export class NewLearningComponent {
       url: ['', [Validators.required]],
       description: ['', [Validators.required]],
       lengthInHours: [Number, [Validators.required]],
+      proof: ['',[Validators.required]],
     });
+
+
   }
   onCancel() {
     this.cancel.emit();
@@ -166,15 +179,31 @@ export class NewLearningComponent {
       this.sharedDataService.createSubject(subjectReq));
   }
   createLearningReq() {
-    let learning: LearningReq = {
-      type: this.typeId || '',
-      subject: this.subjectId || '',
-      title: this.createLearning.get('title')?.value || null,
-      url: this.createLearning.get('url')?.value || null,
-      description: this.createLearning.get('description')?.value || null,
-      lengthInHours: this.createLearning.get('lengthInHours')?.value || null,
-      approved: this.createLearning.get('approved')?.value || null,
-    };
+    let learning : LearningReq|CustomUserLearningReq ={} as LearningReq|CustomUserLearningReq;
+    if(this.learningType === 'custom') {
+       learning = {
+        userId: this.userId || '',
+        type: this.typeId || '',
+        subject: this.subjectId || '',
+        title: this.createLearning.get('title')?.value || null,
+        url: this.createLearning.get('url')?.value || null,
+        description: this.createLearning.get('description')?.value || null,
+        lengthInHours: this.createLearning.get('lengthInHours')?.value || null,
+        approved: this.createLearning.get('approved')?.value || null,
+        proof:this.createLearning.get('proof')?.value || null,
+      };
+    }
+    else{
+       learning = {
+        type: this.typeId || '',
+        subject: this.subjectId || '',
+        title: this.createLearning.get('title')?.value || null,
+        url: this.createLearning.get('url')?.value || null,
+        description: this.createLearning.get('description')?.value || null,
+        lengthInHours: this.createLearning.get('lengthInHours')?.value || null,
+        approved: this.createLearning.get('approved')?.value || null,
+      };
+    }
     if (this.isAdmin) {
       learning.approved = true;
     } else {
@@ -183,10 +212,16 @@ export class NewLearningComponent {
     return learning;
   }
   onSubmit() {
+    console.log(1,this.createLearning.get('type')?.value)
+    console.log(2,this.createLearning.get('subject')?.value)
     let typeIdSignal$ = of<any>(Object);
     let subjectIdSignal$ = of<any>(Object);
-    typeIdSignal$ = this.createTypeReq(typeIdSignal$);
-    subjectIdSignal$ = this.createSubjectReq(subjectIdSignal$);
+    if(this.newType){
+      typeIdSignal$ = this.createTypeReq(typeIdSignal$);
+    }
+    if(this.newSubject){
+      subjectIdSignal$ = this.createSubjectReq(subjectIdSignal$);
+    }
     forkJoin([typeIdSignal$, subjectIdSignal$])
       .pipe(
         switchMap(([typeResponse, subjectResponse]) => {
@@ -200,17 +235,33 @@ export class NewLearningComponent {
             this.subjectId = responseSubject.id;
           }
 
-          const learning: LearningReq = this.createLearningReq();
+          if(this.learningType === 'custom'){
+            const learning: CustomUserLearningReq = this.createLearningReq() as CustomUserLearningReq;
+            return this.sharedDataService.createCustomLearning(learning,this.managerId);
+          }
+          else{
+            const learning: LearningReq = this.createLearningReq() as LearningReq;
 
           return this.sharedDataService.createLearning(learning);
+          }
         })
       )
       .subscribe({
         next: (response) => {
           console.log(response, 'Learning created successfully');
+          Swal.fire({
+            title: 'Created',
+            text: 'Learning Created Successfuly.',
+            icon: 'success',
+          })
           this.onCancel();
         },
         error: (error) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'An error occurred while creating learning',
+            icon: 'error',
+          })
           console.log(error, 'Error while creating learning');
         },
       });

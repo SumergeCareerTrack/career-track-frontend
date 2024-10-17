@@ -3,7 +3,7 @@ import { CareerPackageTemplateResponseDTO } from './../../../interfaces/backend-
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { TitleResponseDTO } from '../../../interfaces/backend-requests';
-import { firstValueFrom, map, Observable, startWith } from 'rxjs';
+import { firstValueFrom, map, Observable, startWith, timeout } from 'rxjs';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
@@ -12,6 +12,8 @@ import { CareerPackagesService } from '../../../services/career-packages/career-
 import { CareerPackageTemplate } from '../../../interfaces/front-end-interfaces';
 import { AdminUpdateCareerpackageComponent } from "../../admin-update/admin-update-careerpackage/admin-update-careerpackage.component";
 import { Perform } from '../../../shared/perform.class';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-admin-dashboard-career-packages',
@@ -43,6 +45,15 @@ export class AdminDashboardCareerPackagesComponent {
               }
 
   ngOnInit() {
+    Swal.fire({
+      title: 'Processing...',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      timer:400
+      })
     this.loadAllPackages();
   }
 
@@ -107,9 +118,6 @@ export class AdminDashboardCareerPackagesComponent {
     }
     else{
     const totalPages = Math.ceil(this.packageCollectionSize / this.packagePageSize);
-    console.log("total",totalPages)
-    console.log("collecsize",this.packageCollectionSize)
-    console.log("pagesize",this.packagePageSize)
     if (this.packagePage > totalPages) {
       this.packagePage = totalPages;
     }
@@ -144,12 +152,23 @@ export class AdminDashboardCareerPackagesComponent {
   onDelete(id: string) {
     this.careerPackagesService.deleteCareerPackage(id).subscribe({
       next: (data: any) => {
+        Swal.fire({
+          title: 'Deleted',
+          text: 'Career Package Deleted Successfully.',
+          icon: 'success',
+        })
         this.ngOnInit();
       },
       error: (error) => {
+        Swal.fire({
+          title: 'Error',
+          text: error.message,
+          icon: 'warning',
+        });
         console.error('Error deleting Package:', error);
       }
     });
+
   }
 
   async careerPackageMapper(careerPackage: CareerPackageTemplateResponseDTO): Promise<CareerPackageTemplate> {

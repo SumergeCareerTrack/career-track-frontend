@@ -19,6 +19,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-update-learning',
@@ -142,7 +143,7 @@ export class AdminUpdateLearningComponent {
     } else if (this.newType && !this.isAdmin) {
       typeReq = {
         name: this.updateLearning.get('customTypeName')?.value,
-        baseScore: 2, //Base Score
+        baseScore: 2, //TODO Base score we need to talk about it later
       };
     }
     typeIdSignal$ = this.sharedDataService.createType(typeReq);
@@ -183,8 +184,12 @@ export class AdminUpdateLearningComponent {
     });
     let typeIdSignal$ = of<any>(Object);
     let subjectIdSignal$ = of<any>(Object);
-    typeIdSignal$ = this.createTypeReq(typeIdSignal$);
-    subjectIdSignal$ = this.createSubjectReq(subjectIdSignal$);
+    if(this.newType){
+      typeIdSignal$ = this.createTypeReq(typeIdSignal$);
+    }
+    if(this.newSubject){
+      subjectIdSignal$ = this.createSubjectReq(subjectIdSignal$);
+    }
     forkJoin([typeIdSignal$, subjectIdSignal$])
       .pipe(
         switchMap(([typeResponse, subjectResponse]) => {
@@ -203,10 +208,21 @@ export class AdminUpdateLearningComponent {
       )
       .subscribe({
         next: (response) => {
+          Swal.fire({
+            title: 'Created',
+            text: 'Learning Updated Successfuly.',
+            icon: 'success',
+          })
+
           console.log(response, 'Learning created successfully');
           this.onCancel();
         },
         error: (error) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Error while updating learning.',
+            icon: 'error',
+          })
           console.log(error, 'Error while creating learning');
         },
       });

@@ -2,7 +2,7 @@
 <dialog open class="dialogueDiv">
     <h1>Update Learning</h1>
   <form [formGroup]="updateLearning" (ngSubmit)="onSubmit()" class="d-flex flex-column">
-    <label class="d-flex justify-content-center" for="">Type<span class="text-danger ">*</span></label>
+    <label class="d-flex justify-content-center" for="">Type<span class="text-danger "></span></label>
     <div ngbDropdown class="d-inline-block w-60 d-flex justify-content-around ">
 
       <button type="button" class="btn btn-outline-primary w-50" id="dropdownBasic2" ngbDropdownToggle>
@@ -48,7 +48,7 @@
       }
     </div>
     <!-- SUBJECT HERE -->
-    <label class="d-flex justify-content-center" for="">Subject<span class="text-danger">*</span></label>
+    <label class="d-flex justify-content-center" for="">Subject<span class="text-danger"></span></label>
     <div ngbDropdown class="d-inline-block w-100 d-flex justify-content-center ">
 
       <button type="button" class="btn btn-outline-primary w-50" id="dropdownBasic2" ngbDropdownToggle>
@@ -98,27 +98,27 @@
 
     <div class="d-flex flex-column justify-content-between align-items-center">
       <!-- TITLE -->
-      <label for="">Title<span class="text-danger">*</span></label>
+      <label for="">Title<span class="text-danger"></span></label>
       <input type="text" class="form-control w-50" formControlName="title" id="Title"
         placeholder="Enter Learning title" />
       @if (updateLearning.get('title')?.invalid &&
       updateLearning.get('title')?.touched) {
       <div class="text-danger">Title is required.</div>}
       <!-- URL -->
-      <label for="">URL<span class="text-danger">*</span></label>
+      <label for="">URL<span class="text-danger"></span></label>
       <input type="text" class="form-control w-50" formControlName="url" id="url" placeholder="Enter Learning url" />
       @if (updateLearning.get('url')?.invalid &&
       updateLearning.get('url')?.touched) {
       <div class="text-danger">URL is required.</div>}
       <!-- Description -->
-      <label for="">Description<span class="text-danger">*</span></label>
+      <label for="">Description<span class="text-danger"></span></label>
       <input type="text" class="form-control w-50" formControlName="description" id="description"
         placeholder="Enter Learning description" />
       @if (updateLearning.get('description')?.invalid &&
       updateLearning.get('description')?.touched) {
       <div class="text-danger">Description is required.</div>}
       <!-- Hours -->
-      <label for="">Hours<span class="text-danger">*</span></label>
+      <label for="">Hours<span class="text-danger"></span></label>
       <input type="number" class="form-control w-50" formControlName="lengthInHours" id="lengthInHours"
         placeholder="Enter Learning Hours " />
       @if (updateLearning.get('lengthInHours')?.invalid &&
