@@ -1,0 +1,155 @@
+@if(postType==='Create'){
+  <div class="backdrop"></div>
+  <dialog open class="dialogueDiv">
+
+      <h1>Create Career Package Template </h1>
+    <form [formGroup]="createPackage" (ngSubmit)="uploadFile(postType)" class="d-flex flex-column">
+
+      <div class="row">
+        <div class="form-group col-md-6 col-12">
+          <label for="packageName"
+            >Package name<span class="text-danger">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control w-md-75"
+            formControlName="packageName"
+            id="packageName"
+            placeholder="Enter Package Name"
+            (change)="onPackageName($event)"
+          />
+          @if (createPackage.get('packageName')?.invalid &&
+          createPackage.get('packageName')?.touched) {
+          <div class="text-danger">Package Name is required.</div>
+          }
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-12 mt-2">
+          <div ngbDropdown class="d-inline-block w-100">
+            <label for="">Title</label>
+            <button
+              type="button"
+              class="btn btn-outline-primary w-100"
+              id="dropdownBasic3"
+              ngbDropdownToggle
+            >
+              {{ chosenTitle }}
+            </button>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic1"
+              class="bg-main-color"
+            >
+              @for (item of this.titles; track $index) {
+              <button
+                class="dropdown-item"
+                (click)="
+                  setTitle(item.id,item.name)
+                "
+                type="button"
+              >
+                {{ item.name }}
+              </button>
+              }
+            </div>
+            @if (createPackage.get('name')?.invalid &&
+            createPackage.get('name')?.touched) {
+            <div class="text-danger">Title is required.</div>
+            }
+          </div>
+        </div>
+          <label for="formFile" class="form-label"
+            >Upload Career Package Template
+          </label>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            class="form-control form-control-sm"
+            id="formFile"
+            type="file"
+          />
+          <button
+            class="mt-3 btn btn-primary align-self-end col-4"
+            type="submit"
+          >
+            Upload <i class="bi bi-upload"></i>
+          </button>
+
+      <p class="actions">
+        <button type="button" (click)="onCancel()">Cancel</button>
+      </p>
+      <span class="btn">
+      </span>
+        </div>
+        </form>
+
+
+
+
+
+  </dialog>
+
+}
+@else if(postType=="Update"){
+  <div class="backdrop"></div>
+  <dialog open class="dialogueDiv">
+
+      <h1>Update Career Package Template </h1>
+    <form [formGroup]="createPackage" (ngSubmit)="uploadFile(postType)" class="d-flex flex-column">
+
+      <div class="row">
+        <div class="form-group col-md-6 col-12">
+          <label for="packageName"
+            >Package name<span class="text-danger">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control w-md-75"
+            formControlName="packageName"
+            id="packageName"
+            placeholder="Enter Package Name"
+            (change)="onPackageName($event)"
+          />
+          @if (createPackage.get('packageName')?.invalid &&
+          createPackage.get('packageName')?.touched) {
+          <div class="text-danger">Package Name is required.</div>
+          }
+        </div>
+
+      </div>
+      <div class="row">
+          <label for="formFile" class="form-label"
+            >Upload Career Package Template
+          </label>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            class="form-control form-control-sm"
+            id="formFile"
+            type="file"
+          />
+          <button
+            class="mt-3 btn btn-primary align-self-end col-4"
+            type="submit"
+          >
+            Upload <i class="bi bi-upload"></i>
+          </button>
+
+      <p class="actions">
+        <button type="button" (click)="onCancel()">Cancel</button>
+      </p>
+      <span class="btn">
+      </span>
+        </div>
+        </form>
+
+
+
+
+
+  </dialog>
+
+}
+

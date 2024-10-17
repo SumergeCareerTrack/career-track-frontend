@@ -37,6 +37,17 @@ export class CareerPackagesService {
       this.notificationBaseUrl + this.notificationBasePort + '/career-packages'
     );
   }
+  getCareerPackagesPaginated( page: number, size: number) {
+    return this.httpClient.get(
+      this.notificationBaseUrl +
+        this.notificationBasePort +
+        '/career-packages?page=' +
+        page +
+        '&size=' +
+        size
+    );
+
+  }
   getCareerPackageById(careerPackageId: string) {
     return this.httpClient.get(
       this.notificationBaseUrl +

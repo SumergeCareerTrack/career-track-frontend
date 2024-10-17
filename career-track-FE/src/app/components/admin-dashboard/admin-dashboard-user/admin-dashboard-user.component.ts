@@ -63,7 +63,6 @@ export class AdminDashboardComponent {
       next: (data) => {
         this.users = data as UserResponse[];
         this.filteredUsers = this.users;
-
       },
       error: (error) => {
         console.error('Error fetching users:', error);

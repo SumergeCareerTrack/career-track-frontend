@@ -5,7 +5,7 @@ import { UserResponse } from '../../interfaces/backend-requests';
 import { LeaderboardsComponent } from '../../components/leaderboards/leaderboards.component';
 import { LeaderboardsListComponent } from '../../components/leaderboards-list/leaderboards-list.component';
 import { RouterLink } from '@angular/router';
-import { AdminDashboardComponent } from "../admin-dashboard/admin-dashboard-user/admin-dashboard-user.component";
+import { AdminDashboardComponent } from '../../components/admin-dashboard/admin-dashboard-user/admin-dashboard-user.component';
 
 @Component({
   selector: 'app-dashboard',

@@ -36,13 +36,15 @@ export class SharedDataService {
   }
 
   getAllTitles() {
-    return this.httpClient.get(this.baseUrl + '/titles');
+    return this.httpClient.get(this.baseUrl + '/titles/');
   }
 
   getAllTitlesByDepartment(department: string) {
     return this.httpClient.get(this.baseUrl + '/titles/' + department);
   }
-
+  getTitleById(id:string){
+    return this.httpClient.get(this.baseUrl + '/titles/title/'+id);
+  }
   getAllManagersByDepartmnet(department: string) {
     return this.httpClient.get(this.baseUrl + '/users/managers', {
       params: { departmentName: department },

@@ -204,6 +204,16 @@ export interface UserLearningReq {
   learningId: string;
 }
 
+export interface TitleResponseDTO{
+    id:string;
+
+    departmentId:string;
+
+    name:string;
+
+    isManager:boolean;
+  }
+
 export interface UserLearningApprovalReq {
   approvalStatus: string;
   comment: string;
@@ -224,4 +234,5 @@ export interface CustomUserLearning {
   type: TypeResp;
   title: string;
   url: string;
-}
+  }
+
