@@ -34,7 +34,6 @@ export class CreateArticleComponent {
       submissionDate: Date.now(),
       comment: ""
     };
-    console.log(this.user);
 
     this.wikiDataService.createArticle(article, this.user!.managerId)
       .subscribe(console.log)

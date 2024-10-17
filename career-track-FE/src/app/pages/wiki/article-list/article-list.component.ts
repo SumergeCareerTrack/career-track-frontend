@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
 import { WikiDataService } from '../../../services/wiki-data/wiki-data.service';
-import { Article, UserResponse } from '../../../interfaces/backend-requests';
+import { ApprovalStatus, Article, UserResponse } from '../../../interfaces/backend-requests';
 import { FilterArticlesPipe } from '../../../pipes/wikiFilter.pipe';
 import { ArticleItemComponent } from "./article-item/article-item.component";
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
@@ -45,7 +45,7 @@ export class ArticleListComponent implements OnInit {
         let author = authors.find(a => a.id === authorId)!;
         let authorName = `${author.firstName} ${author.lastName}`;
         return { ...article, author: authorName };
-      });
+      }).filter(article => article.approvalStatus === ApprovalStatus.Approved);
     });
   }
 
