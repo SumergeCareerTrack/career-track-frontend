@@ -20,6 +20,11 @@ export class SharedDataService {
   getBatchUsers(ids: string[]) {
     return this.httpClient.post(this.baseUrl + "/users/batch", ids);
   }
+
+  getAllUsersPaginated(page: number, size: number) {
+    return this.httpClient.get(this.baseUrl + '/users/?page=' + page + '&size=' + size);
+
+  }
   getUserById(id: string) {
     return this.httpClient.get(this.baseUrl + '/users/' + id);
   }

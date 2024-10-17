@@ -1,0 +1,51 @@
+<div class="container">
+  <h3>Manage User Learnings</h3>
+  <div class="col-12">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr class="text-center">
+          <th scope="col">#</th>
+          <th scope="col">Learning</th>
+          <th scope="col">Date Submitted</th>
+          <th scope="col">Status</th>
+          <th scope="col">View</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider text-center">
+        @for (item of submissions; track $index) {
+        <tr>
+          <th scope="row">{{ $index + 1 }}</th>
+          <td>{{ item.learning.title }}</td>
+          <td>{{ item.date | date : "MMM d, y, h:mm a" }}</td>
+          <td>
+            <span
+              class="badge text-white bg-{{
+                statusIdentifier(item.approvalStatus)
+              }}"
+            >
+              {{ item.approvalStatus }}
+            </span>
+          </td>
+          <td>
+            <span class="btn">
+              <i
+                class="bi bi-eye"
+                (click)="onViewMoreModal(item.learning, item.proof)"
+              ></i>
+            </span>
+            @if(item.approvalStatus === 'PENDING') {
+            <span class="btn">
+              <i class="bi bi-chat" (click)="actionModal(item.id)"></i>
+            </span>
+            } @else {
+            <span class="btn">
+              <i class="bi bi-chat" (click)="seeComment(item.comment)"></i>
+            </span>
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { User } from "./user.model";
+import { User } from './user.model';
 
 export type UUID = string;
 export interface Department {
@@ -32,7 +32,6 @@ export interface UserResponse {
   title: Title;
   managerId: string;
 }
-
 export interface LearningResp {
   id: UUID;
   title: string;
@@ -43,8 +42,7 @@ export interface LearningResp {
   subjectType: string;
   subjectName: string;
   lengthInHours: string;
-  pending: boolean;
-
+  approved: boolean;
 }
 export interface LearningReq {
   type: UUID;
@@ -53,9 +51,8 @@ export interface LearningReq {
   url: string;
   description: string;
   lengthInHours: string;
-  pending: boolean;
+  approved: boolean;
 }
-
 export interface TypeReq {
   name: string;
   baseScore: number;
@@ -86,12 +83,11 @@ export interface myLearningReq {
   Learning: LearningResp;
   // Booster: Booster;
   // ProofType: ProofType;
-
 }
 enum ApprovalStatus {
   Pending = 'PENDING',
   Approved = 'APPROVED',
-  Rejected = 'REJECTED'
+  Rejected = 'REJECTED',
 }
 export enum SubjectType {
   Functional = 'FUNCTIONAL',
@@ -109,5 +105,123 @@ export interface Article {
   body: string;
 }
 
+export interface Notifications {
+  id: string;
+  receiverID: string[];
+  actorId: string;
+  name: ActionEnum;
+  entityId: string;
+  entityTypeName: EntityTypeEnum;
+  date: Date;
+  seen: boolean;
+}
+export interface NotificationData {
+  id: string;
+  receiverID: string[];
+  actor?: UserResponse;
+  name: string;
+  entity?: LearningResp | ArticleResp | EmployeeCareerPackageResponseDTO;
+  entityTypeName: string;
+  date: Date;
+  seen: boolean;
+}
 
+export interface ArticleReq {
+  title: string;
+  author: string;
+  type: ArticleType;
+  submissionDate: Date;
+  approvalStatus: ApprovalStatus;
+  comment: string;
+  body: string;
+}
 
+export interface ArticleResp {
+  id: string;
+  title: string;
+  author: string;
+  type: ArticleType;
+  submissionDate: Date;
+  approvalStatus: ApprovalStatus;
+  comment: string;
+  body: string;
+}
+export interface CareerPackageTemplateRequestDTO {
+  file: File;
+  titleId: string;
+  name: string;
+}
+export interface EmployeeCareerPackageRequestDTO {
+  employeeId: string;
+  file: File;
+}
+export interface CareerPackageTemplateResponseDTO {
+  id: string;
+  fileId: string;
+  titleId: string;
+  name: string;
+}
+
+export interface EmployeeCareerPackageResponseDTO {
+  id: string;
+  employeeId: string;
+  fileId: string;
+  submissionDate: Date;
+  comment: string;
+  approvalStatus: ApprovalStatus;
+  title?: '';
+}
+
+export enum ArticleType {
+  blog = 'BLOG',
+  wiki = 'WIKI',
+}
+export enum ActionEnum {
+  approval = 'APPROVAL',
+  rejection = 'REJECTION',
+  submission = 'SUBMISSION',
+}
+export enum EntityTypeEnum {
+  learning = 'LEARNING',
+  wiki = 'WIKI',
+  blog = 'BLOG',
+  career_package = 'CAREER_PACKAGE',
+}
+export interface UserLearningResp {
+  id: UUID;
+  proof: string;
+  comment: string;
+  date: Date;
+  approvalStatus: ApprovalStatus;
+  userId: string;
+  learning: LearningResp;
+  booster: any;
+}
+
+export interface UserLearningReq {
+  proof: string;
+  userId: string;
+  learningId: string;
+}
+
+export interface UserLearningApprovalReq {
+  approvalStatus: string;
+  comment: string;
+  date: string;
+  id: string;
+  booster: any;
+  learning: CustomUserLearning;
+  proof: string;
+  userId: string;
+}
+
+export interface CustomUserLearning {
+  id: string;
+  approved: boolean;
+  description: string;
+  lengthInHours: number;
+  subject: SubjectResp;
+  type: TypeResp;
+  title: string;
+  url: string;
+}

@@ -24,7 +24,7 @@ export class AdminDashboardComponent {
   users: UserResponse[] =[]
   filteredUsers: UserResponse[] = [];
   userPage = 1;
-  userPageSize = 4;
+  userPageSize = 2;
   userCollectionSize = 0;
   changePassword=false;
   updateEnabled=false;
@@ -40,24 +40,35 @@ export class AdminDashboardComponent {
     );
   }
 
+
   ngOnInit() {
+    this.loadAllUsers();
+    this.loadUsers();
+  }
+  loadAllUsers(){
     this.sharedDataService.getAllUsers().subscribe({
-      next: (data: any) => {
+      next: (data) => {
         this.users = data as UserResponse[];
-        this.refreshUsers();
-        console.log(this.users)
+        this.userCollectionSize =  this.users.length ;
+        this.filteredUsers = this.users;
       },
       error: (error) => {
         console.error('Error fetching users:', error);
       }
     });
   }
-  refreshUsers() {
-    this.filteredUsers = this.searchUser(this.filter.value);
-    this.userCollectionSize = this.filteredUsers.length;
-    const startIndex = (this.userPage - 1) * this.userPageSize;
-    const endIndex = startIndex + this.userPageSize;
-    this.filteredUsers = this.filteredUsers.slice(startIndex, endIndex);
+  loadUsers() {
+
+    this.sharedDataService.getAllUsersPaginated(this.userPage - 1, this.userPageSize).subscribe({
+      next: (data) => {
+        this.users = data as UserResponse[];
+        this.filteredUsers = this.users;
+
+      },
+      error: (error) => {
+        console.error('Error fetching users:', error);
+      }
+    });
   }
   onChangePassword(id: string) {
     this.id=id;
@@ -80,15 +91,39 @@ export class AdminDashboardComponent {
         user.title.name.toLowerCase().includes(term)
       );
     });
-
-
-
     return filtered;
   }
 
   onPageChange(page: number) {
+    if(this.userPageSize==1){
+      this.userPage = 1;
+      this.loadAllUsers()
+
+    }
+    else{
     this.userPage = page;
-    this.refreshUsers();
+    this.loadUsers();
+
+    this.filteredUsers = this.searchUser(this.filter.value);
+    const startIndex = (this.userPage - 1) * this.userPageSize;
+    const endIndex = startIndex + this.userPageSize;
+    this.filteredUsers = this.filteredUsers.slice(startIndex, endIndex);
+    }
+  }
+
+  onPageSizeChange() {
+    if(this.userPageSize==1){
+      this.userPage = 1;
+      this.loadAllUsers()
+      return;
+    }
+    else{
+    const totalPages = Math.ceil(this.userCollectionSize / this.userPageSize);
+    if (this.userPage > totalPages) {
+      this.userPage = totalPages;
+    }
+    this.loadUsers();
+  }
   }
   onCancel() {
     this.updateEnabled = false;

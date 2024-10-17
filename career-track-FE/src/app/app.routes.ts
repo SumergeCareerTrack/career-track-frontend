@@ -12,6 +12,11 @@ import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard
 import { AdminDashboardLearningComponent } from './pages/admin-dashboard/admin-dashboard-learning/admin-dashboard-learning.component';
 import { WikiComponent } from './pages/wiki/wiki.component';
 import { ArticleComponent } from './pages/wiki/article/article.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { CareerPackagesComponent } from './pages/career-packages/career-packages.component';
+import { AdminDashboardCareerPackagesComponent } from './pages/admin-dashboard/admin-dashboard-career-packages/admin-dashboard-career-packages.component';
+import { ManagerComponent } from './pages/manager/manager.component';
+import { LearningsSubmissionsComponent } from './pages/learnings-submissions/learnings-submissions.component';
 export const routes: Routes = [
   //TODO add childeren and parent
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -29,6 +34,7 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard],
   },
+  { path: 'career-packages', component: CareerPackagesComponent },
   { path: 'learnings', component: LearningsComponent },
   { path: 'learning/:id', component: FullLearningComponent },
 
@@ -43,4 +49,29 @@ export const routes: Routes = [
   // { path: 'wiki/new', component: WikiComponent },
   //{ path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
 
+  {
+    path: 'admin-dashboard/learning',
+    component: AdminDashboardLearningComponent,
+  },
+  //{ path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
+  { path: 'notifications', component: NotificationsComponent },
+
+  {
+    path: 'user-learnings',
+    component: LearningsSubmissionsComponent,
+    canActivate: [authGuard],
+  },
+
+  {
+    path: 'admin-dashboard/learning',
+    component: AdminDashboardLearningComponent,
+  },
+  {
+    path: 'manage',
+    component: ManagerComponent,
+  },
+  {
+    path: 'admin-dashboard/careerpackage',
+    component: AdminDashboardCareerPackagesComponent,
+  },
 ];

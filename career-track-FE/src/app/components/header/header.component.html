@@ -1,41 +1,28 @@
+<script>
+  this.ngOninit();
+</script>
 <nav class="navbar navbar-expand-lg nav-bg-color text-light">
   <div class="container-fluid">
-    <a class="navbar-brand text-light fw-bold" href="#"> Sumerge </a>
+    <a class="navbar-brand text-light fw-bold" routerLink="/dashboard">
+      Sumerge
+    </a>
     <button
       class="navbar-toggler navbar-toggler-custom"
       type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-      (click)="toggleNavbarCollapsing()"
+      (click)="navbarCollapsed = !navbarCollapsed"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div
+      [ngbCollapse]="navbarCollapsed"
       class="collapse navbar-collapse d-flex justify-content-between"
-      [class.collapse]="navbarCollapsed"
       id="navbarNav"
     >
       <ul class="navbar-nav">
         <li class="nav-item">
           <a
             class="nav-link text-light"
-            aria-current="page"
-            routerLink="auth"
-            [ngClass]="{
-              'active fw-bold border-bottom border-light border-2':
-                loc.pathname === '/auth'
-            }"
-            (click)="toggleNavbarCollapsing()"
-            >LogIn</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link text-light"
-            (click)="toggleNavbarCollapsing()"
+            (click)="navbarCollapsed = true"
             routerLink="dashboard"
             [ngClass]="{
               'active fw-bold border-bottom border-light border-2':
@@ -44,19 +31,25 @@
             >Dashboard</a
           >
         </li>
+        @if(!isManager){
         <li class="nav-item">
           <a
             class="nav-link text-light"
-            (click)="toggleNavbarCollapsing()"
-            href="#"
+            (click)="navbarCollapsed = true"
+            routerLink="career-packages"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/career-packages'
+            }"
             >Career Packages</a
           >
         </li>
+        }
         <li class="nav-item">
           <a
             class="nav-link text-light"
-            (click)="toggleNavbarCollapsing()"
             routerLink="learnings"
+            (click)="navbarCollapsed = true"
             [ngClass]="{
               'active fw-bold border-bottom border-light border-2':
                 loc.pathname === '/learnings'
@@ -67,8 +60,20 @@
         <li class="nav-item">
           <a
             class="nav-link text-light"
-            (click)="toggleNavbarCollapsing()"
+            routerLink="user-learnings"
+            (click)="navbarCollapsed = true"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/user-learnings'
+            }"
+            >User Learnings</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link text-light"
             routerLink="articles"
+            (click)="navbarCollapsed = true"
             [ngClass]="{
               'active fw-bold border-bottom border-light border-2':
                 loc.pathname === '/articles'
@@ -76,7 +81,31 @@
             >Articles</a
           >
         </li>
-        @if(this.isAdmin) {
+        @if (isAuthenticated) {
+        <li class="nav-item" id="floatright-img">
+          <button class="notifications" routerLink="notifications">
+            <img src="../../../assets/images/bell.png" />
+            @if(notifications!=0){
+            <span class="notification-count">{{ notifications }}</span>
+            <!-- Notification Count -->
+            }
+          </button>
+        </li>
+
+        } @if (isManager) {
+        <li class="nav-item">
+          <a
+            class="nav-link text-light"
+            routerLink="manage"
+            (click)="navbarCollapsed = true"
+            [ngClass]="{
+              'active fw-bold border-bottom border-light border-2':
+                loc.pathname === '/manage'
+            }"
+            >Manage</a
+          >
+        </li>
+        } @if(this.isAdmin) {
         <li class="nav-item" id="floatright">
           <div ngbDropdown class="d-inline-block">
             <button
@@ -110,7 +139,7 @@
                 (click)="AdminSelectedOption = 'ManageCP'"
                 routerLink="admin-dashboard/careerpackage"
               >
-                Manage Career Package
+                Manage Career Packages
               </button>
             </div>
           </div>

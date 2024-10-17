@@ -18,8 +18,12 @@ import { LearningResp } from '../../../interfaces/backend-requests';
 export class LearningItemComponent {
   @Input() learning!: LearningResp;
   @Output() viewMore = new EventEmitter<number>();
+  @Output() submit = new EventEmitter<number>();
 
   onViewMore() {
     this.viewMore.emit(Number(this.learning.id));
+  }
+  submitModal() {
+    this.submit.emit(Number(this.learning.id));
   }
 }

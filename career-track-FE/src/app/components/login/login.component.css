@@ -7,3 +7,11 @@
 .main-color-bg {
   background-color: #302b7e;
 }
+
+form {
+  margin-bottom: 1.5em;
+  border: #302b7e 1px solid;
+  border-radius: 10px;
+  padding: 2em;
+  box-shadow: #302b7e 2px 2px 1px;
+}

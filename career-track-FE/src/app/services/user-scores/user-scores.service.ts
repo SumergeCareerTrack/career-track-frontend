@@ -28,10 +28,10 @@ export class UserScoresService {
     return this.httpClient.get<UserScore[]>(`${this.baseUrl}/score/user`).pipe(
       catchError((error) => {
         console.error('Error fetching user scores', error);
-        return of([]); // Return an empty array on error
+        return of([]);
       }),
 
-      switchMap((scores) => this.addUserNames(scores.reverse())) // Use switchMap to flatten the Observable
+      switchMap((scores) => this.addUserNames(scores.reverse()))
     );
   }
 
@@ -52,7 +52,7 @@ export class UserScoresService {
     );
   }
 
-  private getUserNamesByIds(ids: string[]): Observable<User[]> {
+  getUserNamesByIds(ids: string[]): Observable<User[]> {
     return this.httpClient
       .post<User[]>(`${this.userBaseUrl}/users/batch`, ids)
       .pipe(
