@@ -120,40 +120,6 @@
 
       </div>
       <div class="row">
-        <div class="col-md-6 col-12 mt-2">
-          <div ngbDropdown class="d-inline-block w-100">
-            <label for="">Title</label>
-            <button
-              type="button"
-              class="btn btn-outline-primary w-100"
-              id="dropdownBasic3"
-              ngbDropdownToggle
-            >
-              {{ chosenTitle }}
-            </button>
-            <div
-              ngbDropdownMenu
-              aria-labelledby="dropdownBasic1"
-              class="bg-main-color"
-            >
-              @for (item of this.titles; track $index) {
-              <button
-                class="dropdown-item"
-                (click)="
-                  setTitle(item.id,item.name)
-                "
-                type="button"
-              >
-                {{ item.name }}
-              </button>
-              }
-            </div>
-            @if (createPackage.get('name')?.invalid &&
-            createPackage.get('name')?.touched) {
-            <div class="text-danger">Title is required.</div>
-            }
-          </div>
-        </div>
           <label for="formFile" class="form-label"
             >Upload Career Package Template
           </label>

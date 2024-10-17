@@ -77,7 +77,6 @@ export class AdminUpdateCareerpackageComponent {
   uploadFile(operation:string) {
       switch(operation){
         case 'Create': {
-          console.log("create ")
           this.uploadedFile.load(
             this.fileService.uploadNewCareerPackage(
               this.selectedFile!,
@@ -88,11 +87,9 @@ export class AdminUpdateCareerpackageComponent {
           break;
         }
         case 'Update': {
-          console.log("update ")
           this.uploadedFile.load(
             this.fileService.updateCareerPackageTemplate(
               this.selectedFile!,
-              this.titleId,
               this.name,
               this.data
             )

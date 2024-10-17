@@ -4,6 +4,7 @@ import { saveAs } from 'file-saver';
 import { Observable } from 'rxjs';
 import { CareerPackageTemplateRequestDTO } from '../../interfaces/backend-requests';
 import { CareerPackageTemplate } from '../../interfaces/front-end-interfaces';
+import { Perform } from '../../shared/perform.class';
 
 @Injectable({
   providedIn: 'root',
@@ -52,15 +53,13 @@ export class FileService {
     );
   }
 
-  updateCareerPackageTemplate(file: File, titleId: string,fileName:string,data:CareerPackageTemplate): Observable<any> {
-    let request={
-      file: file,
-      titleId: titleId==''?data.titleId:titleId,
-      name: fileName==''?data.name:fileName
-    }
+  updateCareerPackageTemplate(file: File,fileName:string,data:CareerPackageTemplate): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('name', fileName);
     return this.httpClient.put(
       'http://localhost:8083/career-packages/'+data.id,
-      request,
+      formData,
       {
         headers: new HttpHeaders({
           Accept: 'application/json',

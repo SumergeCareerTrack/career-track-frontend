@@ -10,14 +10,18 @@ import { AdminUpdateComponent } from "../../../components/admin-update/admin-upd
 import { AdminUpdateCareerpackageComponent } from "../../admin-update/admin-update-careerpackage/admin-update-careerpackage.component";
 import { ArticleService } from '../../../services/articles/article-service.service';
 import { User } from '../../../interfaces/user.model';
+import { LoadingSpinnerComponent } from "../../../shared/loading-spinner/loading-spinner.component";
 @Component({
   selector: 'app-admin-dashboard-wiki-blogs',
   standalone: true,
-  imports: [DecimalPipe, AsyncPipe, ReactiveFormsModule, NgbHighlight, AdminUpdateComponent, NgbPaginationModule, FormsModule, AdminUpdateCareerpackageComponent],
+  imports: [DecimalPipe, AsyncPipe, ReactiveFormsModule, NgbHighlight, AdminUpdateComponent, NgbPaginationModule, FormsModule, AdminUpdateCareerpackageComponent, LoadingSpinnerComponent],
   templateUrl: './admin-dashboard-wiki-blogs.component.html',
   styleUrl: './admin-dashboard-wiki-blogs.component.css'
 })
 export class AdminDashboardWikiBlogsComponent {
+onView(arg0: string) {
+throw new Error('Method not implemented.');
+}
   filter = new FormControl('', { nonNullable: true });
   @Output() cancel = new EventEmitter<void>();
   wikis$: Observable<ArticleResp[]>;
@@ -27,6 +31,7 @@ export class AdminDashboardWikiBlogsComponent {
   articlePageSize = 2;
   articleCollectionSize = 0;
   article: ArticleResp = {} as ArticleResp;
+  isLoading=true;
   constructor(private sharedDataService: SharedDataService,
               private articleService: ArticleService,) {
                 this.wikis$ = this.filter.valueChanges.pipe(
@@ -36,6 +41,7 @@ export class AdminDashboardWikiBlogsComponent {
               }
 
   ngOnInit() {
+    this.isLoading=false;
     this.loadAllWikis();
   }
 
@@ -44,6 +50,7 @@ export class AdminDashboardWikiBlogsComponent {
     this.articles=[];
     this.articleService.getArticles().subscribe({
       next: (data) => {
+        this.isLoading=false;
         this.articles=[];
         const temp = data as ArticleResp[];
         this.articleCollectionSize = temp.length;
@@ -61,6 +68,7 @@ export class AdminDashboardWikiBlogsComponent {
     this.articles=[];
       this.articleService.getArticlesPaginated( this.articlePage - 1, this.articlePageSize).subscribe({
         next: (data) => {
+          this.isLoading=false;
           const temp = data as ArticleResp[];
           temp.forEach((entry) => {
             this.setAuthor(entry).then((article) => {this.articles.push(article)});
@@ -143,6 +151,22 @@ export class AdminDashboardWikiBlogsComponent {
         console.error('Error deleting Package:', error);
       }
     });
+  }
+
+  statusIdentifier(entry: string) {
+    if (entry === 'APPROVED') {
+      return 'success';
+    } else if (entry === 'REJECTED') {
+      return 'danger';
+    }else if (entry === 'BLOG') {
+      return 'dark';
+    }
+    else if (entry === 'WIKI') {
+      return 'info';
+    }
+    else{
+      return 'warning';
+    }
   }
 
 }

@@ -1,5 +1,8 @@
-<div class="container">
 
+<div class="container">
+  @if(isLoading){
+    <app-loading-spinner></app-loading-spinner>
+    } @else {
   <form class="row align-items-center">
     <div class="col-auto">
       <label for="table-filtering-search" class="col-form-label">Full text search:</label>
@@ -35,19 +38,37 @@
             <ngb-highlight [result]="data.title" [term]="filter.value" />
           </td>
           <td><ngb-highlight [result]="data.author" [term]="filter.value" /></td>
-          <td><ngb-highlight [result]="data.type" [term]="filter.value" /></td>
-          <td><ngb-highlight [result]="data.approvalStatus" [term]="filter.value" /></td>
+          <td><span
+            class="badge text-white bg-{{
+              statusIdentifier(data.type)
+            }}"
+          >
+            {{ data.type }}
+          </span></td>
+          <td><span
+            class="badge text-white bg-{{
+              statusIdentifier(data.approvalStatus)
+            }}"
+          >
+            {{ data.approvalStatus }}
+          </span></td>
 
           <td>
-            <!-- Update Button with solid color -->
+            <button
+                      type="button"
+                      class="btn btn-primary btn-sm"
+                      (click)="onView(data.id)"
+                      style="background-color: rgb(122, 91, 235); border-color: rgb(122, 91, 235);">
+                      View Package
+                    </button> |
                       <button
                       type="button"
                       class="btn btn-danger btn-sm"
                       (click)="onDelete(data.id)"
                       style="background-color: #dc3545; border-color: #dc3545;">
-                      Delete Package
+                      Delete Article
                     </button>
-                    ADD VIEW
+
 
           </td>
         </tr>
@@ -77,5 +98,5 @@
       </select>
     </div>
 
-
+  }
     </div>
