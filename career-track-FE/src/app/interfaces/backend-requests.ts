@@ -84,7 +84,7 @@ export interface myLearningReq {
   // Booster: Booster;
   // ProofType: ProofType;
 }
-enum ApprovalStatus {
+export enum ApprovalStatus {
   Pending = 'PENDING',
   Approved = 'APPROVED',
   Rejected = 'REJECTED',
@@ -99,7 +99,7 @@ export interface Article {
   title: string,
   author: string,
   type: "BLOG" | "WIKI",
-  submissionDate: Date,
+  submissionDate: number,
   approvalStatus: ApprovalStatus,
   comment: string,
   body: string;

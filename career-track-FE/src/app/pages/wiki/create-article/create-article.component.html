@@ -1,0 +1,40 @@
+<main class="container py-2">
+  <h3>New Article</h3>
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <label for="titleControlInput" class="form-label">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        id="titleControlInput"
+        placeholder="Title"
+        formControlName="title"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="bodyControlInput" class="form-label">Body</label>
+      <textarea
+        class="form-control"
+        id="bodyControlInput"
+        rows="8"
+        formControlName="body"
+      ></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="typeControlInput">Publish as: </label>
+      <select
+        class="form-select w-50"
+        id="typeControlInput"
+        formControlName="type"
+      >
+        <option value="BLOG">Blog Article</option>
+        <option value="WIKI">Wiki Article</option>
+      </select>
+    </div>
+    <div>
+      <button type="button" class="btn btn-success" (click)="onSubmit()">
+        Publish
+      </button>
+    </div>
+  </form>
+</main>
