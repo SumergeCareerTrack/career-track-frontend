@@ -6,9 +6,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LearningsComponent } from './components/learnings/learnings/learnings.component';
 import { NewLearningComponent } from './components/learnings/new-learning/new-learning.component';
 
-import { SubmissionsComponent } from './pages/submissions/submissions.component';
-import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard-user/admin-dashboard-user.component';
-import { AdminDashboardLearningComponent } from './pages/admin-dashboard/admin-dashboard-learning/admin-dashboard-learning.component';
 import { WikiComponent } from './pages/wiki/wiki.component';
 import { ArticleComponent } from './pages/wiki/article/article.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
@@ -39,7 +36,7 @@ export const routes: Routes = [
 
   { path: 'learning-add', component: NewLearningComponent },
 
-  { path: 'submissions', component: SubmissionsComponent },
+  { path: 'submissions', component: LearningsSubmissionsComponent },
 
   { path: 'admin-dashboard', component: AdminComponent },
 

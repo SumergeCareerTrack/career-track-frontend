@@ -11,6 +11,7 @@ import { AdminUpdateCareerpackageComponent } from "../../admin-update/admin-upda
 import { ArticleService } from '../../../services/articles/article-service.service';
 import { User } from '../../../interfaces/user.model';
 import { LoadingSpinnerComponent } from "../../../shared/loading-spinner/loading-spinner.component";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-dashboard-wiki-blogs',
   standalone: true,
@@ -19,9 +20,7 @@ import { LoadingSpinnerComponent } from "../../../shared/loading-spinner/loading
   styleUrl: './admin-dashboard-wiki-blogs.component.css'
 })
 export class AdminDashboardWikiBlogsComponent {
-onView(arg0: string) {
-throw new Error('Method not implemented.');
-}
+
   filter = new FormControl('', { nonNullable: true });
   @Output() cancel = new EventEmitter<void>();
   wikis$: Observable<ArticleResp[]>;
@@ -33,7 +32,8 @@ throw new Error('Method not implemented.');
   article: ArticleResp = {} as ArticleResp;
   isLoading=true;
   constructor(private sharedDataService: SharedDataService,
-              private articleService: ArticleService,) {
+              private articleService: ArticleService,
+            private router:Router) {
                 this.wikis$ = this.filter.valueChanges.pipe(
                   startWith(''),
                   map((text) => this.searchArticle(text))
@@ -168,5 +168,8 @@ throw new Error('Method not implemented.');
       return 'warning';
     }
   }
+  onView(id: string) {
+    this.router.navigate(['/articles/'+id]);
+    }
 
 }

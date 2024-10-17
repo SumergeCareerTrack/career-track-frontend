@@ -15,6 +15,16 @@ export class ArticleService {
     private sharedDataService: SharedDataService
   ) { }
 
+getArticlesPaginated( page: number, size: number) {
+  return this.httpClient.get(
+    this.notificationBaseUrl+this.notificationBasePort + '/articles?page=' +
+      page +
+      '&size=' +
+      size
+  );
+
+}
+
   getArticles() {
     return this.httpClient.get(
       this.notificationBaseUrl + this.notificationBasePort + '/articles'
@@ -105,5 +115,6 @@ export class ArticleService {
       userIds
     );
   }
+
 }
 

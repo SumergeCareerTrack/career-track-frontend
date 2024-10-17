@@ -32,6 +32,7 @@ export class LearningsComponent {
     this.sharedDataService.getAllLearnings().subscribe({
       next: (response) => {
         this.learnings = response as LearningResp[];
+        console.log(this.learnings);
       },
     });
   }
