@@ -5,7 +5,7 @@ import {
   CareerPackageTemplateRequestDTO,
   EmployeeCareerPackageResponseDTO,
 } from '../../interfaces/backend-requests';
-import { UserSubmission } from '../../components/careerPackage/package-details/package-details.component';
+import { UserSubmission } from '../../components/package-details/package-details.component';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { UserResponse } from '../../interfaces/backend-requests';
 @Injectable({
@@ -216,9 +216,9 @@ export class CareerPackagesService {
     );
   }
 
-  rejectSubmission(packageId: string, comment: string) {
+  rejectSubmission(packageId: string, comment: string, managerId: string) {
     return this.httpClient.put(
-      this.url + '/employee-packages/' + packageId + '/reject',
+      this.url + '/employee-packages/' + packageId + '/reject/' + managerId,
       comment
     );
   }

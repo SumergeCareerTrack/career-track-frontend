@@ -23,15 +23,15 @@ export class HeaderComponent {
   isAuthenticated = false;
   AdminOptions = ['Manage Users', 'Manage Career Package', 'Manage Learnings '];
   AdminSelectedOption: string = 'Manage';
-  notifications=0;
+  notifications = 0;
   user: UserResponse | undefined;
 
-    constructor(
+  constructor(
     private authService: AuthService,
     private router: Router,
-    private cookieService: CookieService
-  ,private notificationService:NotificationService) {
-
+    private cookieService: CookieService,
+    private notificationService: NotificationService
+  ) {
     this.isManager = this.cookieService.get('isManager') === 'true';
   }
 
@@ -47,7 +47,7 @@ export class HeaderComponent {
     this.authService.logOut();
     this.router.navigate(['/auth']);
     this.cookieService.deleteAll();
-    this.isAdmin=false;
+    this.isAdmin = false;
     this.ngOnInit();
   }
 }

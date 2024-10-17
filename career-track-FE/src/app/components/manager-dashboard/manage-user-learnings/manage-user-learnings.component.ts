@@ -65,16 +65,16 @@ export class ManageUserLearningsComponent {
         return;
       }
 
-      if (!result.value || result.value.trim() === '') {
+      const text = Swal.getInput()?.value;
+      if (!text || text?.trim() === '') {
         Swal.fire({
           title: 'Error',
-          text: 'Please provide a valid URL before submitting.',
+          text: 'Please provide a valid comment.',
           icon: 'warning',
         });
         return;
       }
 
-      const text = result.value;
       Swal.fire({
         title: 'Processing...',
         allowOutsideClick: false,

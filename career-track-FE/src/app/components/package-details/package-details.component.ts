@@ -1,10 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { Perform } from '../../../shared/perform.class';
-import { CareerPackagesService } from '../../../services/career-packages/career-packages.service';
-import { FileService } from '../../../services/file/file.service';
-import { AuthService } from '../../../services/auth/auth.service';
-import { Title, UserResponse } from '../../../interfaces/backend-requests';
+import { Perform } from '../../shared/perform.class';
+import { CareerPackagesService } from '../../services/career-packages/career-packages.service';
+import { FileService } from '../../services/file/file.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { Title, UserResponse } from '../../interfaces/backend-requests';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 
@@ -27,12 +27,12 @@ export interface UserSubmission {
 export class PackageDetailsComponent {
   selectedFile: File | null = null;
   user: UserResponse | null = null;
-  uploadedFile = new Perform<any>();
   downloadedFile = new Perform<any>();
   submissions = new Perform<UserSubmission[]>();
   fileDownload = new Perform<any>();
   title: Title | undefined;
-  isUploadDisabled = false;
+  isUploadDisabled = true;
+  isLastSubmissionPending = false;
   constructor(
     private authService: AuthService,
     private careerPackagesService: CareerPackagesService,
@@ -54,9 +54,9 @@ export class PackageDetailsComponent {
           this.submissions?.data?.[this.submissions.data.length - 1]
             ?.approvalStatus === 'PENDING'
         ) {
-          this.isUploadDisabled = true;
+          this.isLastSubmissionPending = true;
         } else {
-          this.isUploadDisabled = false;
+          this.isLastSubmissionPending = false;
         }
       });
   }
@@ -78,20 +78,34 @@ export class PackageDetailsComponent {
   onFileSelected(event: any) {
     console.log('File downloaded');
     this.selectedFile = event.target.files[0];
+    this.isUploadDisabled = false;
   }
 
   uploadFile() {
     if (this.selectedFile) {
-      this.uploadedFile.load(
-        this.fileService.uploadNewUserSubmission(
+      this.fileService
+        .uploadNewUserSubmission(
           this.selectedFile,
           this.user?.id as string,
           (this.user?.title.name as string) + ' Package',
           this.user?.managerId as string
         )
-      );
+        .subscribe({
+          next: () => {
+            this.ngOnInit();
+          },
+        });
     }
+    Swal.fire({
+      title: 'Success!',
+      text: 'Your file has been uploaded successfully!',
+      icon: 'success',
+      confirmButtonText: 'Ok',
+    });
+    this.isLastSubmissionPending = true;
+    this.isUploadDisabled = true;
   }
+
   seeComment(comment: string) {
     Swal.fire({
       title: 'Your Manager Comment:',

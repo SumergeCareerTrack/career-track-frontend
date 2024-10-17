@@ -3,7 +3,7 @@
 }
 <div class="container">
   <div class="col-12 mt-5 mb-5">
-    <div class="d-flex justify-content-between">
+    <div class="d-md-flex justify-content-between">
       <h1>Learning Library</h1>
       <span class="fw-bold d-flex flex-column">
         Didn't find a good learning ? Add new learning to the library!
@@ -19,6 +19,7 @@
         @if(learnings.length === 0) {
         <p>No learnings found. Please check back later.</p>
         } @else { @for(learning of learnings; track $index) {
+        @if(learning.approved){
         <div
           class="col-lg-3 col-md-4 col-sm-6 d-flex justify-content-center gap-2 mt-2"
         >
@@ -32,7 +33,7 @@
         <button class="btn btn-info col-md-2 col-8 mt-4 mx-2 ms-auto">
           View More
         </button>
-        }
+        } }
       </div>
     </div>
   </div>

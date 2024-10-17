@@ -50,19 +50,20 @@ export class ManageWikiAndBlogsComponent {
       input: 'textarea',
       inputLabel: 'Comment',
       inputPlaceholder: 'Add a comment for approval/rejection...',
-      inputAttributes: {
-        'aria-label': 'Type your message here',
-      },
-      showCancelButton: true,
+      title: 'Add comment',
+      confirmButtonText: 'Submit',
+      confirmButtonColor: 'green',
+      denyButtonColor: 'red',
       showDenyButton: true,
-      confirmButtonText: 'Approve',
       denyButtonText: 'Reject',
+      showCancelButton: true,
     }).then((result) => {
       if (result.isDismissed) {
         return;
       }
 
-      if (!result.value || result.value.trim() === '') {
+      const text = Swal.getInput()?.value;
+      if (!text || text?.trim() === '') {
         Swal.fire({
           title: 'Error',
           text: 'Please provide a valid comment.',
@@ -71,7 +72,6 @@ export class ManageWikiAndBlogsComponent {
         return;
       }
 
-      const text = result.value;
       Swal.fire({
         title: 'Processing...',
         allowOutsideClick: false,
@@ -83,7 +83,7 @@ export class ManageWikiAndBlogsComponent {
 
       if (result.isConfirmed) {
         this.articlesService
-          .approveArticle(articleId, this.user?.id as string, text)
+          .approveArticle(articleId, this.user?.id as string, text as string)
           .subscribe({
             next: (response) => {
               Swal.fire({
@@ -101,9 +101,10 @@ export class ManageWikiAndBlogsComponent {
               });
             },
           });
-      } else if (result.isDenied) {
+      }
+      if (result.isDenied) {
         this.articlesService
-          .rejectArticle(articleId, this.user?.id as string, text)
+          .rejectArticle(articleId, this.user?.id as string, text as string)
           .subscribe({
             next: (response) => {
               this.ngOnInit();
@@ -112,6 +113,7 @@ export class ManageWikiAndBlogsComponent {
                 text: 'The article has been rejected.',
                 icon: 'success',
               });
+              this.ngOnInit();
             },
             error: (err) => {
               Swal.fire({

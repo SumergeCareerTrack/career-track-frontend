@@ -33,9 +33,11 @@
                 (click)="onViewMoreModal(item.learning, item.proof)"
               ></i>
             </span>
+            @if (item.comment) {
             <span class="btn">
               <i class="bi bi-chat" (click)="seeComment(item.comment)"></i>
             </span>
+            }
           </td>
         </tr>
         } @empty {
