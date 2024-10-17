@@ -21,7 +21,7 @@ export class CreateArticleComponent {
   form = new FormGroup({
     title: new FormControl("", { validators: [Validators.required] }),
     body: new FormControl("", { validators: [Validators.required] }),
-    type: new FormControl("BLOG", { validators: [Validators.required] })
+    type: new FormControl("WIKI", { validators: [Validators.required] })
   });
 
   onSubmit() {
@@ -34,8 +34,11 @@ export class CreateArticleComponent {
       submissionDate: Date.now(),
       comment: ""
     };
+    console.log(this.user);
 
-    this.wikiDataService.createArticle(article).subscribe(console.log).unsubscribe();
+    this.wikiDataService.createArticle(article, this.user!.managerId)
+      .subscribe(console.log)
+      .unsubscribe();
 
     this.router.navigate(["articles"]);
   }

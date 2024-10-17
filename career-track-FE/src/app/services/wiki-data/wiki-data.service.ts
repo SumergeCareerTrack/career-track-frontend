@@ -11,7 +11,6 @@ export class WikiDataService {
   baseUrl = "http://localhost:8082";
   httpClient = inject(HttpClient);
   authService = inject(AuthService);
-  managerId = this.authService.getUserData()?.managerId;
 
   getAll() {
     return this.httpClient.get(this.baseUrl + '/articles');
@@ -21,8 +20,8 @@ export class WikiDataService {
     return this.httpClient.get(this.baseUrl + '/articles/' + id);
   }
 
-  createArticle(article: Article) {
-    return this.httpClient.post(this.baseUrl + '/articles/' + this.managerId, article);
+  createArticle(article: Article, managerId: UUID) {
+    return this.httpClient.post(this.baseUrl + '/articles/' + managerId, article);
   }
 
   approveArticle(article: Article) {

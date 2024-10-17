@@ -13,66 +13,66 @@ export class ArticleService {
   constructor(
     private httpClient: HttpClient,
     private sharedDataService: SharedDataService
-  ) {}
+  ) { }
 
   getArticles() {
     return this.httpClient.get(
-      this.notificationBaseUrl + this.notificationBasePort + '/article'
+      this.notificationBaseUrl + this.notificationBasePort + '/articles'
     );
   }
   getArticleById(articleId: string) {
     return this.httpClient.get(
       this.notificationBaseUrl +
-        this.notificationBasePort +
-        '/article/' +
-        articleId
+      this.notificationBasePort +
+      '/articles/' +
+      articleId
     );
   }
   createArticle(managerId: string, article: ArticleReq) {
     return this.httpClient.post(
       this.notificationBaseUrl +
-        this.notificationBasePort +
-        '/article/' +
-        managerId,
+      this.notificationBasePort +
+      '/articles/' +
+      managerId,
       article
     );
   }
   updateArticle(articleId: string, article: ArticleReq) {
     return this.httpClient.put(
       this.notificationBaseUrl +
-        this.notificationBasePort +
-        '/article/' +
-        articleId,
+      this.notificationBasePort +
+      '/articles/' +
+      articleId,
       article
     );
   }
   deleteArticle(articleId: string) {
     return this.httpClient.delete(
       this.notificationBaseUrl +
-        this.notificationBasePort +
-        '/article/' +
-        articleId
+      this.notificationBasePort +
+      '/articles/' +
+      articleId
     );
   }
   approveArticle(articleId: string, managerId: string, comment: string) {
     return this.httpClient.post(
       this.notificationBaseUrl +
-        this.notificationBasePort +
-        '/articles/' +
-        articleId +
-        '/accept/' +
-        managerId,
+      this.notificationBasePort +
+      '/articles/' +
+      articleId +
+      '/accept/' +
+      managerId,
       comment
     );
   }
   rejectArticle(articleId: string, managerId: string, comment: string) {
     return this.httpClient.post(
       this.notificationBaseUrl +
-        this.notificationBasePort +
-        '/articles/' +
-        articleId +
-        '/reject/' +
-        managerId,
+      this.notificationBasePort +
+      '/articles/' +
+      articleId +
+      '/reject/' +
+      managerId,
       comment
     );
   }
@@ -100,8 +100,8 @@ export class ArticleService {
     const userIds = subordinates.map((user: UserResponse) => user.id);
     return this.httpClient.post(
       this.notificationBaseUrl +
-        this.notificationBasePort +
-        '/articles/author/batch',
+      this.notificationBasePort +
+      '/articles/author/batch',
       userIds
     );
   }
