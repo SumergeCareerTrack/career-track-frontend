@@ -1,6 +1,6 @@
 <div class="container">
   @if(this.addLearning){
-    <app-new-learning (cancel)="onCancel()"></app-new-learning>
+    <app-new-learning (cancel)="onCancel()" [learningType]="'create'"></app-new-learning>
     }
     @else if(this.updateLearning){
     <app-admin-update-learning  [id]="this.id" (cancel)="onCancel()"></app-admin-update-learning>

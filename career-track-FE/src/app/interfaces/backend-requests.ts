@@ -236,3 +236,17 @@ export interface CustomUserLearning {
   url: string;
   }
 
+  export interface CustomUserLearningReq {
+    type: string;
+    subject: string;
+    title?: string;
+    url?: string;
+    description?: string;
+    lengthInHours?: number;
+    proof?: string;
+    comment?: string;
+    date?: Date;
+    approved?: boolean;
+    userId: string;
+  }
+
