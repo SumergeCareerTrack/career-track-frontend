@@ -12,6 +12,7 @@ import { ArticleService } from '../../../services/articles/article-service.servi
 import { User } from '../../../interfaces/user.model';
 import { LoadingSpinnerComponent } from "../../../shared/loading-spinner/loading-spinner.component";
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-dashboard-wiki-blogs',
   standalone: true,
@@ -41,6 +42,15 @@ export class AdminDashboardWikiBlogsComponent {
               }
 
   ngOnInit() {
+    Swal.fire({
+      title: 'Processing...',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      timer:400
+      })
     this.isLoading=false;
     this.loadAllWikis();
   }
@@ -145,9 +155,21 @@ export class AdminDashboardWikiBlogsComponent {
   onDelete(id: string) {
     this.articleService.deleteArticle(id).subscribe({
       next: (data: any) => {
+        Swal.fire({
+          title: 'Article Deleted',
+          text: 'Article has been deleted',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
         this.ngOnInit();
       },
       error: (error) => {
+        Swal.fire({
+          title: 'Error',
+          text: error.error,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
         console.error('Error deleting Package:', error);
       }
     });

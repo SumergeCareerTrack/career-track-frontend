@@ -9,6 +9,7 @@ import { NewLearningComponent } from "../../../components/learnings/new-learning
 import { AdminUpdateLearningComponent } from "../../../components/admin-update/admin-update-learning/admin-update-learning.component";
 import { NewUpdateTypeComponent } from "../../../components/learnings/new-update-type/new-update-type.component";
 import { NewUpdateSubjectComponent } from '../../../components/learnings/new-update-subject/new-update-subject.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-dashboard-learning',
@@ -50,15 +51,23 @@ export class AdminDashboardLearningComponent {
   @Output() cancel = new EventEmitter<void>()
 
   ngOnInit() {
-    // Load learnings
+      Swal.fire({
+        title: 'Processing...',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+        timer:400
+      })
     this.sharedDataService.getAllLearnings().subscribe({
       next: (response) => {
+        this.learnings=[]
         this.learnings = response as LearningResp[];
         this.refreshLearnings();
       },
     });
 
-    // Load types
     this.sharedDataService.getAllTypes().subscribe({
       next: (response) => {
         this.types = response as TypeResp[];
@@ -66,7 +75,6 @@ export class AdminDashboardLearningComponent {
       },
     });
 
-    // Load subjects
     this.sharedDataService.getAllSubjects().subscribe({
       next: (response) => {
         this.subjects = response as SubjectResp[];
@@ -160,9 +168,22 @@ export class AdminDashboardLearningComponent {
     this.sharedDataService.deleteLearning(leagningId).subscribe({
       next: (response) => {
         this.learnings = response as LearningResp[];
+        Swal.fire({
+          title: 'Deleted',
+          text: 'Learning Deleted Successfuly.',
+          icon: 'success',
+        })
+        this.ngOnInit();
+
       },
+      error: (error) => {
+        Swal.fire({
+          title: 'Error',
+          text: 'Learning Delete Failed.',
+          icon: 'error',
+        })
+      }
   });
-  this.ngOnInit();
 }
 
 
@@ -179,8 +200,22 @@ export class AdminDashboardLearningComponent {
     this.id=typeId;
     this.sharedDataService.deleteType(typeId).subscribe({
       next: (response) => {
+        Swal.fire({
+          title: 'Deleted',
+          text: 'Type Deleted Successfuly.',
+          icon: 'success',
+        })
+
         this.ngOnInit();
       },
+      error:(error)=>{
+        Swal.fire({
+          title: 'Error',
+          text: error.error,
+          icon: 'error',
+        })
+        console.log(error)
+      }
   });
     }
   onAddSubject() {
@@ -196,8 +231,23 @@ export class AdminDashboardLearningComponent {
     this.id=subjectId;
     this.sharedDataService.deleteSubject(subjectId).subscribe({
       next: (response) => {
+        Swal.fire({
+          title: 'Deleted',
+          text: 'Subject Deleted Successfuly.',
+          icon: 'success',
+        })
+
         this.ngOnInit();
       },
+      error: (error) => {
+        Swal.fire({
+          title: 'Error',
+          text: error.error,
+          icon: 'error',
+        })
+        console.log(error)
+
+      }
   });
   }
 }

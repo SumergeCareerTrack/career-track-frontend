@@ -7,6 +7,8 @@ import { FileService } from '../../../services/file/file.service';
 import { CareerPackagesService } from '../../../services/career-packages/career-packages.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { CareerPackageTemplate } from '../../../interfaces/front-end-interfaces';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-update-careerpackage',
@@ -35,7 +37,8 @@ export class AdminUpdateCareerpackageComponent {
   constructor( formBuilder: FormBuilder,
     private sharedDataService:SharedDataService,
     private careerPackagesService: CareerPackagesService,
-    private fileService:FileService) {
+    private fileService:FileService,
+    private router:Router) {
     this.getAllTitles();
     this.updatePackage = formBuilder.group({});
     this.createPackage = formBuilder.group({});
@@ -84,6 +87,13 @@ export class AdminUpdateCareerpackageComponent {
               this.name
             )
           );
+          Swal.fire({
+            title: 'Creation',
+            text: 'Career Package Created Successfully.',
+            icon: 'success',
+          })
+          this.router.navigate(['/admin-dashboard']);
+
           break;
         }
         case 'Update': {
@@ -94,6 +104,13 @@ export class AdminUpdateCareerpackageComponent {
               this.data
             )
           );
+          Swal.fire({
+            title: 'Updated',
+            text: 'Career Package Updated Successfully.',
+            icon: 'success',
+          })
+          this.router.navigate(['/admin-dashboard']);
+
           break;
         }
 
@@ -107,15 +124,28 @@ export class AdminUpdateCareerpackageComponent {
       if (this.selectedFile) {
         this.careerPackagesService.createCareerPackageTemplate(this.selectedFile, this.titleId, this.chosenTitle).subscribe({
           next: (response) => {
-            console.log('Career Package Created');
+            Swal.fire({
+              title: 'Deleted',
+              text: 'Career Package Deleted Successfully.',
+              icon: 'success',
+            }),
             console.log(response)
           },
           error: (error) => {
+            Swal.fire({
+              title: 'Error',
+              text: error.error.message,
+              icon: 'warning',
+            });
             console.error(error);
           }
-        });
+        }).unsubscribe();
     } else {
-        console.error('No file selected');
+      Swal.fire({
+        title: 'Error',
+        text: 'No File Selected',
+        icon: 'warning',
+      });
       }
     }
     onCancel() {

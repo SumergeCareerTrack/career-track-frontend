@@ -7,6 +7,7 @@ import { NgbHighlight, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { AdminUpdateComponent } from "../../../components/admin-update/admin-update-user/admin-update-user.component";
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-user-dashboard',
@@ -42,6 +43,15 @@ export class AdminDashboardComponent {
 
 
   ngOnInit() {
+    Swal.fire({
+      title: 'Processing...',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      timer:400
+      })
     this.loadAllUsers();
     this.loadUsers();
   }
@@ -53,9 +63,18 @@ export class AdminDashboardComponent {
         this.filteredUsers = this.users;
       },
       error: (error) => {
+        this.errorModal(error);
         console.error('Error fetching users:', error);
       }
     });
+  }
+  errorModal(error:any){
+    Swal.fire({
+      title: 'Error',
+      text: error.error,
+      icon: 'error',
+      confirmButtonText: 'Ok'
+    })
   }
   loadUsers() {
 
@@ -65,6 +84,7 @@ export class AdminDashboardComponent {
         this.filteredUsers = this.users;
       },
       error: (error) => {
+
         console.error('Error fetching users:', error);
       }
     });
@@ -137,9 +157,21 @@ export class AdminDashboardComponent {
     this.sharedDataService.deleteUser(id).subscribe({
       next: (data: any) => {
         console.log(data);
+        Swal.fire({
+          title: 'User Deleted',
+          text: 'User has been deleted',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
         this.ngOnInit();
       },
       error: (error) => {
+        Swal.fire({
+          title: 'Error',
+          text: error.error,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
         console.error('Error deleting user:', error);
     }
   });

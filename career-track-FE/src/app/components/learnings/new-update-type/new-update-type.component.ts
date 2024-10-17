@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CookieService } from 'ngx-cookie-service';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
 import { TypeReq } from '../../../interfaces/backend-requests';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-update-type',
@@ -51,16 +52,44 @@ onSubmit() {
   if(this.updateEnabled){
     this.sharedDataService.updateType(this.id,type).subscribe({
       next: (response) => {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Type updated successfully!',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        })
         this.cancel.emit();
       },
+      error:(error)=>{
+        Swal.fire({
+          title: 'Error!',
+          text: error.error,
+          icon: 'error',
+          confirmButtonText: 'Ok',
+        })
+      }
     });
   }
   else if(this.createEnabled){
     this.sharedDataService.createType(type).subscribe({
       next: (response) => {
+        Swal.fire({
+          title: 'Success!',
+          text: 'Type created successfully!',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+        })
         this.cancel.emit();
       },
-    });
+      error:(error)=>{
+        Swal.fire({
+          title: 'Error!',
+          text: error.error,
+          icon: 'error',
+          confirmButtonText: 'Ok',
+      })
+    }
+  });
   }
 }
 onCancel() {

@@ -23,6 +23,7 @@ import { SharedDataService } from '../../../services/shared-data/shared-data.ser
 import { Title } from '@angular/platform-browser';
 import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-learning',
@@ -248,9 +249,19 @@ export class NewLearningComponent {
       .subscribe({
         next: (response) => {
           console.log(response, 'Learning created successfully');
+          Swal.fire({
+            title: 'Created',
+            text: 'Learning Created Successfuly.',
+            icon: 'success',
+          })
           this.onCancel();
         },
         error: (error) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'An error occurred while creating learning',
+            icon: 'error',
+          })
           console.log(error, 'Error while creating learning');
         },
       });

@@ -5,6 +5,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedDataService } from '../../../services/shared-data/shared-data.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-update',
@@ -123,6 +124,12 @@ export class AdminUpdateComponent {
   onSubmit() {
     this.sharedDataService.getUserById(this.id).subscribe({
       next: (response) => {
+        Swal.fire({
+          title: 'User Updated',
+          text: 'User has been updated',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
         this.user = response as UserResponse;
         this.prepareUserRequest();
       },
@@ -165,9 +172,21 @@ export class AdminUpdateComponent {
     this.password=this.passwordChange.get('password')?.value;
     this.sharedDataService.changeUserPassword(this.id,this.password).subscribe({
       next: (response) => {
+        Swal.fire({
+          title: 'Password Changed',
+          text: 'Password has been changed',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
         console.log('Password changed:', response);
       },
       error: (err) => {
+        Swal.fire({
+          title: 'Error',
+          text: err.error,
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
         console.error('Error changing password:', err);
         }
     });
