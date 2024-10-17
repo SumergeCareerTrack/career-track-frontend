@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Article, UUID } from '../../interfaces/backend-requests';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,8 @@ export class WikiDataService {
 
   baseUrl = "http://localhost:8082";
   httpClient = inject(HttpClient);
+  authService = inject(AuthService);
+  managerId = this.authService.getUserData()?.managerId;
 
   getAll() {
     return this.httpClient.get(this.baseUrl + '/articles');
@@ -19,7 +22,7 @@ export class WikiDataService {
   }
 
   createArticle(article: Article) {
-    return this.httpClient.post(this.baseUrl + '/articles', article);
+    return this.httpClient.post(this.baseUrl + '/articles/' + this.managerId, article);
   }
 
   approveArticle(article: Article) {
