@@ -1,4 +1,9 @@
 <section class="container py-2">
-  <h1 class="text-center">Welcome to Articles!</h1>
+  <div class="d-flex justify-content-between">
+    <h2>Welcome to Articles!</h2>
+    <button type="button" class="btn btn-primary py-0" (click)="goToForm()">
+      Write Article
+    </button>
+  </div>
   <app-article-list />
 </section>

@@ -1,6 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { WikiDataService } from '../../services/wiki-data/wiki-data.service';
-import { Article } from '../../interfaces/backend-requests';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ArticleListComponent } from "./article-list/article-list.component";
 
 @Component({
@@ -11,5 +10,10 @@ import { ArticleListComponent } from "./article-list/article-list.component";
   styleUrl: './wiki.component.css'
 })
 export class WikiComponent {
+  router = inject(Router);
+
+  goToForm() {
+    this.router.navigate(["articles", "new"]);
+  }
 
 }
