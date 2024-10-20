@@ -15,7 +15,6 @@ import { AdminComponent } from './pages/admin/admin.component';
 import { LearningsSubmissionsComponent } from './pages/learnings-submissions/learnings-submissions.component';
 import { CreateArticleComponent } from './pages/wiki/create-article/create-article.component';
 export const routes: Routes = [
-  //TODO add childeren and parent
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'auth',
@@ -31,26 +30,57 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard],
   },
-  { path: 'career-packages', component: CareerPackagesComponent },
-  { path: 'learnings', component: LearningsComponent },
+  {
+    path: 'career-packages',
+    component: CareerPackagesComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'learnings',
+    component: LearningsComponent,
+    canActivate: [authGuard],
+  },
 
-  { path: 'learning-add', component: NewLearningComponent },
+  {
+    path: 'learning-add',
+    component: NewLearningComponent,
+    canActivate: [authGuard],
+  },
 
-  { path: 'submissions', component: LearningsSubmissionsComponent },
+  {
+    path: 'submissions',
+    component: LearningsSubmissionsComponent,
+    canActivate: [authGuard],
+  },
 
-  { path: 'admin-dashboard', component: AdminComponent },
+  {
+    path: 'admin-dashboard',
+    component: AdminComponent,
+    canActivate: [authGuard],
+  },
 
-  {path:'notifications' , component:NotificationsComponent},
+  {
+    path: 'notifications',
+    component: NotificationsComponent,
+    canActivate: [authGuard],
+  },
 
-
-  { path: 'articles', component: WikiComponent },
-  { path: 'articles/new', component: CreateArticleComponent },
-  { path: 'articles/:articleId', component: ArticleComponent },
-  //{ path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
-
-
-  //{ path: 'admin-dashboard/careerpackage', component: AdminDashboardComponent },
-  { path: 'notifications', component: NotificationsComponent },
+  { path: 'articles', component: WikiComponent, canActivate: [authGuard] },
+  {
+    path: 'articles/new',
+    component: CreateArticleComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'articles/:articleId',
+    component: ArticleComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'notifications',
+    component: NotificationsComponent,
+    canActivate: [authGuard],
+  },
 
   {
     path: 'user-learnings',
@@ -58,9 +88,9 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
 
-
   {
     path: 'manage',
     component: ManagerComponent,
+    canActivate: [authGuard],
   },
 ];
